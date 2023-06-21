@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-locatingsurvivors-dev-120046-authRole",
+      "UnauthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-dev-120046-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-dev-120046-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-locatingsurvivors-dev-120046-deployment",
+      "UnauthRoleName": "amplify-locatingsurvivors-dev-120046-unauthRole",
+      "StackName": "amplify-locatingsurvivors-dev-120046",
+      "StackId": "arn:aws:cloudformation:us-east-1:862094412808:stack/amplify-locatingsurvivors-dev-120046/ca57ba90-104c-11ee-80db-0afe952b3983",
+      "AmplifyAppId": "d3nhjxtskok66m"
+    }
+  }
+}
