@@ -9,7 +9,22 @@
       "UnauthRoleName": "amplify-locatingsurvivors-dev-120046-unauthRole",
       "StackName": "amplify-locatingsurvivors-dev-120046",
       "StackId": "arn:aws:cloudformation:us-east-1:862094412808:stack/amplify-locatingsurvivors-dev-120046/ca57ba90-104c-11ee-80db-0afe952b3983",
-      "AmplifyAppId": "d3nhjxtskok66m"
+      "AmplifyAppId": "d3nhjxtskok66m",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-locatingsurvivors-dev-120046-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "auth": {
+        "locatingsurvivors99e79b75": {}
+      },
+      "function": {
+        "usersfunction": {
+          "deploymentBucketName": "amplify-locatingsurvivors-dev-120046-deployment",
+          "s3Key": "amplify-builds/usersfunction-5a57763059687a525754-build.zip"
+        }
+      },
+      "storage": {
+        "usersDb": {}
+      }
     }
   }
 }

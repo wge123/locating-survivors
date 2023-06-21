@@ -1,25 +1,18 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Amplify, API } from 'aws-amplify'; //provisions front end to speak with back end
+import config from './aws-exports';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import './App.css';
 
+Amplify.configure(config);
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        hello
       </header>
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
