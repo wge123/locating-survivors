@@ -1,10 +1,29 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+## First Time Install
 
 In the project directory, you can run:
+
+### `npm install`
+
+Also make sure you have the amplify-cli installed:
+### `npm install -g @aws-amplify/cli`
+
+Go to the Amplify Studio, click _Local setup instructions_ on the top
+### `amplify pull --appId **** --envName ****`
+Respond to the prompts like so:
+```
+? Choose your default editor: Visual Studio Code
+? Choose the type of app that you're building (Use arrow keys)
+? Choose the type of app that you're building javascript
+Please tell us about your project
+? What javascript framework are you using react
+? Source Directory Path:  src
+? Distribution Directory Path: build
+? Build Command:  npm.cmd run-script build
+? Start Command: npm.cmd run-script start
+? Do you plan on modifying this backend? Yes
+```
+
+## Using the React App
 
 ### `npm start`
 
@@ -14,57 +33,29 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+## Development
+### Frontend
+When devloping a new feature that uses APIs, make sure to run `amplify pull` to retrieve the latest AWS config data.
+
+For every other case: Develop the react application like normal, without making changes to the `amplify` folder.
+
+### Backend
+Make sure you run `amplify pull` before creating any new resources to make sure you have the latest AWS config data.
+Use the Amplify CLI as needed to create resources and edit them.
+
+In the case that resources are created through Amplify Studio instead of Amplify CLI (let's try to avoid this):
+
+Make sure to run `amplify pull` after the resources are deployed, and create a Pull Request so GitHub has the most updated information.
+
+## Testing
+
+### `npm front:test`
+### `npm back:test` (coming soon)
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Troubleshooting
+### Amplify Issues
+If you haven't made any changes to Amplify and it's acting up, the surest way to resolve it is to delete the `amplify` folder, and run `amplify pull --appId **** --envName ****` again.
