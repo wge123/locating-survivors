@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+./node_modules/.bin/eslint --fix "**/*.js"
+./node_modules/.bin/eslint --fix "**/*.ts"
+# TODO: Uncomment these lines when we start using JSX and TSX.
+# ./node_modules/.bin/eslint --fix "**/*.jsx"
+# ./node_modules/.bin/eslint --fix "**/*.tsx"
