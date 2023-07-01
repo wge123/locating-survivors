@@ -1,4 +1,5 @@
 {
+  "files.eol": "\r\n",
   "files.exclude": {
     "amplify/.config": true,
     "amplify/**/*-parameters.json": true,
