@@ -1,14 +1,14 @@
 ## First Time Install
 
 In the project directory, you can run:
-
 ### `npm install`
 
 Also make sure you have the amplify-cli installed:
 ### `npm install -g @aws-amplify/cli`
 
-Go to the Amplify Studio, click _Local setup instructions_ on the top
+Go to the Amplify Studio, click _Local setup instructions_ on the top, and copy and run this command in your terminal:
 ### `amplify pull --appId **** --envName ****`
+
 Respond to the prompts like so:
 ```
 ? Choose your default editor: Visual Studio Code
