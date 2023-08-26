@@ -3,17 +3,17 @@ import './2FA.css'
 
 export default function TwoFactorAuthenticationScreen() {
     return (
-        <div id='container2FA'>
-            <div id='centerPane2FA'>
-                <p id='headerText2FA'>
+        <div id='container-2FA'>
+            <div id='center-pane-2FA'>
+                <p id='header-text-2FA'>
                     2FA
                 </p>
-                <p id='subText2FA'>
+                <p id='sub-text-2FA'>
                     A code has been sent to ###ple@uscg.sarcfs.gov for verification
                 </p>
-                <input id='textInput2FA' placeholder='2FA Code...' type='text'/>
-                <div id='verifyButtonContainer2FA'>
-                    <button id='verifyButton2FA' onClick={() => onVerifyButtonClick()}>
+                <input id='text-input-2FA' placeholder='2FA Code...' type='text'/>
+                <div id='verify-button-container-2FA'>
+                    <button id='verify-button-2FA' onClick={() => onVerifyButtonClick()}>
                         Verify
                     </button>
                 </div>
