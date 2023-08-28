@@ -1,0 +1,131 @@
+#container-2FA {
+    height: 100vh;
+    background: rgba(28, 27, 31, 0.75);
+    display: grid;
+    place-items: center;
+}
+
+#center-pane-2FA {
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    background: #757575;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: grid;
+    grid-template-rows: 15% auto auto auto;
+    padding: 20px 40px 20px 40px;
+}
+
+#header-text-2FA {
+    color: #FFF;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#sub-text-2FA {
+    color: #FFF;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+#text-input-2FA {
+    width: 100%;
+    height: 52px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    outline: none;
+}
+
+#verify-button-container-2FA {
+    display: flex;
+    flex-direction: column;
+}
+
+#verify-button-2FA {
+    align-self: flex-end;
+    border-radius: 10px;
+    background: #3093C7;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 50%;
+    height: 74px;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+}
+
+::-webkit-input-placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+:-moz-placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+::-moz-placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+:-ms-input-placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+::-ms-input-placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
+
+::placeholder {
+    color: #9C9C9C;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: normal;
+}
