@@ -1,19 +1,23 @@
-import { withAuthenticator } from '@aws-amplify/ui-react'
-import { Amplify } from 'aws-amplify' //provisions front end to speak with back end
+import { Authenticator } from '@aws-amplify/ui-react'
+import { Amplify } from 'aws-amplify'
 import React from 'react'
 import './App.css'
+import '@aws-amplify/ui-react/styles.css'
 import config from './aws-exports'
 
 Amplify.configure(config)
 
-function App() {
+
+
+export default function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                hello
-            </header>
-        </div>
+        <Authenticator>
+            {({ signOut, user }) => (
+                <main>
+                    <h1>Hello {user.username}</h1>
+                    <button onClick={signOut}>Sign out</button>
+                </main>
+            )}
+        </Authenticator>
     )
 }
-
-export default withAuthenticator(App)
