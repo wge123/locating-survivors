@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "jsx": "react",
+      "allowImportingTsExtensions": true,
+      "moduleResolution": "bundler",
+      "noEmit": true,
+      "module": "ES2022"
+    }
+}
