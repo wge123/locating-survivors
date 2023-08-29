@@ -1,20 +1,26 @@
 {
   "api": {},
   "auth": {
-    "locatingsurvivors99e79b75": {
+    "lsAuth": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
+        "mfaConfiguration": "ON",
         "mfaTypes": [
-          "SMS"
+          "TOTP"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ],
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL"
+          "EMAIL",
+          "NAME"
         ],
         "socialProviders": [],
         "usernameAttributes": [],
@@ -26,45 +32,7 @@
       "service": "Cognito"
     }
   },
-  "function": {
-    "usersfunction": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "usersDb"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_usersfunction_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "usersfunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_usersfunction_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "usersfunction"
-        }
-      ]
-    }
-  },
+  "function": {},
   "storage": {
     "usersDb": {
       "providerPlugin": "awscloudformation",

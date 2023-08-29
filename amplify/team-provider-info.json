@@ -1,25 +1,19 @@
 {
-  "dev": {
+  "will": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-locatingsurvivors-dev-120046-authRole",
-      "UnauthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-dev-120046-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-dev-120046-authRole",
+      "AuthRoleName": "amplify-locatingsurvivors-will-184136-authRole",
+      "UnauthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-will-184136-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::862094412808:role/amplify-locatingsurvivors-will-184136-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-locatingsurvivors-dev-120046-deployment",
-      "UnauthRoleName": "amplify-locatingsurvivors-dev-120046-unauthRole",
-      "StackName": "amplify-locatingsurvivors-dev-120046",
-      "StackId": "arn:aws:cloudformation:us-east-1:862094412808:stack/amplify-locatingsurvivors-dev-120046/ca57ba90-104c-11ee-80db-0afe952b3983",
+      "DeploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+      "UnauthRoleName": "amplify-locatingsurvivors-will-184136-unauthRole",
+      "StackName": "amplify-locatingsurvivors-will-184136",
+      "StackId": "arn:aws:cloudformation:us-east-1:862094412808:stack/amplify-locatingsurvivors-will-184136/e4c717a0-452a-11ee-8ba7-12ff026c8c53",
       "AmplifyAppId": "d3nhjxtskok66m"
     },
     "categories": {
       "auth": {
-        "locatingsurvivors99e79b75": {}
-      },
-      "function": {
-        "usersfunction": {
-          "deploymentBucketName": "amplify-locatingsurvivors-dev-120046-deployment",
-          "s3Key": "amplify-builds/usersfunction-5a57763059687a525754-build.zip"
-        }
+        "lsAuth": {}
       },
       "storage": {
         "usersDb": {}

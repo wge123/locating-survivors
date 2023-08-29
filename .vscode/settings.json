@@ -1,5 +1,4 @@
 {
-  "files.eol": "\r\n",
   "files.exclude": {
     "amplify/.config": true,
     "amplify/**/*-parameters.json": true,
@@ -8,5 +7,6 @@
     "amplify/#current-cloud-backend": true,
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
-  }
+  },
+  "files.eol": "\r\n"
 }
