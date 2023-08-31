@@ -14,7 +14,9 @@ export default function NewCaseScreen() {
                         New Case...
                     </p>
                 </div>
-                <PhoneInput country={'us'} value={phone} onChange={phone => setPhone(phone)} />
+                <div id='new-case-phone-input-container'>
+                    <PhoneInput country={'us'} value={phone} onChange={phone => setPhone(phone)} />
+                </div>
                 <div id='new-case-button-container'>
                     <button id='build-ecr-button-new-case' onClick={() => onBuildButtonClick()}>
                         Build ECR...
