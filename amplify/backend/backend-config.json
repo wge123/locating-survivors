@@ -173,6 +173,22 @@
           "resourceName": "getCase"
         }
       ]
+    },
+    "AMPLIFY_function_listCases_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "listCases"
+        }
+      ]
+    },
+    "AMPLIFY_function_listCases_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "listCases"
+        }
+      ]
     }
   },
   "storage": {
