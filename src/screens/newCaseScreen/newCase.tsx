@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './new_case.css'
+import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
