@@ -1,9 +1,14 @@
 #new-case-container {
     height: 100vh;
-    background: rgba(28, 27, 31, 0.75);
+    background-image: url("/public/new_case_background.png") ;
     display: grid;
     place-items: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
+
 
 #new-case-center-pane {
     width: 700px;
