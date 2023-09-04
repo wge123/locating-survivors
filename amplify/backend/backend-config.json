@@ -1,21 +1,31 @@
 {
-  "api": {},
+  "api": {
+    "lsApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "basicFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "lsAuth": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
-        "mfaConfiguration": "ON",
+        "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
           "TOTP"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE",
-            "REQUIRES_UPPERCASE",
-            "REQUIRES_NUMBERS",
-            "REQUIRES_SYMBOLS"
-          ],
+          "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
@@ -32,8 +42,163 @@
       "service": "Cognito"
     }
   },
-  "function": {},
+  "function": {
+    "basicFunction": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "easyFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "basicFunction"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getCase": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "listCases": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_basicFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "basicFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_basicFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "basicFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_easyFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "easyFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_easyFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "easyFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_getCase_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_getCase_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_listCases_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "listCases"
+        }
+      ]
+    },
+    "AMPLIFY_function_listCases_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "listCases"
+        }
+      ]
+    }
+  },
   "storage": {
+    "Case": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "ECR": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "User": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "usersDb": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
