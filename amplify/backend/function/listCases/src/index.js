@@ -9,17 +9,17 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb');
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
+const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb')
 const client = new DynamoDBClient({
     region: process.env.AWS_REGION,
-});
-const documentClient = DynamoDBDocument.from(client);
+})
+const documentClient = DynamoDBDocument.from(client)
 
 exports.handler = async (event) => {
 
     const userId = event.user_id
-    console.log("ID is " + userId)
+    console.log('ID is ' + userId)
     const params = {
         TableName: process.env.STORAGE_CASE_NAME,
         FilterExpression: 'user_id = :id',
@@ -30,14 +30,14 @@ exports.handler = async (event) => {
         return {
             statusCode: 200,
             body: JSON.stringify(data.Items),
-        };
+        }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error)
         return {
             statusCode: 500,
             body: JSON.stringify({ error: 'An error occurred' }),
-        };
+        }
     }
 
 
-};
+}

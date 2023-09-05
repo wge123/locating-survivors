@@ -54,44 +54,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "easyFunction": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ],
-          "category": "api",
-          "resourceName": "lsApi"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "lsAuth"
-        },
-        {
-          "attributes": [
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "basicFunction"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "Case"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "getCase": {
       "build": true,
       "dependsOn": [
@@ -139,22 +101,6 @@
         {
           "category": "function",
           "resourceName": "basicFunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_easyFunction_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "easyFunction"
-        }
-      ]
-    },
-    "AMPLIFY_function_easyFunction_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "easyFunction"
         }
       ]
     },
