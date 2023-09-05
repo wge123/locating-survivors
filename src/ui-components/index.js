@@ -4,6 +4,6 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as LoginButton } from "./LoginButton";
-export { default as MiddlePane } from "./MiddlePane";
-export { default as studioTheme } from "./studioTheme";
+export { default as LoginButton } from './LoginButton'
+export { default as MiddlePane } from './MiddlePane'
+export { default as studioTheme } from './studioTheme'
