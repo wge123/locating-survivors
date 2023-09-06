@@ -25,15 +25,15 @@
       "function": {
         "basicFunction": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
-          "s3Key": "amplify-builds/basicFunction-666d417a64774c556653-build.zip"
+          "s3Key": "amplify-builds/basicFunction-334f6d66393464787344-build.zip"
         },
         "getCase": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
-          "s3Key": "amplify-builds/getCase-6e6179496f50656e6578-build.zip"
+          "s3Key": "amplify-builds/getCase-6a4b4665626f6f656b38-build.zip"
         },
         "listCases": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
-          "s3Key": "amplify-builds/listCases-493937582b6f456d5962-build.zip"
+          "s3Key": "amplify-builds/listCases-2f3533784e6a4a5a5242-build.zip"
         }
       },
       "api": {
