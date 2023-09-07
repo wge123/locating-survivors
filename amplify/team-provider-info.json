@@ -31,7 +31,7 @@
         },
         "postCase": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
-          "s3Key": "amplify-builds/postCase-2b676d58556c396c337a-build.zip"
+          "s3Key": "amplify-builds/postCase-6c68657a424e426c7151-build.zip"
         }
       },
       "storage": {
