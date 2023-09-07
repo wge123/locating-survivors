@@ -16,6 +16,24 @@
       "auth": {
         "lsAuth": {}
       },
+      "function": {
+        "basicFunction": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/basicFunction-55566c2f733944733236-build.zip"
+        },
+        "easyFunction": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/easyFunction-4351794b6a4f764a4c56-build.zip"
+        },
+        "getCase": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/getCase-45733541746b6162746a-build.zip"
+        },
+        "listCases": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/listCases-355a7535564334677769-build.zip"
+        }
+      },
       "storage": {
         "Case": {},
         "ECR": {},

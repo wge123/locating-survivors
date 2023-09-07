@@ -7,9 +7,12 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('')
 
     const handleLoginAttempt = async () => {
-        const response = await Auth.signIn(username, password)
-            .then(() => console.log('User authentication response: ' + response))
-            .catch(error => console.log('User authentication attempt failed. ' + error))
+        try {
+            const response = await Auth.signIn(username, password)
+            console.log('User authentication response: ', response)
+        } catch (error) {
+            console.log('User authentication attempt failed. ' + error)
+        }
     }
 
     return (
@@ -18,8 +21,8 @@ export default function LoginScreen() {
                 <p id='header-text'>
                     Search and Rescue Cellular Forensics Service
                 </p>
-                <input className='text-input' placeholder='Username...' type='text' onChange={event => setUsername(event.target.value)}/>
-                <input className='text-input' placeholder='Password...' type='password' onChange={event => setPassword(event.target.value)}/>
+                <input className='text-input' placeholder='Username...' type='text' onChange={event => setUsername(event.target.value)} />
+                <input className='text-input' placeholder='Password...' type='password' onChange={event => setPassword(event.target.value)} />
                 <button id='forgot-password-button' onClick={() => onForgotPasswordButtonClick()}>
                     Forgot Password...
                 </button>
