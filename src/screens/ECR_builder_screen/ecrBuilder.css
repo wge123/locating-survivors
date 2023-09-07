@@ -1,0 +1,234 @@
+#container {
+    height: 100vh;
+    padding-left: 200px;
+    padding-right: 200px;
+    display: flex;
+    flex-direction: column;
+    background-image: url('../../assets/ecrBuilderBackgroundImage.jpg');
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#first-row {
+    display: grid;
+    grid-template-columns: 32% 65%;
+    column-gap: 3%;
+}
+
+#second-row {
+    display: grid;
+    grid-template-columns: 20% 54% 20%;
+    column-gap: 3%;
+}
+
+.form-header-text {
+    color: #000;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 4px;
+}
+
+.text-box-with-label {
+}
+
+.text-box-label-text {
+    color: #000;
+    text-align: left;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding-left: 2%;
+    margin-bottom: 4px;
+}
+
+.text-box {
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    height: 51px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-box-text {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+#edit-account-button-container {
+}
+
+#edit-account-button-label-text {
+    color: transparent;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 4px;
+}
+
+#edit-account-button {
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #A1A1A1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    height: 51px;
+    width: 100%;
+}
+
+.section-header-text {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 4px;
+}
+
+.evenly-spaced-two-column-row {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 80%;
+    align-self: center;
+}
+
+.check-box-with-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 45px;
+}
+
+.check-box {
+    width: 20px;
+    height: 20px;
+}
+
+.check-box-text {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 10px;
+}
+
+#dropdown-with-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 45px;
+}
+
+#dropdown {
+    outline: none;
+}
+
+#dropdown-text {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 10px;
+}
+
+.evenly-spaced-one-column-row {
+    display: grid;
+    width: 80%;
+    align-self: center;
+}
+
+.evenly-spaced-two-column-row-small-width {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 40%;
+    align-self: center;
+}
+
+.radio-button-with-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 45px;
+}
+
+.radio-button-text {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 10px;
+}
+
+.radio-button {
+    width: 20px;
+    height: 20px;
+}
+
+.solid-gray-button {
+    border-radius: 10px;
+    border: none;
+    background: #313033;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    width: 295px;
+    height: 51px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 10px;
+}
+
+#solid-blue-button {
+    border-radius: 10px;
+    border: none;
+    background: #3093C7;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    width: 295px;
+    height: 51px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 10px;
+}
