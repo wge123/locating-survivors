@@ -4,6 +4,7 @@
       "allowImportingTsExtensions": true,
       "moduleResolution": "bundler",
       "noEmit": true,
-      "module": "ES2022"
+      "module": "ES2022",
+      "allowSyntheticDefaultImports": true
     }
 }
