@@ -16,12 +16,6 @@
       "auth": {
         "lsAuth": {}
       },
-      "storage": {
-        "Case": {},
-        "ECR": {},
-        "User": {},
-        "usersDb": {}
-      },
       "function": {
         "basicFunction": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
@@ -34,7 +28,17 @@
         "listCases": {
           "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
           "s3Key": "amplify-builds/listCases-2f3533784e6a4a5a5242-build.zip"
+        },
+        "postCase": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/postCase-514e53374868517a7451-build.zip"
         }
+      },
+      "storage": {
+        "Case": {},
+        "ECR": {},
+        "User": {},
+        "usersDb": {}
       },
       "api": {
         "lsApi": {}
