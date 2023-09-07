@@ -9,14 +9,35 @@
       "UnauthRoleName": "amplify-locatingsurvivors-will-184136-unauthRole",
       "StackName": "amplify-locatingsurvivors-will-184136",
       "StackId": "arn:aws:cloudformation:us-east-1:862094412808:stack/amplify-locatingsurvivors-will-184136/e4c717a0-452a-11ee-8ba7-12ff026c8c53",
-      "AmplifyAppId": "d3nhjxtskok66m"
+      "AmplifyAppId": "d3nhjxtskok66m",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-locatingsurvivors-will-184136-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "lsAuth": {}
       },
       "storage": {
+        "Case": {},
+        "ECR": {},
+        "User": {},
         "usersDb": {}
+      },
+      "function": {
+        "basicFunction": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/basicFunction-334f6d66393464787344-build.zip"
+        },
+        "getCase": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/getCase-6a4b4665626f6f656b38-build.zip"
+        },
+        "listCases": {
+          "deploymentBucketName": "amplify-locatingsurvivors-will-184136-deployment",
+          "s3Key": "amplify-builds/listCases-2f3533784e6a4a5a5242-build.zip"
+        }
+      },
+      "api": {
+        "lsApi": {}
       }
     }
   }
