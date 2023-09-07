@@ -9,7 +9,7 @@ Amplify.configure(config)
 
 
 export default function App() {
-    return (
+    return(
         <Authenticator>
             {({ signOut, user }) => (
                 <main>
