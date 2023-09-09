@@ -18,6 +18,7 @@ export default function App() {
         <Authenticator>
             <Router>
                 <Routes>
+                    <Route path="*" element={<CaseListScreen />} />
                     <Route path="/new_case" element={<NewCaseScreen />} />
                     <Route path="/case_detail" element={<CaseDetailScreen />}/>
                     <Route path="/ecr_builder" element={<ECRBuilderScreen />}/>
