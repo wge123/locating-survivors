@@ -3,6 +3,9 @@ import { Amplify } from 'aws-amplify'
 import React from 'react'
 import '@aws-amplify/ui-react/styles.css'
 import config from './aws-exports'
+import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom'
+import NewCaseScreen from './screens/new_case_screen/newCase'
+
 
 Amplify.configure(config)
 
@@ -10,13 +13,11 @@ Amplify.configure(config)
 
 export default function App() {
     return(
-        <Authenticator>
-            {({ signOut, user }) => (
-                <main>
-                    <h1>Hello {user.username}</h1>
-                    <button onClick={signOut}>Sign out</button>
-                </main>
-            )}
-        </Authenticator>
+        <Router>
+            <Routes>
+                <Route path="/new_case" element={<NewCaseScreen/>} />
+                {/* ... other routes ... */}
+            </Routes>
+        </Router>
     )
 }
