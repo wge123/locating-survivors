@@ -68,6 +68,19 @@
     border: none;
 }
 
+#build-ecr-button-new-case[disabled] {
+    opacity: 40%;
+}
+
+#build-ecr-button-new-case a {
+    color: #FFF
+}
+
+#build-ecr-button-new-case[disabled] a {
+    pointer-events: none;
+    cursor: default;
+}
+
 .react-tel-input {
     width: auto !important;
 }

@@ -1,10 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState}from 'react'
 import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
+
 export default function NewCaseScreen() {
     const [phone, setPhone] = useState('')
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+
+    function handlePhoneInput(phone) {
+        setPhone(phone)
+        if (phone.length === 11) {
+            setIsButtonDisabled(false)
+        } else {
+            setIsButtonDisabled(true)
+        }
+    }
 
     return (
         <div id='new-case-container'>
@@ -15,14 +27,14 @@ export default function NewCaseScreen() {
                     </p>
                 </div>
                 <div id='new-case-phone-input-container'>
-                    <PhoneInput country={'us'} value={phone} onChange={phone => setPhone(phone)} />
+                    <PhoneInput disableDropdown country={'us'} value={phone} onChange={phone => handlePhoneInput(phone)} />
                 </div>
                 <div id='new-case-button-container'>
-                    <Link to="/screens/login_screen">
-                        <button id='build-ecr-button-new-case'>
-                            Build ECR...
-                        </button>
-                    </Link>
+                    <button id='build-ecr-button-new-case' disabled={isButtonDisabled} >
+                        <Link to="/ecr_builder"  style={{textDecoration: 'none'}} state={{ phone_number: phone }}>
+                                Build ECR...
+                        </Link>
+                    </button>
                 </div>
             </div>
         </div>
