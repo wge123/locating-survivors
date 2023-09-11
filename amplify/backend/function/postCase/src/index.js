@@ -25,6 +25,7 @@ const client = new DynamoDBClient({
 const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
 	let body = event
+	console.log(body)
 	let item = {}
 	// takes every item passed in the body and adds it to the item
 	Object.keys(body).forEach(key => {
@@ -33,9 +34,9 @@ exports.handler = async (event) => {
 
 	try {
 
-		/* TODO:
+		/* TODO: 
 			add time created, auto generated id, check that user_id exists
-				if fields are missing, either return error or add default values
+				if fields are missing, either return error or add default values.
 		*/
 		const data = await documentClient.put({
 			TableName: process.env.STORAGE_CASE_NAME,
