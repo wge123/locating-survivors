@@ -24,12 +24,12 @@ const client = new DynamoDBClient({
 
 const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
-	const body = event
+    let body = event
 	console.log(body)
 	let item = {}
 	// takes every item passed in the body and adds it to the item
 	Object.keys(body).forEach(key => {
-		item[key] = body[key]
+        item[key] = body[key]
 	})
 
 	try {
