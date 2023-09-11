@@ -16,7 +16,6 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb')
 const client = new DynamoDBClient({
@@ -53,4 +52,3 @@ exports.handler = async (event) => {
 	}
 
 }
-

@@ -18,7 +18,7 @@ const documentClient = DynamoDBDocument.from(client)
 
 exports.handler = async (event) => {
 
-    const userId = event.QueryStringParameters.user_id
+    const userId = event.queryStringParameters.user_id
     console.log('ID is ' + userId)
     const params = {
         TableName: process.env.STORAGE_CASE_NAME,
