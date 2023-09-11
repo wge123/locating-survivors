@@ -24,7 +24,7 @@ const client = new DynamoDBClient({
 
 const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
-	let body = event
+	const body = event
 	console.log(body)
 	let item = {}
 	// takes every item passed in the body and adds it to the item
