@@ -1,4 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+amplify/team-provider-info.json
+src/ui-components
 
 # dependencies
 /node_modules
