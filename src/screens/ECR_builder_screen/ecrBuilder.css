@@ -1,10 +1,13 @@
 #container {
     height: 100vh;
+    min-width: 1500px;
     padding-left: 200px;
     padding-right: 200px;
     display: flex;
     flex-direction: column;
     background-image: url('../../assets/ecrBuilderBackgroundImage.jpg');
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 
 .row {
@@ -33,9 +36,6 @@
     font-weight: 700;
     line-height: normal;
     margin-bottom: 4px;
-}
-
-.text-box-with-label {
 }
 
 .text-box-label-text {
@@ -68,9 +68,6 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-}
-
-#edit-account-button-container {
 }
 
 #edit-account-button-label-text {

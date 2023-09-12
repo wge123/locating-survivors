@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './ecrBuilder.css'
 
 export default function ECRBuilderScreen() {
@@ -9,33 +9,13 @@ export default function ECRBuilderScreen() {
                 <p className='form-header-text'>{`Cell: ${getCellPhoneNumber()}`}</p>
             </div>
             <div id='first-row'>
-                <div className='text-box-with-label'>
-                    <p className='text-box-label-text'>Analyst Name</p>
-                    <div className='text-box'>
-                        <p className='text-box-text'>{getUserDisplayName()}</p>
-                    </div>
-                </div>
-                <div className='text-box-with-label'>
-                    <p className='text-box-label-text'>Case #</p>
-                    <div className='text-box'>
-                        <p className='text-box-text'>{getCaseNumber()}</p>
-                    </div>
-                </div>
+                { getTextBoxWithLabel('Analyst Name', getUserDisplayName()) }
+                { getTextBoxWithLabel('Case #', getCaseNumber()) }
             </div>
             <div id='second-row'>
-                <div className='text-box-with-label'>
-                    <p className='text-box-label-text'>Date</p>
-                    <div className='text-box'>
-                        <p className='text-box-text'>{getTodaysDate()}</p>
-                    </div>
-                </div>
-                <div className='text-box-with-label'>
-                    <p className='text-box-label-text'>Email</p>
-                    <div className='text-box'>
-                        <p className='text-box-text'>{getUserDisplayEmail()}</p>
-                    </div>
-                </div>
-                <div id='edit-account-button-container'>
+                { getTextBoxWithLabel('Date', getTodaysDate()) }
+                { getTextBoxWithLabel('Email', getUserDisplayEmail()) }
+                <div>
                     {/* Including an invisible text here so that the button lines up perfectly with the other items in this row. */}
                     <p id='edit-account-button-label-text'>Ghost Text</p>
                     <button id='edit-account-button'>
@@ -43,22 +23,15 @@ export default function ECRBuilderScreen() {
                     </button>
                 </div>
             </div>
-            <p className='section-header-text'>Type of Records Being Requested</p>
+            <p className='section-header-text'>
+                Type of Records Being Requested
+            </p>
             <div className='evenly-spaced-two-column-row'>
-                <div className='check-box-with-text'>
-                    <input className='check-box' type="checkbox" />
-                    <p className='check-box-text'>Subscriber Information</p>
-                </div>
-                <div className='check-box-with-text'>
-                    <input className='check-box' type="checkbox" />
-                    <p className='check-box-text'>Periodic Location Updates (15 Minute Intervals)</p>
-                </div>
+                { getCheckBoxWithText('Subscriber Information') }
+                { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)') }
             </div>
             <div className='evenly-spaced-two-column-row'>
-                <div className='check-box-with-text'>
-                    <input className='check-box' type="checkbox" />
-                    <p className='check-box-text'>Last Known Location Information</p>
-                </div>
+                { getCheckBoxWithText('Last Known Location Information') }
                 <div id='dropdown-with-text'>
                     <select id='dropdown'> 
                         <option>1</option>
@@ -71,28 +44,18 @@ export default function ECRBuilderScreen() {
                     <p id='dropdown-text'>Duration (max 48 hours)</p>
                 </div>
             </div>
-            <p className='section-header-text'>Additional Historical Records Requested</p>
+            <p className='section-header-text'>
+                Additional Historical Records Requested
+            </p>
             <div className='evenly-spaced-one-column-row'>
-                <div className='check-box-with-text'>
-                    <input className='check-box' type="checkbox" />
-                    <p className='check-box-text'>Incoming and outgoing call detail to and from target phone. Includes time/date.</p>
-                </div>
+                { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone. Includes time/date.') }
             </div>
             <div className='evenly-spaced-two-column-row-small-width'>
-                <div className='radio-button-with-text'>
-                    <input className='radio-button' type="radio" />
-                    <p className='radio-button-text'>With Cell Sites</p>
-                </div>
-                <div className='radio-button-with-text'>
-                    <input className='radio-button' type="radio" />
-                    <p className='radio-button-text'>Without Cell Sites</p>
-                </div>
+                { getRadioButtonWithText('With Cell Sites') }
+                { getRadioButtonWithText('Without Cell Sites') }
             </div>
             <div className='evenly-spaced-one-column-row'>
-                <div className='check-box-with-text'>
-                    <input className='check-box' type="checkbox" />
-                    <p className='check-box-text'>SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.</p>
-                </div>
+                { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
             </div>
             <div className='row'>
                 <button className='solid-gray-button'>
@@ -105,6 +68,38 @@ export default function ECRBuilderScreen() {
                     See Status...
                 </button>
             </div>
+        </div>
+    )
+}
+
+// TODO: Make this a separate component in a different file.
+function getTextBoxWithLabel(label: string, text: string): JSX.Element {
+    return (
+        <div>
+            <p className='text-box-label-text'>{label}</p>
+            <div className='text-box'>
+                <p className='text-box-text'>{text}</p>
+            </div>
+        </div>
+    )
+}
+
+// TODO: Make this a separate component in a different file.
+function getCheckBoxWithText(text: string): JSX.Element {
+    return (
+        <div className='check-box-with-text'>
+            <input className='check-box' type="checkbox" />
+            <p className='check-box-text'>{text}</p>
+        </div>
+    )
+}
+
+// TODO: Make this a separate component in a different file.
+function getRadioButtonWithText(text: string): JSX.Element {
+    return (
+        <div className='radio-button-with-text'>
+            <input className='radio-button' type="radio" />
+            <p className='radio-button-text'>{text}</p>
         </div>
     )
 }
