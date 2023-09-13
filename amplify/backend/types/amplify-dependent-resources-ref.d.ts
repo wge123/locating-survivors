@@ -32,12 +32,19 @@ export type AmplifyDependentResourcesAttributes = {
       'Name': 'string',
       'Region': 'string'
     },
-    'listCases': {
-      'Arn': 'string',
-      'LambdaExecutionRole': 'string',
-      'LambdaExecutionRoleArn': 'string',
-      'Name': 'string',
-      'Region': 'string'
+    "listCases": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "postCase": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
     }
   },
   'storage': {
