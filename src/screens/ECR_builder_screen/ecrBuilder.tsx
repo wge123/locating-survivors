@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import './ecrBuilder.css'
 
 export default function ECRBuilderScreen() {
+    useLayoutEffect(() => {
+        document.body.style.backgroundColor = '#1C1B1F80'
+    })
+
     return (
         <div id='container'>
             <div className='row'>
