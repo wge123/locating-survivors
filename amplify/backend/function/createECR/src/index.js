@@ -90,7 +90,7 @@ exports.handler = async (event) => {
         if (case_table_id) item.case_id = case_table_id
         const case_table_cell_number = case_query.Items[0].cell_number
         if (case_table_cell_number) item.cell_number = case_table_cell_number
-        // check for cell provider
+
         if (case_query.Items[0].cell_provider) item.cell_provider = case_query.Items[0].cell_provider
 
 
@@ -116,7 +116,7 @@ exports.handler = async (event) => {
         // get name and email from user table
         const user_name = user_query.Items[0].name
         const email = user_query.Items[0].email
-        // console.log(case_table_id)
+
 
         /* We will be checking to see if the expected fields are passed into the request body
             if they are not they will be assigned a default value or return an error
@@ -142,9 +142,9 @@ exports.handler = async (event) => {
             }
         }
 
-        /* 
-            Here we are going to assign default values to the fields that are not passed in the request body
-        */
+
+        //Here we are going to assign default values to the fields that are not passed in the request body
+
 
         if (!item.cell_number) item.cell_number = case_table_cell_number
         if (!item.cell_provider) item.cell_provider = "Sprint"
@@ -157,7 +157,8 @@ exports.handler = async (event) => {
         if (!item.duration) item.duration = 0
         if (!item.call_detail) item.call_detail = false
         if (!item.sms_detail) item.sms_detail = false
-        // make item.sms_detail a boolean
+
+        // End of expected fields
 
 
 
@@ -166,13 +167,13 @@ exports.handler = async (event) => {
         const put_item = await documentClient.put({
             TableName: process.env.STORAGE_ECR_NAME,
             Item: item
-            // add date
+
         })
-        console.log("PUT item is ", put_item)
+
 
         return {
             statusCode: 200,
-            body: JSON.stringify("SUCCESS")
+            body: JSON.stringify("ECR created", put_item)
         }
 
     } catch (error) {
