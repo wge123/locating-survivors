@@ -80,9 +80,9 @@ export default function ECRBuilderScreen() {
 function getTextBoxWithLabel(label: string, text: string): JSX.Element {
     return (
         <div>
-            <p className='text-box-label-text'>{label}</p>
-            <div className='text-box'>
-                <p className='text-box-text'>{text}</p>
+            <p className='ecrb-text-box-label-text'>{label}</p>
+            <div className='ecrb-text-box'>
+                <p className='ecrb-text-box-text'>{text}</p>
             </div>
         </div>
     )
@@ -91,9 +91,9 @@ function getTextBoxWithLabel(label: string, text: string): JSX.Element {
 // TODO: Make this a separate component in a different file.
 function getCheckBoxWithText(text: string): JSX.Element {
     return (
-        <div className='check-box-with-text'>
-            <input className='check-box' type="checkbox" />
-            <p className='check-box-text'>{text}</p>
+        <div className='ecrb-check-box-with-text'>
+            <input className='ecrb-check-box' type="checkbox" />
+            <p className='ecrb-check-box-text'>{text}</p>
         </div>
     )
 }
@@ -101,9 +101,9 @@ function getCheckBoxWithText(text: string): JSX.Element {
 // TODO: Make this a separate component in a different file.
 function getRadioButtonWithText(text: string): JSX.Element {
     return (
-        <div className='radio-button-with-text'>
-            <input className='radio-button' type="radio" />
-            <p className='radio-button-text'>{text}</p>
+        <div className='ecrb-radio-button-with-text'>
+            <input className='ecrb-radio-button' type="radio" />
+            <p className='ecrb-radio-button-text'>{text}</p>
         </div>
     )
 }
