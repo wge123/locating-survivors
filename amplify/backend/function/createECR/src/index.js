@@ -29,9 +29,9 @@ const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
 
     const ecr_id = uuidv4()
-    const date = new Date();
-    const createdAt = date.toISOString();
-    const lastChangedAt = date.getTime();
+    const date = new Date()
+    // const createdAt = date.toISOString()
+    // const lastChangedAt = date.getTime()
     let body = event
     let item = {}
 
@@ -71,8 +71,6 @@ exports.handler = async (event) => {
                 })
             }
         }
-
-
 
         // retrieve user_id from case table
         const user_id = case_query.Items[0].user_id
@@ -132,7 +130,6 @@ exports.handler = async (event) => {
             }
         }
 
-
         if (!item.case_id) {
             return {
                 statusCode: 400,
@@ -182,4 +179,4 @@ exports.handler = async (event) => {
     }
 
 
-};
+}
