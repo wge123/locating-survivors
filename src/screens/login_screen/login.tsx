@@ -16,17 +16,17 @@ export default function LoginScreen() {
     }
 
     return (
-        <div id='container'>
-            <div id='center-pane'>
-                <p id='header-text'>
+        <div id='l-container'>
+            <div id='l-center-pane'>
+                <p id='l-header-text'>
                     Search and Rescue Cellular Forensics Service
                 </p>
-                <input className='text-input' placeholder='Username...' type='text' onChange={event => setUsername(event.target.value)} />
-                <input className='text-input' placeholder='Password...' type='password' onChange={event => setPassword(event.target.value)} />
-                <button id='forgot-password-button' onClick={() => onForgotPasswordButtonClick()}>
+                <input className='l-text-input' placeholder='Username...' type='text' onChange={event => setUsername(event.target.value)} />
+                <input className='l-text-input' placeholder='Password...' type='password' onChange={event => setPassword(event.target.value)} />
+                <button id='l-forgot-password-button' onClick={() => onForgotPasswordButtonClick()}>
                     Forgot Password...
                 </button>
-                <button id='login-button' onClick={() => handleLoginAttempt()}>
+                <button id='l-login-button' onClick={() => handleLoginAttempt()}>
                     Login
                 </button>
             </div>

@@ -1,4 +1,4 @@
-#container {
+#ecrb-container {
     height: 100vh;
     min-width: 1500px;
     padding-left: 200px;
@@ -10,25 +10,25 @@
     background-repeat: repeat-y;
 }
 
-.row {
+.ecrb-row {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 }
 
-#first-row {
+#ecrb-first-row {
     display: grid;
     grid-template-columns: 32% 65%;
     column-gap: 3%;
 }
 
-#second-row {
+#ecrb-second-row {
     display: grid;
     grid-template-columns: 20% 54% 20%;
     column-gap: 3%;
 }
 
-.form-header-text {
+.ecrb-form-header-text {
     color: #000;
     font-family: Inter;
     font-size: 28px;
@@ -38,7 +38,7 @@
     margin-bottom: 4px;
 }
 
-.text-box-label-text {
+.ecrb-text-box-label-text {
     color: #000;
     text-align: left;
     font-family: Inter;
@@ -50,7 +50,7 @@
     margin-bottom: 4px;
 }
 
-.text-box {
+.ecrb-text-box {
     border-radius: 10px;
     border: 1px solid #000;
     background: #FFF;
@@ -61,7 +61,7 @@
     align-items: center;
 }
 
-.text-box-text {
+.ecrb-text-box-text {
     color: #000;
     font-family: Inter;
     font-size: 20px;
@@ -70,7 +70,7 @@
     line-height: normal;
 }
 
-#edit-account-button-label-text {
+#ecrb-edit-account-button-label-text {
     color: transparent;
     text-align: center;
     font-family: Inter;
@@ -81,7 +81,7 @@
     margin-bottom: 4px;
 }
 
-#edit-account-button {
+#ecrb-edit-account-button {
     border-radius: 10px;
     border: 1px solid #000;
     background: #A1A1A1;
@@ -97,7 +97,7 @@
     width: 100%;
 }
 
-.section-header-text {
+.ecrb-section-header-text {
     color: #000;
     text-align: center;
     font-family: Inter;
@@ -108,26 +108,26 @@
     margin-bottom: 4px;
 }
 
-.evenly-spaced-two-column-row {
+.ecrb-evenly-spaced-two-column-row {
     display: grid;
     grid-template-columns: 50% 50%;
     width: 80%;
     align-self: center;
 }
 
-.check-box-with-text {
+.ecrb-check-box-with-text {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 45px;
 }
 
-.check-box {
+.ecrb-check-box {
     width: 20px;
     height: 20px;
 }
 
-.check-box-text {
+.ecrb-check-box-text {
     color: #000;
     text-align: center;
     font-family: Inter;
@@ -138,18 +138,18 @@
     margin-left: 10px;
 }
 
-#dropdown-with-text {
+#ecrb-dropdown-with-text {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 45px;
 }
 
-#dropdown {
+#ecrb-dropdown {
     outline: none;
 }
 
-#dropdown-text {
+#ecrb-dropdown-text {
     color: #000;
     text-align: center;
     font-family: Inter;
@@ -160,27 +160,27 @@
     margin-left: 10px;
 }
 
-.evenly-spaced-one-column-row {
+.ecrb-evenly-spaced-one-column-row {
     display: grid;
     width: 80%;
     align-self: center;
 }
 
-.evenly-spaced-two-column-row-small-width {
+.ecrb-evenly-spaced-two-column-row-small-width {
     display: grid;
     grid-template-columns: 50% 50%;
     width: 40%;
     align-self: center;
 }
 
-.radio-button-with-text {
+.ecrb-radio-button-with-text {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 45px;
 }
 
-.radio-button-text {
+.ecrb-radio-button-text {
     color: #000;
     text-align: center;
     font-family: Inter;
@@ -191,12 +191,12 @@
     margin-left: 10px;
 }
 
-.radio-button {
+.ecrb-radio-button {
     width: 20px;
     height: 20px;
 }
 
-.solid-gray-button {
+.ecrb-solid-gray-button {
     border-radius: 10px;
     border: none;
     background: #313033;
@@ -213,7 +213,7 @@
     margin-top: 10px;
 }
 
-#solid-blue-button {
+#ecrb-solid-blue-button {
     border-radius: 10px;
     border: none;
     background: #3093C7;

@@ -7,37 +7,37 @@ export default function ECRBuilderScreen() {
     })
 
     return (
-        <div id='container'>
-            <div className='row'>
-                <p className='form-header-text'>{`Request Type: ${getRequestType()}`}</p>
-                <p className='form-header-text'>{`Cell: ${getCellPhoneNumber()}`}</p>
+        <div id='ecrb-container'>
+            <div className='ecrb-row'>
+                <p className='ecrb-form-header-text'>{`Request Type: ${getRequestType()}`}</p>
+                <p className='ecrb-form-header-text'>{`Cell: ${getCellPhoneNumber()}`}</p>
             </div>
-            <div id='first-row'>
+            <div id='ecrb-first-row'>
                 { getTextBoxWithLabel('Analyst Name', getUserDisplayName()) }
                 { getTextBoxWithLabel('Case #', getCaseNumber()) }
             </div>
-            <div id='second-row'>
+            <div id='ecrb-second-row'>
                 { getTextBoxWithLabel('Date', getTodaysDate()) }
                 { getTextBoxWithLabel('Email', getUserDisplayEmail()) }
                 <div>
                     {/* Including an invisible text here so that the button lines up perfectly with the other items in this row. */}
-                    <p id='edit-account-button-label-text'>Ghost Text</p>
-                    <button id='edit-account-button'>
+                    <p id='ecrb-edit-account-button-label-text'>Ghost Text</p>
+                    <button id='ecrb-edit-account-button'>
                         Edit Account Info...
                     </button>
                 </div>
             </div>
-            <p className='section-header-text'>
+            <p className='ecrb-section-header-text'>
                 Type of Records Being Requested
             </p>
-            <div className='evenly-spaced-two-column-row'>
+            <div className='ecrb-evenly-spaced-two-column-row'>
                 { getCheckBoxWithText('Subscriber Information') }
                 { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)') }
             </div>
-            <div className='evenly-spaced-two-column-row'>
+            <div className='ecrb-evenly-spaced-two-column-row'>
                 { getCheckBoxWithText('Last Known Location Information') }
-                <div id='dropdown-with-text'>
-                    <select id='dropdown'> 
+                <div id='ecrb-dropdown-with-text'>
+                    <select id='ecrb-dropdown'> 
                         <option>1</option>
                         <option>3</option>
                         <option>6</option>
@@ -45,30 +45,30 @@ export default function ECRBuilderScreen() {
                         <option>24</option>
                         <option>48</option>
                     </select>
-                    <p id='dropdown-text'>Duration (max 48 hours)</p>
+                    <p id='ecrb-dropdown-text'>Duration (max 48 hours)</p>
                 </div>
             </div>
-            <p className='section-header-text'>
+            <p className='ecrb-section-header-text'>
                 Additional Historical Records Requested
             </p>
-            <div className='evenly-spaced-one-column-row'>
+            <div className='ecrb-evenly-spaced-one-column-row'>
                 { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone. Includes time/date.') }
             </div>
-            <div className='evenly-spaced-two-column-row-small-width'>
+            <div className='ecrb-evenly-spaced-two-column-row-small-width'>
                 { getRadioButtonWithText('With Cell Sites') }
                 { getRadioButtonWithText('Without Cell Sites') }
             </div>
-            <div className='evenly-spaced-one-column-row'>
+            <div className='ecrb-evenly-spaced-one-column-row'>
                 { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
             </div>
-            <div className='row'>
-                <button className='solid-gray-button'>
+            <div className='ecrb-row'>
+                <button className='ecrb-solid-gray-button'>
                     Preview ECR...
                 </button>
-                <button id='solid-blue-button'>
+                <button id='ecrb-solid-blue-button'>
                     Send ECR
                 </button>
-                <button className='solid-gray-button'>
+                <button className='ecrb-solid-gray-button'>
                     See Status...
                 </button>
             </div>
