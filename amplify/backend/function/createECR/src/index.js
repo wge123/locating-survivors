@@ -29,7 +29,7 @@ const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
 
     const ecr_id = uuidv4()
-    const date = new Date()
+    // const date = new Date()
     // const createdAt = date.toISOString()
     // const lastChangedAt = date.getTime()
     let body = event
@@ -144,7 +144,7 @@ exports.handler = async (event) => {
 
 
         if (!item.cell_number) item.cell_number = case_table_cell_number
-        if (!item.cell_provider) item.cell_provider = "Sprint"
+        if (!item.cell_provider) item.cell_provider = 'Sprint'
         if (!item.name) item.name = user_name
         if (!item.email) item.email = email
         if (!item.date) item.date = new Date().toISOString() // need to add date
@@ -170,7 +170,7 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify("ECR created", put_item)
+            body: JSON.stringify('ECR created', put_item)
         }
 
     } catch (error) {
