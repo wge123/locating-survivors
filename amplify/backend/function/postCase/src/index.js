@@ -27,12 +27,12 @@ const { v4: uuidv4 } = require('uuid')
 const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
     const random_id = uuidv4()
-    const date = new Date();
-    const createdAt = date.toISOString();
-    const lastChangedAt = date.getTime();
+    const date = new Date()
+    const createdAt = date.toISOString()
+    const lastChangedAt = date.getTime()
     let body = event
     let item = {}
-    
+
     Object.keys(body).forEach(key => {
         item[key] = body[key]
     })
@@ -53,16 +53,16 @@ exports.handler = async (event) => {
         const scan = await documentClient.scan({
             TableName: process.env.STORAGE_USER_NAME,
             ProjectionExpression: 'id'
-            
+
         })
-        
+
         console.log(scan)
-        
+
         const user_ids = scan.Items.map(item => item.id)
-        console.log(user_ids)   
+        console.log(user_ids)
         if (user_ids.includes(item.user_id)) {
             console.log('user_id exists')
-        }  
+        }
         else if (!user_ids.includes(item.user_id)) {
             return {
                 statusCode: 400,
@@ -71,9 +71,9 @@ exports.handler = async (event) => {
                 })
             }
         }
-    
 
-         item = {
+
+        item = {
             id: item.id,
             user_id: item.user_id,
             name: item.name,
@@ -82,17 +82,17 @@ exports.handler = async (event) => {
             __typename: 'Case',
             _lastChangedAt: lastChangedAt,
             _version: 1,
-        };
+        }
 
-    
-        
+
+
 
         const data = await documentClient.put({
             TableName: process.env.STORAGE_CASE_NAME,
             Item: item,
-            
+
         })
-        
+
         console.log(data)
         return {
             statusCode: 200,
