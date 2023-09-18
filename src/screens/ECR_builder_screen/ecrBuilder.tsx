@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useLayoutEffect } from 'react'
 import './ecrBuilder.css'
 
@@ -140,15 +139,4 @@ function getTodaysDate(): string {
 function getUserDisplayEmail(): string {
     // TODO: We need to get this value from the backend
     return 'example@uscg.sarcfs.gov'
-=======
-import React, {useState} from 'react'
-
-export default function ECRBuilderScreen() {
-
-    return (
-        <div id='container'>
-            ECR Builder Screen
-        </div>
-    )
->>>>>>> main
 }
