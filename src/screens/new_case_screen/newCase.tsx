@@ -19,18 +19,18 @@ export default function NewCaseScreen() {
     }
 
     return (
-        <div id='new-case-container'>
-            <div id='new-case-center-pane'>
-                <div id='new-case-header-box'>
-                    <p id='new-case-header-text'>
+        <div id='nc-container'>
+            <div id='nc-center-pane'>
+                <div id='nc-header-box'>
+                    <p id='nc-header-text'>
                         New Case...
                     </p>
                 </div>
-                <div id='new-case-phone-input-container'>
+                <div id='nc-phone-input-container'>
                     <PhoneInput disableDropdown country={'us'} value={phone} onChange={phone => handlePhoneInput(phone)} />
                 </div>
-                <div id='new-case-button-container'>
-                    <button id='build-ecr-button-new-case' disabled={isButtonDisabled} >
+                <div id='nc-button-container'>
+                    <button id='nc-build-ecr-button' disabled={isButtonDisabled} >
                         <Link to="/ecr_builder"  style={{textDecoration: 'none'}} state={{ phone_number: phone }}>
                                 Build ECR...
                         </Link>
