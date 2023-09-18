@@ -1,5 +1,15 @@
 {
   "permissions": {
+    "api": {
+      "lsApi": [
+        "read"
+      ]
+    },
+    "auth": {
+      "lsAuth": [
+        "read"
+      ]
+    },
     "storage": {
       "Case": [
         "read"

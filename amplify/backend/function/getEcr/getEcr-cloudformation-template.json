@@ -173,12 +173,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRolee34f37e5",
+            "locatingsurvivorsLambdaRolebab4aaee",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRolee34f37e5",
+                  "locatingsurvivorsLambdaRolebab4aaee",
                   "-",
                   {
                     "Ref": "env"
@@ -360,9 +360,6 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",

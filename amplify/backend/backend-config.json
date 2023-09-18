@@ -101,6 +101,21 @@
       "dependsOn": [
         {
           "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
