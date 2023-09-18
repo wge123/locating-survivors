@@ -1,33 +1,16 @@
 {
   "permissions": {
-    "api": {
-      "lsApi": [
-        "read"
-      ]
-    },
-    "auth": {
-      "lsAuth": [
-        "read"
-      ]
-    },
     "storage": {
       "Case": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ],
       "ECR": [
-        "create",
         "read",
         "update",
         "delete"
       ],
       "User": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ]
     }
   },

@@ -96,24 +96,9 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "deleteEcr": {
+    "deleteECR": {
       "build": true,
       "dependsOn": [
-        {
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ],
-          "category": "api",
-          "resourceName": "lsApi"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "lsAuth"
-        },
         {
           "attributes": [
             "Name",
@@ -161,7 +146,7 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "getEcr": {
+    "getECR": {
       "build": true,
       "dependsOn": [
         {
@@ -300,6 +285,22 @@
         }
       ]
     },
+    "AMPLIFY_function_deleteECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
+        }
+      ]
+    },
     "AMPLIFY_function_getCase_deploymentBucketName": {
       "usedBy": [
         {
@@ -313,6 +314,22 @@
         {
           "category": "function",
           "resourceName": "getCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_getECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_getECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getECR"
         }
       ]
     },

@@ -2,26 +2,17 @@
   "permissions": {
     "api": {
       "lsApi": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ]
     },
     "auth": {
       "lsAuth": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ]
     },
     "storage": {
       "Case": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ],
       "ECR": [
         "create",
@@ -30,10 +21,7 @@
         "delete"
       ],
       "User": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "read"
       ]
     }
   },
