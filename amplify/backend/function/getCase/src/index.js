@@ -20,26 +20,36 @@ const client = new DynamoDBClient({
 const documentClient = DynamoDBDocument.from(client)
 
 exports.handler = async (event) => {
-
-    const caseId = event.QueryStringParameters.id
-    console.log('ID is ' + caseId)
-    const params = {
-        TableName: process.env.STORAGE_CASE_NAME,
-        Key: {
-            id: caseId
-        },
-    }
+    //const caseId  = event.pathParameters.id
     try {
+
+        // const caseId = event.queryStringParameters.id // uncomment if using proxy
+        const id = event.queryStringParameters.id
+        // uncomment if using proxy
+        // const caseId = event.id // uncomment if not using proxy
+        console.log('ID is ' + id)
+        const params = {
+            TableName: process.env.STORAGE_CASE_NAME,
+            Key: {
+                id: id,
+            },
+        }
         const data = await documentClient.get(params)
         return {
+            headers: {
+                'Content-Type': 'application/json'
+            },
             statusCode: 200,
             body: JSON.stringify(data.Item),
         }
     } catch (error) {
         console.error('Error:', error)
         return {
+            headers: {
+                'Content-Type': 'application/json'
+            },
             statusCode: 500,
-            body: JSON.stringify({ error: 'An error occurred' }),
+            body: JSON.stringify({ error: 'An error occurred or user doesnt exist' }),
         }
     }
 
