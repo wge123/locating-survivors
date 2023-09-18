@@ -27,9 +27,9 @@ const { v4: uuidv4 } = require('uuid')
 const documentClient = DynamoDBDocument.from(client)
 exports.handler = async (event) => {
     const random_id = uuidv4()
-    const date = new Date();
-    const createdAt = date.toISOString();
-    const lastChangedAt = date.getTime();
+    const date = new Date()
+    const createdAt = date.toISOString()
+    const lastChangedAt = date.getTime()
     let body = event
     let item = {}
 
@@ -82,7 +82,7 @@ exports.handler = async (event) => {
             __typename: 'Case',
             _lastChangedAt: lastChangedAt,
             _version: 1,
-        };
+        }
 
 
 
