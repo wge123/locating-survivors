@@ -68,15 +68,15 @@
     border: none;
 }
 
-#build-ecr-button-new-case[disabled] {
+#nc-build-ecr-button[disabled] {
     opacity: 40%;
 }
 
-#build-ecr-button-new-case a {
+#nc-build-ecr-button a {
     color: #FFF
 }
 
-#build-ecr-button-new-case[disabled] a {
+#nc-build-ecr-button[disabled] a {
     pointer-events: none;
     cursor: default;
 }

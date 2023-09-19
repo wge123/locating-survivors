@@ -1,13 +1,15 @@
-import React, {useState}from 'react'
+import React, {useEffect, useState} from 'react'
 import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, useLocation} from 'react-router-dom'
 
 
 export default function NewCaseScreen() {
     const [phone_number, setPhone] = useState('')
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+    const location = useLocation()
+    const user = location.state?.user
 
     function handlePhoneInput(phone_number) {
         setPhone(phone_number)
@@ -27,19 +29,23 @@ export default function NewCaseScreen() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    _typename: "Case",
+                    _typename: 'Case',
                     _lastChangedAt: currentDate,
                     _version: 1,
-                    cell_number: phone_number,
+                    cell_number: phone_number.replace(/-/g, ''),
                     createdAt: currentDate,
-                    name: current_user.name
+                    name: user?.name,
+                    phoneNumber: phone_number,
+                    updatedAt: currentDate,
+                    user_id: user?.id
                 }),
-            });
-            const result = await response.json();
+            })
+            const result = await response.json()
+            console.log(result)
         } catch (error) {
-            console.error("Error posting data: ", error);
+            console.error('Error posting data: ', error)
         }
-    };
+    }
 
     return (
         <div id='nc-container'>
