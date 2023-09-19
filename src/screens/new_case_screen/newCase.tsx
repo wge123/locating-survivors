@@ -3,6 +3,7 @@ import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { BrowserRouter as Router, Route, Link, useLocation} from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 
 export default function NewCaseScreen() {
@@ -29,19 +30,20 @@ export default function NewCaseScreen() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    _typename: 'Case',
+                    __typename: 'Case',
                     _lastChangedAt: currentDate,
                     _version: 1,
                     cell_number: phone_number.replace(/-/g, ''),
                     createdAt: currentDate,
                     name: user?.name,
-                    phoneNumber: phone_number,
+                    phonenumber: phone_number,
                     updatedAt: currentDate,
-                    user_id: user?.id
+                    user_id: user?.id,
+                    id: uuidv4()
                 }),
             })
             const result = await response.json()
-            console.log(result)
+            console.log(response)
         } catch (error) {
             console.error('Error posting data: ', error)
         }
