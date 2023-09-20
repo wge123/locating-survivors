@@ -54,6 +54,97 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "createECR": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "ECR"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "User"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "deleteECR": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "ECR"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "User"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getCase": {
       "build": true,
       "dependsOn": [
@@ -65,6 +156,55 @@
           ],
           "category": "storage",
           "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getECR": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "ECR"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "User"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -144,6 +284,38 @@
         }
       ]
     },
+    "AMPLIFY_function_createECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_createECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
+        }
+      ]
+    },
     "AMPLIFY_function_getCase_deploymentBucketName": {
       "usedBy": [
         {
@@ -157,6 +329,22 @@
         {
           "category": "function",
           "resourceName": "getCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_getECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_getECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getECR"
         }
       ]
     },
