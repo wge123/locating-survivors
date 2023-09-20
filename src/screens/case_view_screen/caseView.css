@@ -1,0 +1,90 @@
+#cv-container {
+    height: 100vh;
+    min-width: 1500px;
+    display: grid;
+    grid-template-columns: 10% 72% 10%;
+    column-gap: 2%;
+    padding: 2%;
+}
+
+#cv-back-button {
+    width: 100%;
+    height: 65px;
+    border-radius: 10px;
+    background: #3093C7;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+#cv-main-content {
+    width: 100%;
+    height: 812px;
+    display: grid;
+    grid-template-columns: 38% 60%;
+    column-gap: 2%;
+}
+
+.cv-pane {
+    border-radius: 10px;
+    background: #757575;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#cv-pane-small {
+    height: 200px;
+}
+
+.cv-text {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 0;
+    text-align: center;
+    padding-bottom: 7px;
+}
+
+.cv-text-gap {
+    height: 1px;
+}
+
+#cv-pane-big {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 569px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+#cv-bottom-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    padding-top: 20px;
+}
+
+.cv-bottom-button {
+    width: 420px;
+    height: 65px;
+    border-radius: 10px;
+    background: #3093C7;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    border: none;
+}
