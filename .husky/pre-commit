@@ -3,5 +3,4 @@
 
 ./node_modules/.bin/eslint --fix "**/*.js"
 ./node_modules/.bin/eslint --fix "**/*.ts"
-./node_modules/.bin/eslint --fix "**/*.jsx"
 ./node_modules/.bin/eslint --fix "**/*.tsx"
