@@ -66,14 +66,11 @@
     font-weight: 700;
     line-height: normal;
     border: none;
+    cursor: pointer
 }
 
 #nc-build-ecr-button[disabled] {
     opacity: 40%;
-}
-
-#nc-build-ecr-button a {
-    color: #FFF
 }
 
 #nc-build-ecr-button[disabled] a {
