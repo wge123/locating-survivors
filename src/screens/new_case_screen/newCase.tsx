@@ -2,15 +2,18 @@ import React, {useEffect, useState} from 'react'
 import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { BrowserRouter as Router, Route, Link, useLocation} from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
+export default function NewCaseScreen(props) {
+    NewCaseScreen.propTypes = {
+        user: PropTypes.object.isRequired
+    }
 
-export default function NewCaseScreen() {
     const [phone_number, setPhone] = useState('')
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-    const location = useLocation()
-    const user = location.state?.user
+    const {user} = props
+    const navigate = useNavigate()
 
     function handlePhoneInput(phone_number) {
         setPhone(phone_number)
@@ -22,27 +25,22 @@ export default function NewCaseScreen() {
     }
 
     const handleCasePost = async () => {
-        const currentDate = new Date().toISOString()
         try {
             const response = await fetch('https://y2r550iewh.execute-api.us-east-1.amazonaws.com/use_this_one/case/user_id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                // not sure difference of phgone number & cell number
                 body: JSON.stringify({
-                    __typename: 'Case',
-                    _lastChangedAt: currentDate,
-                    _version: 1,
-                    cell_number: phone_number.replace(/-/g, ''),
-                    createdAt: currentDate,
-                    name: user?.name,
+                    //cell_number: phone_number.replace(/-/g, ''),
+                    name: user.attributes.name,
                     phonenumber: phone_number,
-                    updatedAt: currentDate,
-                    user_id: user?.id,
-                    id: uuidv4()
+                    user_id: user.attributes.sub
                 }),
             })
             const result = await response.json()
+            navigate('/ecr_builder', { state: { phone_number: phone_number } })
             console.log(response)
         } catch (error) {
             console.error('Error posting data: ', error)
@@ -62,9 +60,7 @@ export default function NewCaseScreen() {
                 </div>
                 <div id='nc-button-container'>
                     <button id='nc-build-ecr-button' disabled={isButtonDisabled} onClick={handleCasePost}>
-                        <Link to="/ecr_builder"  style={{textDecoration: 'none'}} state={{ phone_number: phone_number }}>
-                                Build ECR...
-                        </Link>
+                        Build ECR...
                     </button>
                 </div>
             </div>
