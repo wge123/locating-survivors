@@ -11,6 +11,53 @@ export default function NewCaseScreen(props) {
         user: PropTypes.object.isRequired
     }
 
+    const [phone_number, setPhone] = useState('')
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+    const {user} = props
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
+
+    function handlePhoneInput(phone_number) {
+        setPhone(phone_number)
+        if (phone_number.length === 11) {
+            setIsButtonDisabled(false)
+        } else {
+            setIsButtonDisabled(true)
+        }
+    }
+
+    const handleCasePost = async () => {
+        setIsLoading(true)
+        try {
+            const response = await fetch('https://y2r550iewh.execute-api.us-east-1.amazonaws.com/use_this_one/case/user_id', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // not sure difference of phgone number & cell number
+                body: JSON.stringify({
+                    //cell_number: phone_number.replace(/-/g, ''),
+                    name: user.attributes.name,
+                    phonenumber: phone_number,
+                    user_id: user.attributes.sub
+                }),
+            })
+
+            const result = await response.json()
+            if ( result.statusCode === 200) {
+                navigate('/ecr_builder', {state: {phone_number: phone_number}})
+            } else {
+                // we should have some componenet that we can reuse
+                // here we'd set the flash error to true
+                // pass some props to it the componenet int he rendered html and add it to the top for x seconds
+                console.error(result)
+            }
+        } catch (error) {
+            console.error('Error posting data: ', error)
+        }
+        setIsLoading(false)
+    }
+
     return (
         <div id='nc-container'>
             <div id='nc-center-pane'>
@@ -36,51 +83,4 @@ export default function NewCaseScreen(props) {
             )}
         </div>
     )
-}
-
-const [phone_number, setPhone] = useState('')
-const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-const {user} = props
-const navigate = useNavigate()
-const [isLoading, setIsLoading] = useState(false)
-
-function handlePhoneInput(phone_number) {
-    setPhone(phone_number)
-    if (phone_number.length === 11) {
-        setIsButtonDisabled(false)
-    } else {
-        setIsButtonDisabled(true)
-    }
-}
-
-const handleCasePost = async () => {
-    setIsLoading(true)
-    try {
-        const response = await fetch('https://y2r550iewh.execute-api.us-east-1.amazonaws.com/use_this_one/case/user_id', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // not sure difference of phgone number & cell number
-            body: JSON.stringify({
-                //cell_number: phone_number.replace(/-/g, ''),
-                name: user.attributes.name,
-                phonenumber: phone_number,
-                user_id: user.attributes.sub
-            }),
-        })
-
-        const result = await response.json()
-        if ( result.statusCode === 200) {
-            navigate('/ecr_builder', {state: {phone_number: phone_number}})
-        } else {
-            // we should have some componenet that we can reuse
-            // here we'd set the flash error to true
-            // pass some props to it the componenet int he rendered html and add it to the top for x seconds
-            console.error(result)
-        }
-    } catch (error) {
-        console.error('Error posting data: ', error)
-    }
-    setIsLoading(false)
 }
