@@ -4,13 +4,12 @@ import React from 'react'
 import '@aws-amplify/ui-react/styles.css'
 import config from './aws-exports'
 import NewCaseScreen from './screens/new_case_screen/newCase'
-import CaseListScreen from './screens/case_list_screen/caseListScreen'
-import CaseDetailScreen from './screens/case_detail_screen/caseDetailScreen'
+import CaseListScreen from './screens/case_list_screen/caseList'
+import CaseViewScreen from './screens/case_view_screen/caseView'
 import ECRBuilderScreen from './screens/ECR_builder_screen/ecrBuilder'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 Amplify.configure(config)
-
 
 // If we add admin panel we need more routes here, probably sub routes
 // ecrbuilder route might need to be private and only receive user context from componenets through navigation but idk yet
@@ -23,7 +22,7 @@ export default function App() {
                     <Routes>
                         <Route path="*" element={<CaseListScreen user={user}/>} />
                         <Route path="/new_case" element={<NewCaseScreen user={user} />}/>
-                        <Route path="/case_detail" element={<CaseDetailScreen user={user}/>}/>
+                        <Route path="/case_view" element={<CaseViewScreen user={user}/>}/>
                         <Route path="/ecr_builder" element={<ECRBuilderScreen user={user}/>}/>
                         <Route path="/case_list" element={<CaseListScreen user={user}/>} />
                     </Routes>
