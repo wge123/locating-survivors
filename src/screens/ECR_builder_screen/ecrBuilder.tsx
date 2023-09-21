@@ -1,7 +1,19 @@
 import React, { useLayoutEffect } from 'react'
 import './ecrBuilder.css'
+import {useLocation} from 'react-router-dom'
 
 export default function ECRBuilderScreen() {
+    const location = useLocation()
+    const phoneNumber = location.state?.phone_number || '1800411PAIN'
+
+    function getCellPhoneNumber(phoneNumberString): string {
+        const countryCode = phoneNumberString.substring(0, 1)
+        const areaCode = phoneNumberString.substring(1, 4)
+        const firstPart = phoneNumberString.substring(4, 7)
+        const secondPart = phoneNumberString.substring(7, 11)
+        return `+${countryCode} ${areaCode}-${firstPart}-${secondPart}`
+    }
+
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1F80'
     })
@@ -10,7 +22,7 @@ export default function ECRBuilderScreen() {
         <div id='ecrb-container'>
             <div className='ecrb-row'>
                 <p className='ecrb-form-header-text'>{`Request Type: ${getRequestType()}`}</p>
-                <p className='ecrb-form-header-text'>{`Cell: ${getCellPhoneNumber()}`}</p>
+                <p className='ecrb-form-header-text'>{`Cell: ${getCellPhoneNumber(phoneNumber)}`}</p>
             </div>
             <div id='ecrb-first-row'>
                 { getTextBoxWithLabel('Analyst Name', getUserDisplayName()) }
@@ -113,10 +125,7 @@ function getRequestType(): string {
     return 'Verizon'
 }
 
-function getCellPhoneNumber(): string {
-    // TODO: We need to get this value from the backend
-    return '407-608-8075'
-}
+
 
 function getUserDisplayName(): string {
     // TODO: We need to get this value from the backend
