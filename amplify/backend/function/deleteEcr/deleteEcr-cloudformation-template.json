@@ -28,18 +28,6 @@
       "Type": "String",
       "Default": "authlsAuthUserPoolId"
     },
-    "storageCaseName": {
-      "Type": "String",
-      "Default": "storageCaseName"
-    },
-    "storageCaseArn": {
-      "Type": "String",
-      "Default": "storageCaseArn"
-    },
-    "storageCaseStreamArn": {
-      "Type": "String",
-      "Default": "storageCaseStreamArn"
-    },
     "storageECRName": {
       "Type": "String",
       "Default": "storageECRName"
@@ -51,18 +39,6 @@
     "storageECRStreamArn": {
       "Type": "String",
       "Default": "storageECRStreamArn"
-    },
-    "storageUserName": {
-      "Type": "String",
-      "Default": "storageUserName"
-    },
-    "storageUserArn": {
-      "Type": "String",
-      "Default": "storageUserArn"
-    },
-    "storageUserStreamArn": {
-      "Type": "String",
-      "Default": "storageUserStreamArn"
     }
   },
   "Conditions": {
@@ -127,15 +103,6 @@
             "AUTH_LSAUTH_USERPOOLID": {
               "Ref": "authlsAuthUserPoolId"
             },
-            "STORAGE_CASE_NAME": {
-              "Ref": "storageCaseName"
-            },
-            "STORAGE_CASE_ARN": {
-              "Ref": "storageCaseArn"
-            },
-            "STORAGE_CASE_STREAMARN": {
-              "Ref": "storageCaseStreamArn"
-            },
             "STORAGE_ECR_NAME": {
               "Ref": "storageECRName"
             },
@@ -144,15 +111,6 @@
             },
             "STORAGE_ECR_STREAMARN": {
               "Ref": "storageECRStreamArn"
-            },
-            "STORAGE_USER_NAME": {
-              "Ref": "storageUserName"
-            },
-            "STORAGE_USER_ARN": {
-              "Ref": "storageUserArn"
-            },
-            "STORAGE_USER_STREAMARN": {
-              "Ref": "storageUserStreamArn"
             }
           }
         },
@@ -173,12 +131,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRoled1635193",
+            "locatingsurvivorsLambdaRole5b194450",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRoled1635193",
+                  "locatingsurvivorsLambdaRole5b194450",
                   "-",
                   {
                     "Ref": "env"
@@ -338,33 +296,6 @@
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageCaseArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageCaseArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
                 "dynamodb:Query",
                 "dynamodb:Update*",
                 "dynamodb:RestoreTable*",
@@ -380,33 +311,6 @@
                     [
                       {
                         "Ref": "storageECRArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageUserArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageUserArn"
                       },
                       "index/*"
                     ]

@@ -11,16 +11,10 @@
       ]
     },
     "storage": {
-      "Case": [
-        "read"
-      ],
       "ECR": [
         "read",
         "update",
         "delete"
-      ],
-      "User": [
-        "read"
       ]
     }
   },

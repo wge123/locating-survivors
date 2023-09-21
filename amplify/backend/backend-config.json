@@ -121,25 +121,7 @@
             "StreamArn"
           ],
           "category": "storage",
-          "resourceName": "Case"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
           "resourceName": "ECR"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "User"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -196,15 +178,6 @@
           ],
           "category": "storage",
           "resourceName": "ECR"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "User"
         }
       ],
       "providerPlugin": "awscloudformation",
