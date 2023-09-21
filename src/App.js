@@ -13,18 +13,22 @@ Amplify.configure(config)
 
 
 // If we add admin panel we need more routes here, probably sub routes
+// ecrbuilder route might need to be private and only receive user context from componenets through navigation but idk yet
+// tbqh we should use React context to grab the user info but this is ok for now
 export default function App() {
     return(
         <Authenticator>
-            <Router>
-                <Routes>
-                    <Route path="*" element={<CaseListScreen />} />
-                    <Route path="/new_case" element={<NewCaseScreen />} />
-                    <Route path="/case_detail" element={<CaseDetailScreen />}/>
-                    <Route path="/ecr_builder" element={<ECRBuilderScreen />}/>
-                    <Route path="/case_list" element={<CaseListScreen />} />
-                </Routes>
-            </Router>
+            {({  user }) => (
+                <Router>
+                    <Routes>
+                        <Route path="*" element={<CaseListScreen user={user}/>} />
+                        <Route path="/new_case" element={<NewCaseScreen user={user} />}/>
+                        <Route path="/case_detail" element={<CaseDetailScreen user={user}/>}/>
+                        <Route path="/ecr_builder" element={<ECRBuilderScreen user={user}/>}/>
+                        <Route path="/case_list" element={<CaseListScreen user={user}/>} />
+                    </Routes>
+                </Router>
+            )}
         </Authenticator>
     )
 }
