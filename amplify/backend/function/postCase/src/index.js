@@ -16,91 +16,65 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
+
+// DynmoDB SDK
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb')
-const client = new DynamoDBClient({
+const dBClient = new DynamoDBClient({
     region: process.env.AWS_REGION,
 })
+const documentClient = DynamoDBDocument.from(dBClient)
+
+
+
+// Cognito SDK
+const { CognitoIdentityProviderClient, ListUsersCommand } = require("@aws-sdk/client-cognito-identity-provider");
+const client = new CognitoIdentityProviderClient({
+    region: process.env.AWS_REGION
+});
+const UserPoolId = process.env.AUTH_LSAUTH_USERPOOLID;
+
+
 // import uuid to get random id
 const { v4: uuidv4 } = require('uuid')
 
-const documentClient = DynamoDBDocument.from(client)
+
+
+
 exports.handler = async (event) => {
-    const random_id = uuidv4()
-    const date = new Date()
-    const createdAt = date.toISOString()
-    const lastChangedAt = date.getTime()
-    let body = event
-    let item = {}
+    const userId = event.user_id;
+    // const phone_number = event.phone_number;
 
-    Object.keys(body).forEach(key => {
-        item[key] = body[key]
-    })
-    item.id = random_id
+    const print_this = await getUser(userId)
 
 
-    try {
-        // first we check if user_id was passed in body
-        if (!item.user_id) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({
-                    message: 'user_id is required'
-                })
-            }
-        }
-        // scan a user table and return all of the ids
-        const scan = await documentClient.scan({
-            TableName: process.env.STORAGE_USER_NAME,
-            ProjectionExpression: 'id'
-
-        })
-
-        console.log(scan)
-
-        const user_ids = scan.Items.map(item => item.id)
-        console.log(user_ids)
-        if (user_ids.includes(item.user_id)) {
-            console.log('user_id exists')
-        }
-        else if (!user_ids.includes(item.user_id)) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({
-                    message: 'user_id does not exist'
-                })
-            }
-        }
+    const email = print_this.Attributes.find(attr => attr.Name === 'email').Value
+    console.log("email", email)
+    const name = print_this.Attributes.find(attr => attr.Name === 'name').Value
+    console.log("name", name)
 
 
-        item = {
-            id: item.id,
-            user_id: item.user_id,
-            name: item.name,
-            createdAt,
-            updatedAt: createdAt,
-            __typename: 'Case',
-            _lastChangedAt: lastChangedAt,
-            _version: 1,
-        }
+    console.log("print_this", print_this)
+    const username = print_this.Username
+    console.log("username", username)
 
 
 
 
-        const data = await documentClient.put({
-            TableName: process.env.STORAGE_CASE_NAME,
-            Item: item,
+}
+// get user object from cognito using userId which is the cognito sub
+async function getUser(userId) {
+    const params = {
+        UserPoolId: UserPoolId,
+        Filter: `sub = "${userId}"`,
+    };
 
-        })
+    const command = new ListUsersCommand(params);
 
-        console.log(data)
-        return {
-            statusCode: 200,
-            body: JSON.stringify(data),
-        }
-    } catch (err) {
-        console.log(err)
-        return err
-    }
+    const response = await client.send(command);
+
+    return response.Users[0];
+
+
 
 }
