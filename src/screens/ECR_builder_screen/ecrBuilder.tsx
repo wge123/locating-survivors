@@ -13,7 +13,6 @@ export default function ECRBuilderScreen(props) {
 
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
         fetch(`http://apilayer.net/api/validate?access_key=012b48564658b54d608f85aa6e048449&number=${phoneNumber}&country_code=US&format=1`)
@@ -108,8 +107,8 @@ export default function ECRBuilderScreen(props) {
                 { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone. Includes time/date.') }
             </div>
             <div className='ecrb-evenly-spaced-two-column-row-small-width'>
-                { getRadioButtonWithText('With Cell Sites', 'ecrButton') }
-                { getRadioButtonWithText('Without Cell Sites', 'ecrButton') }
+                { getRadioButtonWithText('With Cell Sites', 'ecrButton', false) }
+                { getRadioButtonWithText('Without Cell Sites', 'ecrButton', true) }
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
                 { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
@@ -149,10 +148,10 @@ function getCheckBoxWithText(text: string): JSX.Element {
 }
 
 // TODO: Make this a separate component in a different file.
-function getRadioButtonWithText(text: string, groupName: string): JSX.Element {
+function getRadioButtonWithText(text: string, groupName: string, checked: boolean): JSX.Element {
     return (
         <div className='ecrb-radio-button-with-text'>
-            <input className='ecrb-radio-button' type="radio" name={groupName}/>
+            <input className='ecrb-radio-button' type="radio" name={groupName} checked={checked}/>
             <p className='ecrb-radio-button-text'>{text}</p>
         </div>
     )
