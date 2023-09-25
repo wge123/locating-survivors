@@ -1,17 +1,35 @@
-import React, { useLayoutEffect } from 'react'
+import React, {useEffect, useLayoutEffect, useState} from 'react'
 import './ecrBuilder.css'
 import {useLocation} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
-    const phoneNumber = location.state?.phone_number || '11111111111'
-
+    const phoneNumber = location.state?.phone_number || '4158586273'
     ECRBuilderScreen.propTypes = {
         user: PropTypes.object.isRequired
     }
-    const {user} = props
 
+
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        fetch(`http://apilayer.net/api/validate?access_key=012b48564658b54d608f85aa6e048449&number=${phoneNumber}&country_code=US&format=1`)
+            .then((response) => {
+                if (!response.ok) {
+                    console.log('hithithit')
+                    throw new Error('Network response was not ok')
+                }
+                return response.json()
+            })
+            .then((jsonData) => {
+                setData(jsonData)
+                setLoading(false)
+            })
+    }, [])
+    const {user} = props
 
     function getCellPhoneNumber(phoneNumberString): string {
         const countryCode = phoneNumberString.substring(0, 1)
@@ -44,7 +62,7 @@ export default function ECRBuilderScreen(props) {
     return (
         <div id='ecrb-container'>
             <div className='ecrb-row'>
-                <p className='ecrb-form-header-text'>{`Request Type: ${getRequestType()}`}</p>
+                <p className='ecrb-form-header-text'>{`Request Type: ${loading ? 'Loading...' : data.carrier}`}</p>
                 <p className='ecrb-form-header-text'>{`Cell: ${getCellPhoneNumber(phoneNumber)}`}</p>
             </div>
             <div id='ecrb-first-row'>
@@ -140,10 +158,6 @@ function getRadioButtonWithText(text: string, groupName: string): JSX.Element {
     )
 }
 
-function getRequestType(): string {
-    // TODO: We need to get this value from the backend.
-    return 'Verizon'
-}
 
 
 function getCaseNumber(): string {
