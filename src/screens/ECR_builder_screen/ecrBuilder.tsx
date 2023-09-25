@@ -1,10 +1,17 @@
 import React, { useLayoutEffect } from 'react'
 import './ecrBuilder.css'
 import {useLocation} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-export default function ECRBuilderScreen() {
+export default function ECRBuilderScreen(props) {
     const location = useLocation()
-    const phoneNumber = location.state?.phone_number || '1800411PAIN'
+    const phoneNumber = location.state?.phone_number || '11111111111'
+
+    ECRBuilderScreen.propTypes = {
+        user: PropTypes.object.isRequired
+    }
+    const {user} = props
+
 
     function getCellPhoneNumber(phoneNumberString): string {
         const countryCode = phoneNumberString.substring(0, 1)
@@ -12,6 +19,22 @@ export default function ECRBuilderScreen() {
         const firstPart = phoneNumberString.substring(4, 7)
         const secondPart = phoneNumberString.substring(7, 11)
         return `+${countryCode} ${areaCode}-${firstPart}-${secondPart}`
+    }
+
+    function getUserDisplayName(): string {
+        return ( user.attributes.name || 'Edward X. Ample' )
+    }
+
+    function getTodaysDate(): string {
+        const newDate: Date = new Date()
+        const month: number = newDate.getMonth() + 1
+        const day: number = newDate.getDate()
+        const year: number = newDate.getFullYear()
+        return `${month}/${day}/${year}`
+    }
+
+    function getUserDisplayEmail(): string {
+        return user.attributes.email
     }
 
     useLayoutEffect(() => {
@@ -67,8 +90,8 @@ export default function ECRBuilderScreen() {
                 { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone. Includes time/date.') }
             </div>
             <div className='ecrb-evenly-spaced-two-column-row-small-width'>
-                { getRadioButtonWithText('With Cell Sites') }
-                { getRadioButtonWithText('Without Cell Sites') }
+                { getRadioButtonWithText('With Cell Sites', 'ecrButton') }
+                { getRadioButtonWithText('Without Cell Sites', 'ecrButton') }
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
                 { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
@@ -79,9 +102,6 @@ export default function ECRBuilderScreen() {
                 </button>
                 <button id='ecrb-solid-blue-button'>
                     Send ECR
-                </button>
-                <button className='ecrb-solid-gray-button'>
-                    See Status...
                 </button>
             </div>
         </div>
@@ -111,10 +131,10 @@ function getCheckBoxWithText(text: string): JSX.Element {
 }
 
 // TODO: Make this a separate component in a different file.
-function getRadioButtonWithText(text: string): JSX.Element {
+function getRadioButtonWithText(text: string, groupName: string): JSX.Element {
     return (
         <div className='ecrb-radio-button-with-text'>
-            <input className='ecrb-radio-button' type="radio" />
+            <input className='ecrb-radio-button' type="radio" name={groupName}/>
             <p className='ecrb-radio-button-text'>{text}</p>
         </div>
     )
@@ -126,26 +146,7 @@ function getRequestType(): string {
 }
 
 
-
-function getUserDisplayName(): string {
-    // TODO: We need to get this value from the backend
-    return 'Edward X. Ample, SAR Operator'
-}
-
 function getCaseNumber(): string {
     // TODO: We need to get this value from the backend
     return 'CF-123456789'
-}
-
-function getTodaysDate(): string {
-    const newDate: Date = new Date()
-    const month: number = newDate.getMonth() + 1
-    const day: number = newDate.getDay() + 1
-    const year: number = newDate.getFullYear()
-    return `${month}/${day}/${year}`
-}
-
-function getUserDisplayEmail(): string {
-    // TODO: We need to get this value from the backend
-    return 'example@uscg.sarcfs.gov'
 }
