@@ -289,6 +289,22 @@
         }
       ]
     },
+    "AMPLIFY_function_deleteCase_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteCase_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteCase"
+        }
+      ]
+    },
     "AMPLIFY_function_deleteECR_deploymentBucketName": {
       "usedBy": [
         {
