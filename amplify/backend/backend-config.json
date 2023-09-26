@@ -254,6 +254,55 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "postECR": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "ECR"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "User"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -382,6 +431,22 @@
         {
           "category": "function",
           "resourceName": "postCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_postECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_postECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postECR"
         }
       ]
     }
