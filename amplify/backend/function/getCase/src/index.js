@@ -29,7 +29,7 @@ exports.handler = async (event) => {
     // non proxy events
     const caseId = event.id
     const userId = event.user_id
-    let data;
+    let data
     // proxy events
     // const caseId = event.queryStringParameters.id
     // const userId = event.queryStringParameters.user_id
@@ -38,25 +38,25 @@ exports.handler = async (event) => {
     try {
 
         if (caseId) {
-            data = await getCase(caseId);
+            data = await getCase(caseId)
         }
         else if (userId) {
-            data = await getCases(userId);
+            data = await getCases(userId)
         }
         else {
-            throw new Error('Missing id or user_id');
+            throw new Error('Missing id or user_id')
         }
 
         return apiResponse(200, {
             message: 'Success',
             data
-        });
+        })
 
     } catch (error) {
-        return apiResponse(400, { message: error.message });
+        return apiResponse(400, { message: error.message })
     }
 
-};
+}
 
 // lets create a function that will get the case based on the id and return if su
 async function getCase(id) {
@@ -64,9 +64,9 @@ async function getCase(id) {
     const params = {
         TableName: process.env.STORAGE_CASE_NAME,
         Key: { id }
-    };
+    }
 
-    return documentClient.get(params).then(res => res.Item);
+    return documentClient.get(params).then(res => res.Item)
 
 }
 
@@ -76,9 +76,9 @@ async function getCases(userId) {
         TableName: process.env.STORAGE_CASE_NAME,
         FilterExpression: 'user_id = :userId',
         ExpressionAttributeValues: { ':userId': userId }
-    };
+    }
 
-    return documentClient.scan(params).then(res => res.Items);
+    return documentClient.scan(params).then(res => res.Items)
 
 }
 
@@ -87,5 +87,5 @@ function apiResponse(statusCode, body) {
         statusCode,
         headers: CORS_HEADERS,
         body: JSON.stringify(body)
-    };
+    }
 }

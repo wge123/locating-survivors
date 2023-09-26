@@ -80,13 +80,13 @@ exports.handler = async (event) => {
         await postItemToDatabase(item)
 
 
-        return apiResponse(200, { message: 'success' });
+        return apiResponse(200, { message: 'success' })
 
 
 
     } catch (error) {
 
-        return apiResponse(400, { message: error.message });
+        return apiResponse(400, { message: error.message })
     }
 }
 
@@ -122,7 +122,7 @@ function apiResponse(statusCode, body) {
         statusCode,
         headers: CORS_HEADERS,
         body: JSON.stringify(body)
-    };
+    }
 
 
 }
