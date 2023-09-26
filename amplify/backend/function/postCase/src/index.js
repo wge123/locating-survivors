@@ -16,29 +16,25 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-
-// DynmoDB SDK
+// DynamoDB SDK
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
 const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb')
 const dBClient = new DynamoDBClient({
-    region: process.env.AWS_REGION,
+    region: process.env.AWS_REGION
 })
 const documentClient = DynamoDBDocument.from(dBClient)
 
-
-
 // Cognito SDK
-const { CognitoIdentityProviderClient, ListUsersCommand } = require("@aws-sdk/client-cognito-identity-provider");
+const { CognitoIdentityProviderClient, ListUsersCommand } = require("@aws-sdk/client-cognito-identity-provider")
 const client = new CognitoIdentityProviderClient({
     region: process.env.AWS_REGION
-});
-const UserPoolId = process.env.AUTH_LSAUTH_USERPOOLID;
+})
+const UserPoolId = process.env.AUTH_LSAUTH_USERPOOLID
 
-
-// import uuid to get random id
+// Import UUID 
 const { v4: uuidv4 } = require('uuid')
 
-//import CORS
+// Import CORS headers
 const CORS_HEADERS = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': true,
@@ -47,142 +43,141 @@ const CORS_HEADERS = {
 
 const TABLE_NAME = process.env.STORAGE_CASE_NAME
 
-
-
 exports.handler = async (event) => {
-    // event must include user_id and phone_number
+
     try {
+
+        // Turn event into object 
         let item = getItemFromBody(event)
 
+        // Validate required params
+        requiredParam(item)
 
-
-        if (!item.user_id) {
-            return {
-                statusCode: 400,
-                headers: CORS_HEADERS,
-                body: JSON.stringify({
-                    message: "Missing user_id"
-                })
-            }
-        }
-        if (!item.phone_number) {
-            return {
-                statusCode: 400,
-                headers: CORS_HEADERS,
-                body: JSON.stringify({
-                    message: "Missing phone_number"
-                })
-            }
-        }
-        const userId = item.user_id;
-        const phone_number = item.phone_number;
-        const case_id = uuidv4();
-
-
-
+        // Extract fields 
+        const userId = item.user_id
+        const phoneNumber = item.phone_number
+        const caseId = uuidv4()
+        // Get user from Cognito
         const user = await getUser(userId)
+
+        if (!user) {
+            return apiResponse(400, { message: "User does not exist in cognito pool" })
+        }
+
+        // Extract user attributes
         const email = user.Attributes.find(attr => attr.Name === 'email').Value
         const name = user.Attributes.find(attr => attr.Name === 'name').Value
-        item = moldItem(item, case_id, userId, phone_number, email, name)
-        console.log("item", item)
 
-        // insert item into case table
+        // Mold item
+        item = moldItem(item, caseId, userId, phoneNumber, email, name)
 
-
-
-
-
-        // const email = user.Attributes.find(attr => attr.Name === 'email').Value
-        console.log("email", email)
-        // const name = user.Attributes.find(attr => attr.Name === 'name').Value
-        console.log("name", name)
-
-
-
-        await insertItem(item)
-
-        return apiResponse(200, { message: "success" })
-
-
+        // Insert item in DynamoDB
+        const data = await insertItem(item)
+        return apiResponse(200, { message: "success", data })
 
 
 
     } catch (error) {
-
-        return apiResponse(400, { message: error.message });
+        return apiResponse(400, { message: error.message })
     }
 
-
-
 }
-// get user object from cognito using userId which is the cognito sub
+
+// Get user function
 async function getUser(userId) {
+
     const params = {
-        UserPoolId: UserPoolId,
-        Filter: `sub = "${userId}"`,
-    };
+        UserPoolId,
+        Filter: `sub = "${userId}"`
+    }
 
-    const command = new ListUsersCommand(params);
+    const command = new ListUsersCommand(params)
 
-    const response = await client.send(command);
-    // const ret = response.Users[0];
-    // const email = ret.Attributes.find(attr => attr.Name === 'email').Value
+    const response = await client.send(command)
 
-    // const name = ret.Attributes.find(attr => attr.Name === 'name').Value
-
-    return response.Users[0];
-
-
+    return response.Users[0]
 
 }
+
+// Parse event body 
 function getItemFromBody(body) {
+
     let item = {}
+
     Object.keys(body).forEach(key => {
         item[key] = body[key]
     })
+
     return item
 
 }
 
-function moldItem(item, case_id, userId, phone_number, email, name) {
+// Build item
+function moldItem(item, caseId, userId, phoneNumber, email, name) {
+
     item = {
-        id: case_id,
+        id: caseId,
         user_id: userId,
-        phone_number: phone_number,
+        phone_number: phoneNumber,
         email: email,
         name: name,
         date: new Date().toISOString(),
         time_posted: new Date().toISOString(),
         duration: 0,
         time_updated: new Date().toISOString(),
-        // add a field to item that takes the time of the last update and adds it 
-        next_update: new Date().toISOString(),
+        next_update: addMinutes(new Date(), 15).toISOString(), // maybe in update we can get interval from ecr table
         longitude: [],
         latitude: [],
-        uncertainty: [],
-        status: ''
+        status: '',
+        _version: 1,
+        _typename: 'Case',
+        _lastChangedAt: new Date().toISOString(),
+        _createdAt: new Date().toISOString()
     }
+
     return item
 
-
 }
-// lets make a function that will place item in the case table 
 
+// Insert item into DynamoDB
 async function insertItem(item) {
+
     const params = {
         TableName: TABLE_NAME,
         Item: item
     }
-    await documentClient.put(params)
+
+    const data = await documentClient.put(params)
+    return data
+
 
 }
+
+// API response helper 
 function apiResponse(statusCode, body) {
     return {
         statusCode,
         headers: CORS_HEADERS,
         body: JSON.stringify(body)
-    };
-
-
+    }
 }
 
+// Validate parameters
+function requiredParam(item) {
+
+    if (!item.user_id) {
+        return apiResponse(400, {
+            message: "Missing user_id"
+        })
+    }
+
+    if (!item.phone_number) {
+        return apiResponse(400, {
+            message: "Missing phone_number"
+        })
+    }
+
+}
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes * 60000)
+}
