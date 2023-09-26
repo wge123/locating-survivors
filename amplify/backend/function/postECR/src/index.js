@@ -103,7 +103,7 @@ function getItemFromBody(body) {
 }
 function validateFields(item, fields) {
     for (const field of fields) {
-        if (!item.hasOwnProperty(field)) {
+        if (!Object.prototype.hasOwnProperty.call(item, field)) {
             throw new Error(`Missing field: ${field}`)
         }
     }

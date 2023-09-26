@@ -25,7 +25,7 @@ const dBClient = new DynamoDBClient({
 const documentClient = DynamoDBDocument.from(dBClient)
 
 // Cognito SDK
-const { CognitoIdentityProviderClient, ListUsersCommand } = require("@aws-sdk/client-cognito-identity-provider")
+const { CognitoIdentityProviderClient, ListUsersCommand } = require('@aws-sdk/client-cognito-identity-provider')
 const client = new CognitoIdentityProviderClient({
     region: process.env.AWS_REGION
 })
@@ -61,7 +61,7 @@ exports.handler = async (event) => {
         const user = await getUser(userId)
 
         if (!user) {
-            return apiResponse(400, { message: "User does not exist in cognito pool" })
+            return apiResponse(400, { message: 'User does not exist in cognito pool' })
         }
 
         // Extract user attributes
@@ -73,7 +73,7 @@ exports.handler = async (event) => {
 
         // Insert item in DynamoDB
         const data = await insertItem(item)
-        return apiResponse(200, { message: "success", data })
+        return apiResponse(200, { message: 'success', data })
 
 
 
@@ -88,7 +88,7 @@ async function getUser(userId) {
 
     const params = {
         UserPoolId,
-        Filter: `sub = "${userId}"`
+        Filter: `sub = '${userId}'`
     }
 
     const command = new ListUsersCommand(params)
@@ -167,13 +167,13 @@ function requiredParam(item) {
 
     if (!item.user_id) {
         return apiResponse(400, {
-            message: "Missing user_id"
+            message: 'Missing user_id'
         })
     }
 
     if (!item.phone_number) {
         return apiResponse(400, {
-            message: "Missing phone_number"
+            message: 'Missing phone_number'
         })
     }
 
