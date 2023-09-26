@@ -19,8 +19,15 @@ const client = new DynamoDBClient({
     region: process.env.AWS_REGION,
 })
 const documentClient = DynamoDBDocument.from(client)
+
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
+    'Access-Control-Allow-Headers': '*'
+}
 exports.handler = async (event) => {
-    const ecr_id = event.queryStringParameters.id
+    // const ecr_id = event.id // non lambda proxy
+    const ecr_id = event.queryStringParameters.id // lambda proxy
 
     try {
 
@@ -32,16 +39,21 @@ exports.handler = async (event) => {
         }
 
         const data = await documentClient.delete(params)
-        return {
-            statusCode: 200,
-            body: JSON.stringify('ECR deleted')
-        }
+        return apiResponse(200, data)
+
     } catch (err) {
         console.error('Error deleting item:', err)
-        return {
-            statusCode: 500,
-            body: JSON.stringify('Error deleting item')
-        }
+        return apiResponse(500, { body: "Error deleting item", err })
+
     }
+}
+function apiResponse(statusCode, body) {
+    return {
+        statusCode,
+        headers: CORS_HEADERS,
+        body: JSON.stringify(body)
+    }
+
+
 }
 

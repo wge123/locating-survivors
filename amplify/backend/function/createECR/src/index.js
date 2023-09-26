@@ -68,14 +68,13 @@ exports.handler = async (event) => {
         // add the fields to the item, may optimize this later
         const ecr_id = uuidv4()
         const date = new Date().toISOString()
-        const updated_at = new Date().toDateString()
-        const created_at = new Date().toGMTString()
-        const version = 1
         item.date = date
         item.id = ecr_id
-        item.updatedAt = updated_at
-        item.createdAt = created_at
-        item.version = version
+        item._lastChangedAt = date
+        item._createdAt = date
+        item._version = 1
+        item._typename = 'ECR'
+
 
         await postItemToDatabase(item)
 

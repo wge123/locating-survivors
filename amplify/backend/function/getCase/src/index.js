@@ -27,12 +27,12 @@ const CORS_HEADERS = {
 
 exports.handler = async (event) => {
     // non proxy events
-    const caseId = event.id
-    const userId = event.user_id
+    // const caseId = event.id
+    // const userId = event.user_id
     let data
     // proxy events
-    // const caseId = event.queryStringParameters.id
-    // const userId = event.queryStringParameters.user_id
+    const caseId = event.queryStringParameters.id
+    const userId = event.queryStringParameters.user_id
     // lets take the userID and check if it exists in the cognito table
 
     try {

@@ -21,8 +21,14 @@ const client = new DynamoDBClient({
     region: process.env.AWS_REGION,
 })
 const documentClient = DynamoDBDocument.from(client)
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
+    'Access-Control-Allow-Headers': '*'
+}
 exports.handler = async (event) => {
-    const ecr_id = event.queryStringParameters.id
+    // const ecr_id = event.id // lambda non proxy
+    const ecr_id = event.queryStringParameters.id // lambda proxy
 
     try {
 
@@ -33,16 +39,22 @@ exports.handler = async (event) => {
             }
         }
         const data = await documentClient.get(params)
-        return {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            statusCode: 200,
-            body: JSON.stringify(data.Item),
-        }
+        return apiResponse(200, data.Item)
+
+
 
     } catch (error) {
         console.log(error)
+        return apiResponse(500, error)
     }
+
+}
+function apiResponse(statusCode, body) {
+    return {
+        statusCode,
+        headers: CORS_HEADERS,
+        body: JSON.stringify(body)
+    }
+
 
 }

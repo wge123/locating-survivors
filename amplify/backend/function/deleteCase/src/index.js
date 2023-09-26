@@ -22,8 +22,8 @@ const CORS_HEADERS = {
     'Access-Control-Allow-Headers': '*'
 }
 exports.handler = async (event) => {
-    const case_id = event.id // without lambda proxy
-    // const case_id = event.queryStringParameters.id // lambda proxy
+    // const case_id = event.id // without lambda proxy
+    const case_id = event.queryStringParameters.id // lambda proxy
 
     try {
 
