@@ -159,7 +159,7 @@ function getCheckBoxWithText(text: string): JSX.Element {
 function getRadioButtonWithText(text: string, groupName: string, checked: boolean): JSX.Element {
     return (
         <div className='ecrb-radio-button-with-text'>
-            <input className='ecrb-radio-button' type="radio" name={groupName} checked={checked}/>
+            <input className='ecrb-radio-button' type="radio" name={groupName} defaultChecked={checked}/>
             <p className='ecrb-radio-button-text'>{text}</p>
         </div>
     )
