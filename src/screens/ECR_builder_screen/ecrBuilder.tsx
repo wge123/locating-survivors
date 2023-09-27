@@ -1,7 +1,8 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react'
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
 import './ecrBuilder.css'
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
+import AccessPDFContext from '../../context/accessPDFContext.tsx'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
@@ -18,7 +19,6 @@ export default function ECRBuilderScreen(props) {
         fetch(`http://apilayer.net/api/validate?access_key=012b48564658b54d608f85aa6e048449&number=${phoneNumber}&country_code=US&format=1`)
             .then((response) => {
                 if (!response.ok) {
-                    console.log('hithithit')
                     throw new Error('Network response was not ok')
                 }
                 return response.json()
@@ -52,6 +52,14 @@ export default function ECRBuilderScreen(props) {
 
     function getUserDisplayEmail(): string {
         return user.attributes.email
+    }
+
+    const { setAccessAllowed } = useContext(AccessPDFContext)
+    const navigate = useNavigate()
+
+    const viewECRPreview = () => {
+        setAccessAllowed(true)
+        navigate('/ecr_builder/ecr_preview')
     }
 
     useLayoutEffect(() => {
@@ -114,7 +122,7 @@ export default function ECRBuilderScreen(props) {
                 { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
             </div>
             <div className='ecrb-row'>
-                <button className='ecrb-solid-gray-button'>
+                <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
                     Preview ECR...
                 </button>
                 <button id='ecrb-solid-blue-button'>
