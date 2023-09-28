@@ -12,15 +12,15 @@
     },
     "storage": {
       "Case": [
-        "read"
-      ],
-      "ECR": [
         "read",
         "update",
         "delete"
       ],
-      "User": [
-        "read"
+      "ECR": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   },
