@@ -70,6 +70,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "deleteECR": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "ECR"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getCase": {
       "build": true,
       "dependsOn": [
@@ -262,6 +278,22 @@
         {
           "category": "function",
           "resourceName": "deleteCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteECR_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_deleteECR_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "deleteECR"
         }
       ]
     },
