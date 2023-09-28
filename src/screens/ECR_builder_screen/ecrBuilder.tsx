@@ -1,4 +1,4 @@
-import React, {useContext, useLayoutEffect} from 'react'
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
 import './ecrBuilder.css'
 import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -6,6 +6,7 @@ import AccessPDFContext from '../../context/accessPDFContext.tsx'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
+    const [checkedStates, setCheckedStates] = useState({})
     const phoneNumber = location.state?.phone_number || '4158586273'
     ECRBuilderScreen.propTypes = {
         user: PropTypes.object.isRequired
@@ -22,10 +23,23 @@ export default function ECRBuilderScreen(props) {
         )
     }
 
-    function getCheckBoxWithText(text: string): JSX.Element {
+    function getCheckBoxWithText(text: string, id: string): JSX.Element {
+        useEffect(() => {
+            setCheckedStates((prev) => ({ ...prev, [id]: false }))
+        }, [id])
+
         return (
             <div className='ecrb-check-box-with-text'>
-                <input className='ecrb-check-box' type="checkbox" />
+                <input className='ecrb-check-box'
+                    type="checkbox"
+                    checked={checkedStates[id] || false}
+                    onChange={() => {
+                        setCheckedStates((prev)=> ({
+                            ...prev,
+                            [id]: !prev[id]
+                        }))
+                    }}
+                />
                 <p className='ecrb-check-box-text'>{text}</p>
             </div>
         )
@@ -85,7 +99,8 @@ export default function ECRBuilderScreen(props) {
             email: user.attributes.email
         }
         const date = getTodaysDate()
-        navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date } })
+
+        navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates } })
     }
 
     useLayoutEffect(() => {
@@ -110,11 +125,11 @@ export default function ECRBuilderScreen(props) {
                 Type of Records Being Requested
             </p>
             <div className='ecrb-evenly-spaced-two-column-row'>
-                { getCheckBoxWithText('Subscriber Information') }
-                { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)') }
+                { getCheckBoxWithText('Subscriber Information', 'subInfo') }
+                { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)', 'locUpdates') }
             </div>
             <div className='ecrb-evenly-spaced-two-column-row'>
-                { getCheckBoxWithText('Last Known Location Information') }
+                { getCheckBoxWithText('Historical Location Information', 'historicalLocInfo') }
                 <div id='ecrb-dropdown-with-text'>
                     <select id='ecrb-dropdown'> 
                         <option>1</option>
@@ -128,10 +143,10 @@ export default function ECRBuilderScreen(props) {
                 </div>
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone with cell site information. Includes time/date.') }
+                { getCheckBoxWithText('Call Detail Records with cell site information. Includes time/date.', 'callDetail') }
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('Precision Location of mobile device') }
+                { getCheckBoxWithText('Precision Location of mobile device', 'precisionLoc') }
             </div>
             <div className='ecrb-row'>
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>

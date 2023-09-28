@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { PDFDocument } from 'pdf-lib'
+import { PDFDocument, StandardFonts } from 'pdf-lib'
 import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import {useNavigate} from 'react-router-dom'
 import ecrPreview from '../../assets/sprintExigentCircumstancesForm.pdf'
@@ -19,6 +19,7 @@ export default function EcrPreview() {
     //const [error, setError] = useState(null)
     const location = useLocation()
     const state = location.state
+    console.log(state?.checkedStates)
     useEffect(() => {
         const fetchPdf = async () => {
             try {
@@ -30,12 +31,14 @@ export default function EcrPreview() {
                 const existingPdfBytes = await response.arrayBuffer()
                 const pdfDoc = await PDFDocument.load(existingPdfBytes)
                 const page = pdfDoc.getPages()[0]
+                const font = await pdfDoc.embedFont(StandardFonts.ZapfDingbats)
                 // Law Enforcement Agency
                 page.drawText('E4D: Locating Survivors', {
                     x: 300,
                     y: 550,
                     size: 12,
                 })
+                // LEA addy & phone #
                 // LEA addy & phone #
                 // for now using ucf addy & phone number may change later
                 page.drawText('4000 Central Florida Blvd, Orlando, FL', {
@@ -74,7 +77,39 @@ export default function EcrPreview() {
                     size: 12,
                 })
                 // checkboxes here
-                // TODO: set checkboxes from
+                const checkedStates = state?.checkedStates
+                if (checkedStates['subInfo']) {
+                    page.drawText('\u2713', {
+                        x: 135,
+                        y: 317,
+                        size: 12,
+                        font: font
+                    })
+                }
+                if (checkedStates['callDetail']) {
+                    page.drawText('\u2713', {
+                        x: 135,
+                        y: 305,
+                        size: 12,
+                        font: font
+                    })
+                }
+                if (checkedStates['historicalLocInfo']) {
+                    page.drawText('\u2713', {
+                        x: 135,
+                        y: 293,
+                        size: 12,
+                        font: font
+                    })
+                }
+                if (checkedStates['precisionLoc']) {
+                    page.drawText('\u2713', {
+                        x: 135,
+                        y: 268,
+                        size: 12,
+                        font: font
+                    })
+                }
                 // Signature
                 page.drawText(state?.user.name, {
                     x: 190,
