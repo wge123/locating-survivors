@@ -1,7 +1,4 @@
 /* Amplify Params - DO NOT EDIT
-    API_LSAPI_APIID
-    API_LSAPI_APINAME
-    AUTH_LSAUTH_USERPOOLID
     ENV
     REGION
     STORAGE_ECR_ARN
@@ -56,4 +53,3 @@ function apiResponse(statusCode, body) {
 
 
 }
-
