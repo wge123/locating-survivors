@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
+import React, {useContext, useLayoutEffect} from 'react'
 import './ecrBuilder.css'
 import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -11,7 +11,27 @@ export default function ECRBuilderScreen(props) {
         user: PropTypes.object.isRequired
     }
 
+    function getTextBoxWithLabel(label: string, text: string): JSX.Element {
+        return (
+            <div>
+                <p className='ecrb-text-box-label-text'>{label}</p>
+                <div className='ecrb-text-box'>
+                    <p className='ecrb-text-box-text'>{text}</p>
+                </div>
+            </div>
+        )
+    }
 
+    function getCheckBoxWithText(text: string): JSX.Element {
+        return (
+            <div className='ecrb-check-box-with-text'>
+                <input className='ecrb-check-box' type="checkbox" />
+                <p className='ecrb-check-box-text'>{text}</p>
+            </div>
+        )
+    }
+
+    /*
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
 
@@ -28,6 +48,7 @@ export default function ECRBuilderScreen(props) {
                 setLoading(false)
             })
     }, [])
+     */
     const {user} = props
 
     function getCellPhoneNumber(phoneNumberString): string {
@@ -35,7 +56,7 @@ export default function ECRBuilderScreen(props) {
         const areaCode = phoneNumberString.substring(1, 4)
         const firstPart = phoneNumberString.substring(4, 7)
         const secondPart = phoneNumberString.substring(7, 11)
-        return `+${countryCode} ${areaCode}-${firstPart}-${secondPart}`
+        return `+${countryCode} ${areaCode} ${firstPart}-${secondPart}`
     }
 
     function getUserDisplayName(): string {
@@ -59,7 +80,12 @@ export default function ECRBuilderScreen(props) {
 
     const viewECRPreview = () => {
         setAccessAllowed(true)
-        navigate('/ecr_builder/ecr_preview')
+        const userHash = {
+            name: user.attributes.name,
+            email: user.attributes.email
+        }
+        const date = getTodaysDate()
+        navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date } })
     }
 
     useLayoutEffect(() => {
@@ -69,7 +95,7 @@ export default function ECRBuilderScreen(props) {
     return (
         <div id='ecrb-container'>
             <div className='ecrb-row'>
-                <p className='ecrb-form-header-text'>{`Request Type: ${loading ? 'Loading...' : data.carrier}`}</p>
+                <p className='ecrb-form-header-text'>{`Request Type: ${'Sprint'}`}</p>
                 <p className='ecrb-form-header-text'>{`Cell: ${getCellPhoneNumber(phoneNumber)}`}</p>
             </div>
             <div id='ecrb-first-row'>
@@ -79,13 +105,6 @@ export default function ECRBuilderScreen(props) {
             <div id='ecrb-second-row'>
                 { getTextBoxWithLabel('Date', getTodaysDate()) }
                 { getTextBoxWithLabel('Email', getUserDisplayEmail()) }
-                <div>
-                    {/* Including an invisible text here so that the button lines up perfectly with the other items in this row. */}
-                    <p id='ecrb-edit-account-button-label-text'>Ghost Text</p>
-                    <button id='ecrb-edit-account-button'>
-                        Edit Account Info...
-                    </button>
-                </div>
             </div>
             <p className='ecrb-section-header-text'>
                 Type of Records Being Requested
@@ -108,18 +127,11 @@ export default function ECRBuilderScreen(props) {
                     <p id='ecrb-dropdown-text'>Duration (max 48 hours)</p>
                 </div>
             </div>
-            <p className='ecrb-section-header-text'>
-                Additional Historical Records Requested
-            </p>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone. Includes time/date.') }
-            </div>
-            <div className='ecrb-evenly-spaced-two-column-row-small-width'>
-                { getRadioButtonWithText('With Cell Sites', 'ecrButton', false) }
-                { getRadioButtonWithText('Without Cell Sites', 'ecrButton', true) }
+                { getCheckBoxWithText('Incoming and outgoing call detail to and from target phone with cell site information. Includes time/date.') }
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('SMS Detail - Incoming and outgoing text message detail to and from target phone. Includes time/date.') }
+                { getCheckBoxWithText('Precision Location of mobile device') }
             </div>
             <div className='ecrb-row'>
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
@@ -134,28 +146,7 @@ export default function ECRBuilderScreen(props) {
 }
 
 // TODO: Make this a separate component in a different file.
-function getTextBoxWithLabel(label: string, text: string): JSX.Element {
-    return (
-        <div>
-            <p className='ecrb-text-box-label-text'>{label}</p>
-            <div className='ecrb-text-box'>
-                <p className='ecrb-text-box-text'>{text}</p>
-            </div>
-        </div>
-    )
-}
-
-// TODO: Make this a separate component in a different file.
-function getCheckBoxWithText(text: string): JSX.Element {
-    return (
-        <div className='ecrb-check-box-with-text'>
-            <input className='ecrb-check-box' type="checkbox" />
-            <p className='ecrb-check-box-text'>{text}</p>
-        </div>
-    )
-}
-
-// TODO: Make this a separate component in a different file.
+/*
 function getRadioButtonWithText(text: string, groupName: string, checked: boolean): JSX.Element {
     return (
         <div className='ecrb-radio-button-with-text'>
@@ -164,7 +155,7 @@ function getRadioButtonWithText(text: string, groupName: string, checked: boolea
         </div>
     )
 }
-
+*/
 
 
 function getCaseNumber(): string {
