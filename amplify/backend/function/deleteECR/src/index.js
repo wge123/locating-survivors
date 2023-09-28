@@ -40,7 +40,7 @@ exports.handler = async (event) => {
 
     } catch (err) {
         console.error('Error deleting item:', err)
-        return apiResponse(500, { body: "Error deleting item", err })
+        return apiResponse(500, { body: 'Error deleting item', err })
 
     }
 }
