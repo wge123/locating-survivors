@@ -51,18 +51,6 @@
     "storageECRStreamArn": {
       "Type": "String",
       "Default": "storageECRStreamArn"
-    },
-    "storageUserName": {
-      "Type": "String",
-      "Default": "storageUserName"
-    },
-    "storageUserArn": {
-      "Type": "String",
-      "Default": "storageUserArn"
-    },
-    "storageUserStreamArn": {
-      "Type": "String",
-      "Default": "storageUserStreamArn"
     }
   },
   "Conditions": {
@@ -144,15 +132,6 @@
             },
             "STORAGE_ECR_STREAMARN": {
               "Ref": "storageECRStreamArn"
-            },
-            "STORAGE_USER_NAME": {
-              "Ref": "storageUserName"
-            },
-            "STORAGE_USER_ARN": {
-              "Ref": "storageUserArn"
-            },
-            "STORAGE_USER_STREAMARN": {
-              "Ref": "storageUserStreamArn"
             }
           }
         },
@@ -173,12 +152,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRolebab4aaee",
+            "locatingsurvivorsLambdaRolecc1e9588",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRolebab4aaee",
+                  "locatingsurvivorsLambdaRolecc1e9588",
                   "-",
                   {
                     "Ref": "env"
@@ -338,7 +317,10 @@
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
               ],
               "Resource": [
                 {
@@ -360,6 +342,9 @@
             {
               "Effect": "Allow",
               "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
@@ -380,33 +365,6 @@
                     [
                       {
                         "Ref": "storageECRArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageUserArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageUserArn"
                       },
                       "index/*"
                     ]

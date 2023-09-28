@@ -103,10 +103,39 @@ export default function ECRBuilderScreen(props) {
         navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates } })
     }
 
+    const handleECRPost = async () => {
+        try {
+            const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'name': user.attributes.name,
+                    'phone_number': phoneNumber,
+                    'phone_provider': 'Sprint',
+                    'case_id': '1',
+                    'email': 'jhonnycash@country.com',
+                    'subscriber_information': false,
+                    'periodic_location_updates': true,
+                    'last_known_information': false,
+                    'duration': 14,
+                    'call_detail_no_sites': false,
+                    'call_detail_with_sites': true,
+                    'sms_detail': false
+                }),
+            })
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+        console.log('hit')
+    } 
+    
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1F80'
     })
-
+    
     return (
         <div id='ecrb-container'>
             <div className='ecrb-row'>
@@ -152,7 +181,7 @@ export default function ECRBuilderScreen(props) {
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
                     Preview ECR...
                 </button>
-                <button id='ecrb-solid-blue-button'>
+                <button id='ecrb-solid-blue-button' onClick={handleECRPost}>
                     Send ECR
                 </button>
             </div>

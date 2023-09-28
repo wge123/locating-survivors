@@ -16,14 +16,6 @@
     "s3Key": {
       "Type": "String"
     },
-    "apilsApiApiName": {
-      "Type": "String",
-      "Default": "apilsApiApiName"
-    },
-    "apilsApiApiId": {
-      "Type": "String",
-      "Default": "apilsApiApiId"
-    },
     "storageCaseName": {
       "Type": "String",
       "Default": "storageCaseName"
@@ -35,30 +27,6 @@
     "storageCaseStreamArn": {
       "Type": "String",
       "Default": "storageCaseStreamArn"
-    },
-    "storageECRName": {
-      "Type": "String",
-      "Default": "storageECRName"
-    },
-    "storageECRArn": {
-      "Type": "String",
-      "Default": "storageECRArn"
-    },
-    "storageECRStreamArn": {
-      "Type": "String",
-      "Default": "storageECRStreamArn"
-    },
-    "storageUserName": {
-      "Type": "String",
-      "Default": "storageUserName"
-    },
-    "storageUserArn": {
-      "Type": "String",
-      "Default": "storageUserArn"
-    },
-    "storageUserStreamArn": {
-      "Type": "String",
-      "Default": "storageUserStreamArn"
     }
   },
   "Conditions": {
@@ -91,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "createECR",
+            "deleteCase",
             {
               "Fn::Join": [
                 "",
                 [
-                  "createECR",
+                  "deleteCase",
                   "-",
                   {
                     "Ref": "env"
@@ -114,12 +82,6 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "API_LSAPI_APINAME": {
-              "Ref": "apilsApiApiName"
-            },
-            "API_LSAPI_APIID": {
-              "Ref": "apilsApiApiId"
-            },
             "STORAGE_CASE_NAME": {
               "Ref": "storageCaseName"
             },
@@ -128,24 +90,6 @@
             },
             "STORAGE_CASE_STREAMARN": {
               "Ref": "storageCaseStreamArn"
-            },
-            "STORAGE_ECR_NAME": {
-              "Ref": "storageECRName"
-            },
-            "STORAGE_ECR_ARN": {
-              "Ref": "storageECRArn"
-            },
-            "STORAGE_ECR_STREAMARN": {
-              "Ref": "storageECRStreamArn"
-            },
-            "STORAGE_USER_NAME": {
-              "Ref": "storageUserName"
-            },
-            "STORAGE_USER_ARN": {
-              "Ref": "storageUserArn"
-            },
-            "STORAGE_USER_STREAMARN": {
-              "Ref": "storageUserStreamArn"
             }
           }
         },
@@ -166,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRole48d0a719",
+            "locatingsurvivorsLambdaRole9e33ce20",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRole48d0a719",
+                  "locatingsurvivorsLambdaRole9e33ce20",
                   "-",
                   {
                     "Ref": "env"
@@ -260,36 +204,6 @@
             {
               "Effect": "Allow",
               "Action": [
-                "apigateway:POST",
-                "apigateway:PUT",
-                "apigateway:GET",
-                "apigateway:HEAD",
-                "apigateway:OPTIONS",
-                "apigateway:PATCH",
-                "apigateway:DELETE"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      "::/restapis/",
-                      {
-                        "Ref": "apilsApiApiName"
-                      },
-                      "/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
@@ -310,72 +224,6 @@
                     [
                       {
                         "Ref": "storageCaseArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageECRArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageECRArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageUserArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageUserArn"
                       },
                       "index/*"
                     ]

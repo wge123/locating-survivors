@@ -95,12 +95,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "deleteECR",
+            "postECR",
             {
               "Fn::Join": [
                 "",
                 [
-                  "deleteECR",
+                  "postECR",
                   "-",
                   {
                     "Ref": "env"
@@ -173,12 +173,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRoled1635193",
+            "locatingsurvivorsLambdaRole6023bc30",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRoled1635193",
+                  "locatingsurvivorsLambdaRole6023bc30",
                   "-",
                   {
                     "Ref": "env"
@@ -267,9 +267,13 @@
             {
               "Effect": "Allow",
               "Action": [
+                "apigateway:POST",
+                "apigateway:PUT",
                 "apigateway:GET",
                 "apigateway:HEAD",
-                "apigateway:OPTIONS"
+                "apigateway:OPTIONS",
+                "apigateway:PATCH",
+                "apigateway:DELETE"
               ],
               "Resource": [
                 {
@@ -293,6 +297,51 @@
             {
               "Effect": "Allow",
               "Action": [
+                "cognito-idp:ConfirmSignUp",
+                "cognito-idp:AdminCreateUser",
+                "cognito-idp:CreateUserImportJob",
+                "cognito-idp:AdminSetUserSettings",
+                "cognito-idp:AdminLinkProviderForUser",
+                "cognito-idp:CreateIdentityProvider",
+                "cognito-idp:AdminConfirmSignUp",
+                "cognito-idp:AdminDisableUser",
+                "cognito-idp:AdminRemoveUserFromGroup",
+                "cognito-idp:SetUserMFAPreference",
+                "cognito-idp:SetUICustomization",
+                "cognito-idp:SignUp",
+                "cognito-idp:VerifyUserAttribute",
+                "cognito-idp:SetRiskConfiguration",
+                "cognito-idp:StartUserImportJob",
+                "cognito-idp:AdminSetUserPassword",
+                "cognito-idp:AssociateSoftwareToken",
+                "cognito-idp:CreateResourceServer",
+                "cognito-idp:RespondToAuthChallenge",
+                "cognito-idp:CreateUserPoolClient",
+                "cognito-idp:AdminUserGlobalSignOut",
+                "cognito-idp:GlobalSignOut",
+                "cognito-idp:AddCustomAttributes",
+                "cognito-idp:CreateGroup",
+                "cognito-idp:CreateUserPool",
+                "cognito-idp:AdminForgetDevice",
+                "cognito-idp:AdminAddUserToGroup",
+                "cognito-idp:AdminRespondToAuthChallenge",
+                "cognito-idp:ForgetDevice",
+                "cognito-idp:CreateUserPoolDomain",
+                "cognito-idp:AdminEnableUser",
+                "cognito-idp:AdminUpdateDeviceStatus",
+                "cognito-idp:StopUserImportJob",
+                "cognito-idp:InitiateAuth",
+                "cognito-idp:AdminInitiateAuth",
+                "cognito-idp:AdminSetUserMFAPreference",
+                "cognito-idp:ConfirmForgotPassword",
+                "cognito-idp:SetUserSettings",
+                "cognito-idp:VerifySoftwareToken",
+                "cognito-idp:AdminDisableProviderForUser",
+                "cognito-idp:SetUserPoolMfaConfig",
+                "cognito-idp:ChangePassword",
+                "cognito-idp:ConfirmDevice",
+                "cognito-idp:AdminResetUserPassword",
+                "cognito-idp:ResendConfirmationCode",
                 "cognito-identity:Describe*",
                 "cognito-identity:Get*",
                 "cognito-identity:List*",
@@ -306,7 +355,29 @@
                 "cognito-sync:List*",
                 "iam:ListOpenIdConnectProviders",
                 "iam:ListRoles",
-                "sns:ListPlatformApplications"
+                "sns:ListPlatformApplications",
+                "cognito-idp:ForgotPassword",
+                "cognito-idp:UpdateAuthEventFeedback",
+                "cognito-idp:UpdateResourceServer",
+                "cognito-idp:UpdateUserPoolClient",
+                "cognito-idp:AdminUpdateUserAttributes",
+                "cognito-idp:UpdateUserAttributes",
+                "cognito-idp:UpdateUserPoolDomain",
+                "cognito-idp:UpdateIdentityProvider",
+                "cognito-idp:UpdateGroup",
+                "cognito-idp:AdminUpdateAuthEventFeedback",
+                "cognito-idp:UpdateDeviceStatus",
+                "cognito-idp:UpdateUserPool",
+                "cognito-idp:DeleteUserPoolDomain",
+                "cognito-idp:DeleteResourceServer",
+                "cognito-idp:DeleteGroup",
+                "cognito-idp:AdminDeleteUserAttributes",
+                "cognito-idp:DeleteUserPoolClient",
+                "cognito-idp:DeleteUserAttributes",
+                "cognito-idp:DeleteUserPool",
+                "cognito-idp:AdminDeleteUser",
+                "cognito-idp:DeleteIdentityProvider",
+                "cognito-idp:DeleteUser"
               ],
               "Resource": [
                 {
@@ -333,12 +404,18 @@
             {
               "Effect": "Allow",
               "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
               ],
               "Resource": [
                 {
@@ -360,6 +437,9 @@
             {
               "Effect": "Allow",
               "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
@@ -390,12 +470,18 @@
             {
               "Effect": "Allow",
               "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
               ],
               "Resource": [
                 {

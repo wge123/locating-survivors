@@ -4,9 +4,9 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-import * as React from 'react'
-import { EscapeHatchProps } from '@aws-amplify/ui-react/internal'
-import { TextProps, ViewProps } from '@aws-amplify/ui-react'
+import * as React from "react";
+import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type LoginButtonOverridesProps = {
     LoginButton?: PrimitiveOverrideProps<ViewProps>;
@@ -16,4 +16,4 @@ export declare type LoginButtonOverridesProps = {
 export declare type LoginButtonProps = React.PropsWithChildren<Partial<ViewProps> & {
     overrides?: LoginButtonOverridesProps | undefined | null;
 }>;
-export default function LoginButton(props: LoginButtonProps): React.ReactElement
+export default function LoginButton(props: LoginButtonProps): React.ReactElement;
