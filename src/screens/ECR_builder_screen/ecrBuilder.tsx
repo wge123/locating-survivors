@@ -8,6 +8,8 @@ export default function ECRBuilderScreen(props) {
     const location = useLocation()
     const [checkedStates, setCheckedStates] = useState({})
     const phoneNumber = location.state?.phone_number || '4158586273'
+    const [selectedDuration, setSelectedDuration] = useState(null)
+
     ECRBuilderScreen.propTypes = {
         user: PropTypes.object.isRequired
     }
@@ -103,6 +105,11 @@ export default function ECRBuilderScreen(props) {
         navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates } })
     }
 
+    const handleDurationSelect = (event) => {
+        setSelectedDuration(event.target.value)
+    }
+
+    // Object { subInfo: false, locUpdates: false, historicalLocInfo: false, callDetail: false, precisionLoc: false }
     const handleECRPost = async () => {
         try {
             const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
@@ -114,18 +121,16 @@ export default function ECRBuilderScreen(props) {
                     'name': user.attributes.name,
                     'phone_number': phoneNumber,
                     'phone_provider': 'Sprint',
-                    'case_id': '1',
-                    'email': 'jhonnycash@country.com',
-                    'subscriber_information': false,
-                    'periodic_location_updates': true,
-                    'last_known_information': false,
-                    'duration': 14,
-                    'call_detail_no_sites': false,
-                    'call_detail_with_sites': true,
-                    'sms_detail': false
+                    'case_id': 'tempvariableuntilakeenfix:)',
+                    'email': user.attributes.email,
+                    'subscriber_information': checkedStates['subInfo'],
+                    'periodic_location_updates': checkedStates['locUpdates'],
+                    'last_known_information': checkedStates['historicalLocInfo'],
+                    'duration': selectedDuration,
+                    'call_detail_with_sites': checkedStates['callDetail'],
+                    'precision_location_of_device': checkedStates['precisionLoc']
                 }),
             })
-            console.log(response)
         } catch (error) {
             console.log(error)
         }
@@ -160,7 +165,7 @@ export default function ECRBuilderScreen(props) {
             <div className='ecrb-evenly-spaced-two-column-row'>
                 { getCheckBoxWithText('Historical Location Information', 'historicalLocInfo') }
                 <div id='ecrb-dropdown-with-text'>
-                    <select id='ecrb-dropdown'> 
+                    <select id='ecrb-dropdown' onChange={handleDurationSelect}>
                         <option>1</option>
                         <option>3</option>
                         <option>6</option>
