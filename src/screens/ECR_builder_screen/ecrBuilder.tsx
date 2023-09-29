@@ -3,12 +3,14 @@ import './ecrBuilder.css'
 import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import AccessPDFContext from '../../context/accessPDFContext.tsx'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
     const [checkedStates, setCheckedStates] = useState({})
     const phoneNumber = location.state?.phone_number || '4158586273'
     const [selectedDuration, setSelectedDuration] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     ECRBuilderScreen.propTypes = {
         user: PropTypes.object.isRequired
@@ -111,6 +113,7 @@ export default function ECRBuilderScreen(props) {
 
     // Object { subInfo: false, locUpdates: false, historicalLocInfo: false, callDetail: false, precisionLoc: false }
     const handleECRPost = async () => {
+        setIsLoading(true)
         try {
             const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
                 method: 'POST',
@@ -131,14 +134,26 @@ export default function ECRBuilderScreen(props) {
                     'precision_location_of_device': checkedStates['precisionLoc']
                 }),
             })
+            setIsLoading(false)
+            const result = await response.json()
+            if ( result.statusCode === 200) {
+                navigate('/case_list')
+            } else {
+                // we should have some componenet that we can reuse
+                // here we'd set the flash error to true
+                // pass some props to it the componenet int he rendered html and add it to the top for x seconds
+                console.error(result)
+            }
         } catch (error) {
             console.log(error)
         }
-        console.log('hit')
     } 
     
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1F80'
+        return () => {
+            document.body.style.backgroundColor = '' // Reset to default or another color
+        }
     })
     
     return (
@@ -190,6 +205,12 @@ export default function ECRBuilderScreen(props) {
                     Send ECR
                 </button>
             </div>
+
+            {isLoading && (
+                <div className="loading-overlay">
+                    <ClipLoader />
+                </div>
+            )}
         </div>
     )
 }
