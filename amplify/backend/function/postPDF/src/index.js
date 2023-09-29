@@ -1,28 +1,29 @@
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
-const AWS = require('aws-sdk');
-const S3 = new AWS.S3();
+const { S3 } = require('@aws-sdk/client-s3')
 
+const s3 = new S3()
 
 exports.handler = async (event) => {
-    let body;
-    console.info(event)
-    console.info(event.body)
+    let body
     if (event.body) {
         try {
-            body = JSON.parse(event.body);
+            body = JSON.parse(event.body)
         } catch (e) {
-            // Handle JSON parsing error
-            console.error("JSON parsing failed:", e);
+            console.error('JSON parsing failed:', e)
             console.error(event.body)
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: 'Invalid JSON' })
+            }
         }
     } else {
-        // Handle case where event.body is undefined or null
-        console.error("event.body is undefined or null");
+        console.error('event.body is undefined or null')
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ message: event})
+        }
     }
-    /*
-    const {blob, fileName} = body
+
+    const { blob, fileName } = body
 
     const params = {
         Bucket: 'locatingsurvivors-pdfs-prod',
@@ -30,8 +31,9 @@ exports.handler = async (event) => {
         Body: blob,
         ContentType: 'application/pdf'
     }
+
     try {
-        await S3.putObject(params).promise();
+        await s3.putObject(params)
         return {
             statusCode: 200,
             body: JSON.stringify({ message: 'Successfully uploaded' })
@@ -39,8 +41,7 @@ exports.handler = async (event) => {
     } catch (e) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: e.message +"hello"})
+            body: JSON.stringify({ message: e.message })
         }
     }
-    */
-};
+}
