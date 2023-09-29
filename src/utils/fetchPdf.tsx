@@ -1,10 +1,9 @@
 import ecrPreview from '../assets/sprintExigentCircumstancesForm.pdf'
 import {PDFDocument, StandardFonts} from 'pdf-lib'
 
-export const fetchPdf = async (stateHash): Promise<string> => {
+export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Blob }> => {
     try {
         const response = await fetch(ecrPreview)
-        console.log(ecrPreview)
         if (!response.ok) {
             throw new Error('Network response was not ok')
         }
@@ -103,12 +102,12 @@ export const fetchPdf = async (stateHash): Promise<string> => {
             y: 115,
             size: 15,
         })
-        return new Promise<string>( (resolve, reject) => {
+        return new Promise<{pdfUrl: string, pdfBlob: Blob}>( (resolve, reject) => {
             pdfDoc.save()
                 .then(pdfBytes => {
                     const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' })
                     const pdfUrl = URL.createObjectURL(pdfBlob)
-                    resolve(pdfUrl)
+                    resolve({pdfUrl, pdfBlob})
                 })
                 .catch(error => {
                     reject(error)

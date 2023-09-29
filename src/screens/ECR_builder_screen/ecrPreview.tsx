@@ -17,13 +17,13 @@ export default function EcrPreview() {
     const [pdfUrl, setPdfUrl] = useState('')
     const location = useLocation()
     const state = location.state
-    console.log(state?.type)
     useEffect(() => {
         fetchPdf(state)
-            .then((url: string) => setPdfUrl(url))
+            .then(({ pdfUrl }) => {
+                setPdfUrl(pdfUrl)
+            })
             .catch((error: Error) => console.error(error))
     }, [])
-
     return (
         <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
             {pdfUrl && (
