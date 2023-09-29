@@ -246,6 +246,11 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "postPDF": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -374,6 +379,22 @@
         {
           "category": "function",
           "resourceName": "postECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_postPDF_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postPDF"
+        }
+      ]
+    },
+    "AMPLIFY_function_postPDF_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postPDF"
         }
       ]
     }

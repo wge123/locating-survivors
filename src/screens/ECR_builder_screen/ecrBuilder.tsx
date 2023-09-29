@@ -4,6 +4,7 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import ClipLoader from 'react-spinners/ClipLoader'
+import {fetchPdf} from '../../utils/fetchPdf.tsx'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
@@ -95,16 +96,15 @@ export default function ECRBuilderScreen(props) {
 
     const { setAccessAllowed } = useContext(AccessPDFContext)
     const navigate = useNavigate()
-
+    const userHash = {
+        name: user.attributes.name,
+        email: user.attributes.email
+    }
+    const date = getTodaysDate()
+    const state= { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates }
     const viewECRPreview = () => {
         setAccessAllowed(true)
-        const userHash = {
-            name: user.attributes.name,
-            email: user.attributes.email
-        }
-        const date = getTodaysDate()
-
-        navigate('/ecr_builder/ecr_preview', { state: { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates } })
+        navigate('/ecr_builder/ecr_preview', { state })
     }
 
     const handleDurationSelect = (event) => {
@@ -112,9 +112,19 @@ export default function ECRBuilderScreen(props) {
     }
 
     // Object { subInfo: false, locUpdates: false, historicalLocInfo: false, callDetail: false, precisionLoc: false }
+    const [pdfUrl, setPdfUrl] = useState('')
+    const [pdfBlob, setPdfBlob] = useState<Blob | null>(null)
     const handleECRPost = async () => {
         setIsLoading(true)
         try {
+            useEffect(() => {
+                fetchPdf(state)
+                    .then(({ pdfUrl,pdfBlob }) => {
+                        setPdfUrl(pdfUrl)
+                        setPdfBlob(pdfBlob)
+                    })
+                    .catch((error: Error) => console.error(error))
+            }, [])
             const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
                 method: 'POST',
                 headers: {
