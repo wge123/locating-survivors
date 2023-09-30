@@ -5,11 +5,13 @@ import PropTypes from 'prop-types'
 import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import ClipLoader from 'react-spinners/ClipLoader'
 import {fetchPdf} from '../../utils/fetchPdf.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
     const [checkedStates, setCheckedStates] = useState({})
     const phoneNumber = location.state?.phone_number || '4158586273'
+    const case_id = location.state?.case_id || 'NOTREAL'+uuidv4()
     const [selectedDuration, setSelectedDuration] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -117,43 +119,61 @@ export default function ECRBuilderScreen(props) {
     const handleECRPost = async () => {
         setIsLoading(true)
         try {
-            useEffect(() => {
-                fetchPdf(state)
-                    .then(({ pdfUrl,pdfBlob }) => {
-                        setPdfUrl(pdfUrl)
-                        setPdfBlob(pdfBlob)
+            const { pdfUrl, pdfBlob } = await fetchPdf(state)
+            setPdfUrl(pdfUrl)
+            setPdfBlob(pdfBlob)
+            const reader = new FileReader()
+            reader.readAsDataURL(pdfBlob)
+            reader.onloadend = async function() {
+                const base64data = reader.result.split(',')[1]
+
+                const pdf_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/s3/files', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'blob': base64data,
+                        'fileName': case_id
+                    }),
+                })
+
+                if (pdf_response.status === 200) {
+                    const ecr_post_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            'name': user.attributes.name,
+                            'phone_number': phoneNumber,
+                            'phone_provider': 'Sprint',
+                            'case_id': 'tempvariableuntilakeenfix:)',
+                            'email': user.attributes.email,
+                            'subscriber_information': checkedStates['subInfo'],
+                            'periodic_location_updates': checkedStates['locUpdates'],
+                            'last_known_information': checkedStates['historicalLocInfo'],
+                            'duration': selectedDuration,
+                            'call_detail_with_sites': checkedStates['callDetail'],
+                            'precision_location_of_device': checkedStates['precisionLoc']
+                        }),
                     })
-                    .catch((error: Error) => console.error(error))
-            }, [])
-            const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    'name': user.attributes.name,
-                    'phone_number': phoneNumber,
-                    'phone_provider': 'Sprint',
-                    'case_id': 'tempvariableuntilakeenfix:)',
-                    'email': user.attributes.email,
-                    'subscriber_information': checkedStates['subInfo'],
-                    'periodic_location_updates': checkedStates['locUpdates'],
-                    'last_known_information': checkedStates['historicalLocInfo'],
-                    'duration': selectedDuration,
-                    'call_detail_with_sites': checkedStates['callDetail'],
-                    'precision_location_of_device': checkedStates['precisionLoc']
-                }),
-            })
-            setIsLoading(false)
-            const result = await response.json()
-            if ( result.statusCode === 200) {
-                navigate('/case_list')
-            } else {
-                // we should have some componenet that we can reuse
-                // here we'd set the flash error to true
-                // pass some props to it the componenet int he rendered html and add it to the top for x seconds
-                console.error(result)
+                    const ecr_post_result = await ecr_post_response.json()
+                    if ( ecr_post_result.statusCode === 200) {
+                        navigate('/case_list')
+                    } else {
+                        // we should have some componenet that we can reuse
+                        // here we'd set the flash error to true
+                        // pass some props to it the componenet int he rendered html and add it to the top for x seconds
+                        console.error(ecr_post_result)
+                    }
+                } else {
+                    console.error(pdf_response)
+                }
             }
+            console.log(reader)
+            setIsLoading(false)
+
         } catch (error) {
             console.log(error)
         }
