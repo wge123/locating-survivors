@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "storage": {
+      "Case": [
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
