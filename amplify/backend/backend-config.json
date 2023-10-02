@@ -213,6 +213,34 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "handler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailSender"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailScraper"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailListener"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "listCases": {
       "build": true,
       "dependsOn": [
@@ -482,6 +510,22 @@
         {
           "category": "function",
           "resourceName": "getECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_handler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handler"
+        }
+      ]
+    },
+    "AMPLIFY_function_handler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handler"
         }
       ]
     },
