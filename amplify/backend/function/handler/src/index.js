@@ -23,6 +23,9 @@ exports.handler = async (event) => {
     const name = event.name
     const phone_number = event.phone_number
     let duration = event.duration
+    if (duration == null || duration == undefined) {
+        duration = 0
+    }
     duration = parseInt(duration)
 
     // event that we will be passing into sender
