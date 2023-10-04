@@ -1,5 +1,13 @@
 {
   "permissions": {
+    "function": {
+      "updateCase": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
     "storage": {
       "Case": [
         "create",

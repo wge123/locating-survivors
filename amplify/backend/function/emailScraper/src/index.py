@@ -1,6 +1,9 @@
 import json
 import re
-          
+import boto3
+import os
+lambda_client = boto3.client('lambda')
+
 def parse_email_content(email_content):
 
     #Creates the body for the list
@@ -37,7 +40,12 @@ def parse_email_content(email_content):
             info["Update Interval"] = line.split(" ")[-2]
 
     print("PRINTING FROM SCRAPER: ", info)
-    # WE WILL UPDATE DATABASE HERE
+    lambda_payload = json.dumps(info)
+    print(os.environ.keys())
+    lambda_client.invoke(FunctionName=os.environ['FUNCTION_UPDATECASE_NAME'], 
+                     InvocationType='Event',
+                     Payload=lambda_payload)
+    
     return info
 
 
@@ -54,7 +62,7 @@ def handler(event, context):
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
       },
-      'body': json.dumps('Hello from your new Amplify Python lambda!')
+      'body': json.dumps('SUCCESS')
   }
    
     except:
