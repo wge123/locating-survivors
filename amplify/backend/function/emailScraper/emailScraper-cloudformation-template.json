@@ -16,10 +16,6 @@
     "s3Key": {
       "Type": "String"
     },
-    "functionupdateCaseName": {
-      "Type": "String",
-      "Default": "functionupdateCaseName"
-    },
     "storageCaseName": {
       "Type": "String",
       "Default": "storageCaseName"
@@ -85,9 +81,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "FUNCTION_UPDATECASE_NAME": {
-              "Ref": "functionupdateCaseName"
             },
             "STORAGE_CASE_NAME": {
               "Ref": "storageCaseName"
@@ -208,41 +201,6 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "lambda:Create*",
-                "lambda:Put*",
-                "lambda:Add*",
-                "lambda:Get*",
-                "lambda:List*",
-                "lambda:Invoke*",
-                "lambda:Update*",
-                "lambda:Delete*",
-                "lambda:Remove*"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:lambda:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":function:",
-                      {
-                        "Ref": "functionupdateCaseName"
-                      }
-                    ]
-                  ]
-                }
-              ]
-            },
             {
               "Effect": "Allow",
               "Action": [

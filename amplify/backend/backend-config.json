@@ -133,13 +133,6 @@
       "dependsOn": [
         {
           "attributes": [
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "updateCase"
-        },
-        {
-          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
@@ -590,22 +583,6 @@
         {
           "category": "function",
           "resourceName": "postPDF"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateCase_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateCase"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateCase_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateCase"
         }
       ]
     }
