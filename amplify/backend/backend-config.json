@@ -86,34 +86,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "emailHandler": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "emailSender"
-        },
-        {
-          "attributes": [
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "emailScraper"
-        },
-        {
-          "attributes": [
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "emailListener"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "emailListener": {
       "build": true,
       "dependsOn": [
@@ -414,22 +386,6 @@
         {
           "category": "function",
           "resourceName": "deleteECR"
-        }
-      ]
-    },
-    "AMPLIFY_function_emailHandler_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "emailHandler"
-        }
-      ]
-    },
-    "AMPLIFY_function_emailHandler_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "emailHandler"
         }
       ]
     },
