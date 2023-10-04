@@ -10,7 +10,6 @@
     "@testing-library/user-event": "^13.5.0",
     "amazon-cognito-identity-js": "^6.3.5",
     "aws-amplify": "^5.3.10",
-    "aws-sdk": "^2.1467.0",
     "pdf-lib": "^1.17.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
