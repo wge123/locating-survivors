@@ -11,6 +11,9 @@ import random
 # from decimal import Decimal 
 import smtplib
 
+TIME_LIMIT = 60 * 60 * 1 # seconds, minutes, hours
+
+
 #Generates a random latitude, longitude, and uncertainty
 def generate_random_location():
 
@@ -89,16 +92,33 @@ UNCERTAINTY: {uncertainty}
 def handler(event, context):
   case_id = event.get("case_id")
   phone_number = event.get("phone_number")
+  duration = event.get("duration", 0)
+  duration_in_minutes = int(duration) * 60
+
   # set phone_number to a string
 
   phone_number = str(phone_number)
+  
   name = event.get("name", "DEFAULT")
   if name == None:
       name = "DEFAULT"
-  print('received event:')
-  print(event)
+  
   new_time = datetime.now()
-  send_email(case_id, phone_number, name, new_time)
+  start_time = time.time()
+
+  
+  if duration_in_minutes > 0:
+    while True:
+        if time.time() - start_time > (TIME_LIMIT):
+            break 
+        print("Sending email...")
+        send_email(case_id, phone_number, name, new_time)
+
+        time.sleep(duration_in_minutes)
+
+  else: send_email(case_id, phone_number, name, new_time)
+
+  
   
   return {
       'statusCode': 200,
@@ -107,5 +127,5 @@ def handler(event, context):
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
       },
-      'body': json.dumps('Hello from your new Amplify Python lambda!')
+      'body': json.dumps('SUCCESS')
   }

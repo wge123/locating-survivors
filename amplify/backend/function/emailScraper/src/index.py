@@ -1,16 +1,6 @@
 import json
-# import os
-# import email
 import re
-# from bs4 import BeautifulSoup
-
-
-def updateDB(info): 
-        for fields in info:
-            print("CHECK", fields, info[fields])
-            
-
-
+          
 def parse_email_content(email_content):
 
     #Creates the body for the list
@@ -47,7 +37,7 @@ def parse_email_content(email_content):
             info["Update Interval"] = line.split(" ")[-2]
 
     print("PRINTING FROM SCRAPER: ", info)
-    # updateDB(info)
+    # WE WILL UPDATE DATABASE HERE
     return info
 
 
@@ -55,12 +45,9 @@ def parse_email_content(email_content):
 
     
 def handler(event, context):
-  print('received event:')
-  print(event)
-  
-  parse_email_content(event)
-  
-  return {
+    try: 
+        parse_email_content(event)
+        return {
       'statusCode': 200,
       'headers': {
           'Access-Control-Allow-Headers': '*',
@@ -69,3 +56,17 @@ def handler(event, context):
       },
       'body': json.dumps('Hello from your new Amplify Python lambda!')
   }
+   
+    except:
+        return {
+      'statusCode': 400,
+      'headers': {
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+      },
+      'body': json.dumps("An Error Occured")
+  }
+
+        
+  
