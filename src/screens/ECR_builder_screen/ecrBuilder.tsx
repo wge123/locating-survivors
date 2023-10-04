@@ -50,24 +50,6 @@ export default function ECRBuilderScreen(props) {
         )
     }
 
-    /*
-    const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        fetch(`http://apilayer.net/api/validate?access_key=012b48564658b54d608f85aa6e048449&number=${phoneNumber}&country_code=US&format=1`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return response.json()
-            })
-            .then((jsonData) => {
-                setData(jsonData)
-                setLoading(false)
-            })
-    }, [])
-     */
     const {user} = props
 
     function getCellPhoneNumber(phoneNumberString): string {
