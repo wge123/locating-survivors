@@ -11,11 +11,7 @@ interface CaseForDisplay {
 }
 
 export default function CaseListScreen(): JSX.Element {
-    // TODO: We need to get the cases from the backend. Also, where should we set them???
-    const mockCases: CaseForDisplay[] = getMockCases()
-
-    // TODO: The default value for this should probably be an empty array (instead of mock cases).
-    const [cases, setCases] = useState<CaseForDisplay[]>(mockCases)
+    const [cases, setCases] = useState<CaseForDisplay[]>([])
 
     return (
         <div id='cl-container'>
@@ -26,7 +22,7 @@ export default function CaseListScreen(): JSX.Element {
                 {getRadioButtonWithText('Duration (a)')}
                 <div id='cl-user-info-box'>
                     <p className='cl-uib-text'>{getUserFullName()}</p>
-                    <p className='cl-uib-text'>{`(${getUserRole()})`}</p>
+                    <p className='cl-uib-text'>Operator</p>
                 </div>
             </div>
             <div id='cl-main-content'>
@@ -94,48 +90,8 @@ function getUserRole(): string {
     return 'Operator'
 }
 
-// TODO: Delete this function when we figure out a clean way to get cases from the backend.
-function getMockCases(): CaseForDisplay[] {
-    return [
-        {
-            lastUpdate: '15:45 EST',
-            status: 'SAR En Route',
-            duration: '00:23:25'
-        },
-        {
-            lastUpdate: '13:13 EST',
-            status: 'Located Survivor',
-            duration: '00:33:14'
-        },
-        {
-            lastUpdate: '11:34 EST',
-            status: 'Survivor NID',
-            duration: '00:28:42'
-        },
-        {
-            lastUpdate: '05:14 EST',
-            status: 'Survivor Rescued',
-            duration: '00:40:49'
-        },
-        {
-            lastUpdate: '15:45 EST',
-            status: 'SAR En Route',
-            duration: '00:23:25'
-        },
-        {
-            lastUpdate: '13:13 EST',
-            status: 'Located Survivor',
-            duration: '00:33:14'
-        },
-        {
-            lastUpdate: '11:34 EST',
-            status: 'Survivor NID',
-            duration: '00:28:42'
-        },
-        {
-            lastUpdate: '05:14 EST',
-            status: 'Survivor Rescued',
-            duration: '00:40:49'
-        }
-    ]
+// TODO: We need to modify this function to retrieve cases from the backend, and then fit that data to our "CaseForDisplay" UI model so that we may display those cases on the frontend.
+// NOTE: The UI has already been tested with mock data using the "CaseForDisplay" model.
+function getCases(): CaseForDisplay[] {
+    return []
 }
