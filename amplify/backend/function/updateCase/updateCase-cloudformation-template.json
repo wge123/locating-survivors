@@ -15,6 +15,18 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "storageCaseName": {
+      "Type": "String",
+      "Default": "storageCaseName"
+    },
+    "storageCaseArn": {
+      "Type": "String",
+      "Default": "storageCaseArn"
+    },
+    "storageCaseStreamArn": {
+      "Type": "String",
+      "Default": "storageCaseStreamArn"
     }
   },
   "Conditions": {
@@ -47,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "postPDF",
+            "updateCase",
             {
               "Fn::Join": [
                 "",
                 [
-                  "postPDF",
+                  "updateCase",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +81,15 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "STORAGE_CASE_NAME": {
+              "Ref": "storageCaseName"
+            },
+            "STORAGE_CASE_ARN": {
+              "Ref": "storageCaseArn"
+            },
+            "STORAGE_CASE_STREAMARN": {
+              "Ref": "storageCaseStreamArn"
             }
           }
         },
@@ -89,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRoleb8ee02f4",
+            "locatingsurvivorsLambdaRoleec3ea998",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRoleb8ee02f4",
+                  "locatingsurvivorsLambdaRoleec3ea998",
                   "-",
                   {
                     "Ref": "env"
@@ -160,6 +181,58 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageCaseArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageCaseArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

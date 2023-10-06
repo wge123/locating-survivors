@@ -15,6 +15,22 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "storageCaseName": {
+      "Type": "String",
+      "Default": "storageCaseName"
+    },
+    "storageCaseArn": {
+      "Type": "String",
+      "Default": "storageCaseArn"
+    },
+    "storageCaseStreamArn": {
+      "Type": "String",
+      "Default": "storageCaseStreamArn"
+    },
+    "functionupdateCaseName": {
+      "Type": "String",
+      "Default": "functionupdateCaseName"
     }
   },
   "Conditions": {
@@ -47,12 +63,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "postPDF",
+            "emailScraper",
             {
               "Fn::Join": [
                 "",
                 [
-                  "postPDF",
+                  "emailScraper",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +85,18 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "STORAGE_CASE_NAME": {
+              "Ref": "storageCaseName"
+            },
+            "STORAGE_CASE_ARN": {
+              "Ref": "storageCaseArn"
+            },
+            "STORAGE_CASE_STREAMARN": {
+              "Ref": "storageCaseStreamArn"
+            },
+            "FUNCTION_UPDATECASE_NAME": {
+              "Ref": "functionupdateCaseName"
             }
           }
         },
@@ -78,7 +106,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "python3.8",
         "Layers": [],
         "Timeout": 25
       }
@@ -89,12 +117,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRoleb8ee02f4",
+            "locatingsurvivorsLambdaRoleaa26a667",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRoleb8ee02f4",
+                  "locatingsurvivorsLambdaRoleaa26a667",
                   "-",
                   {
                     "Ref": "env"
@@ -160,6 +188,93 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "lambda:Create*",
+                "lambda:Put*",
+                "lambda:Add*",
+                "lambda:Get*",
+                "lambda:List*",
+                "lambda:Invoke*",
+                "lambda:Update*",
+                "lambda:Delete*",
+                "lambda:Remove*"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:lambda:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":function:",
+                      {
+                        "Ref": "functionupdateCaseName"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageCaseArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageCaseArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

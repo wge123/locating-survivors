@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "postPDF",
+            "emailSender",
             {
               "Fn::Join": [
                 "",
                 [
-                  "postPDF",
+                  "emailSender",
                   "-",
                   {
                     "Ref": "env"
@@ -78,7 +78,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "python3.8",
         "Layers": [],
         "Timeout": 25
       }
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "locatingsurvivorsLambdaRoleb8ee02f4",
+            "locatingsurvivorsLambdaRoleb11b6789",
             {
               "Fn::Join": [
                 "",
                 [
-                  "locatingsurvivorsLambdaRoleb8ee02f4",
+                  "locatingsurvivorsLambdaRoleb11b6789",
                   "-",
                   {
                     "Ref": "env"
