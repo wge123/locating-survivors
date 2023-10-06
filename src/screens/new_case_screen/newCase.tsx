@@ -29,7 +29,7 @@ export default function NewCaseScreen(props) {
     const handleCasePost = async () => {
         setIsLoading(true)
         try {
-            const response = await fetch('https://y2r550iewh.execute-api.us-east-1.amazonaws.com/use_this_one/case/user_id', {
+            const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/case', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default function NewCaseScreen(props) {
                 body: JSON.stringify({
                     //cell_number: phone_number.replace(/-/g, ''),
                     name: user.attributes.name,
-                    phonenumber: phone_number,
+                    phone_number: phone_number,
                     user_id: user.attributes.sub
                 }),
             })
