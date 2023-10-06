@@ -4,15 +4,14 @@ import React, {useState} from 'react'
 import '@aws-amplify/ui-react/styles.css'
 import config from './aws-exports'
 import NewCaseScreen from './screens/new_case_screen/newCase'
-import CaseListScreen from './screens/case_list_screen/caseListScreen'
-import CaseDetailScreen from './screens/case_detail_screen/caseDetailScreen'
+import CaseListScreen from './screens/case_list_screen/caseList'
+import CaseViewScreen from './screens/case_view_screen/caseView'
 import ECRBuilderScreen from './screens/ECR_builder_screen/ecrBuilder'
 import EcrPreview from './screens/ECR_builder_screen/ecrPreview'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import AccessPDFContext from './context/accessPDFContext'
 
 Amplify.configure(config)
-
 
 // If we add admin panel we need more routes here, probably sub routes
 // ecrbuilder route might need to be private and only receive user context from componenets through navigation but idk yet
