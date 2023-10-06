@@ -34,9 +34,7 @@ export default function NewCaseScreen(props) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // not sure difference of phgone number & cell number
                 body: JSON.stringify({
-                    //cell_number: phone_number.replace(/-/g, ''),
                     name: user.attributes.name,
                     phone_number: phone_number,
                     user_id: user.attributes.sub
