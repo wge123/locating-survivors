@@ -86,6 +86,49 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "emailListener": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailScraper"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "emailScraper": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "updateCase"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "emailSender": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getCase": {
       "build": true,
       "dependsOn": [
@@ -137,6 +180,34 @@
           ],
           "category": "storage",
           "resourceName": "ECR"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "handler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailSender"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailScraper"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "emailListener"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -246,6 +317,27 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "postPDF": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateCase": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -297,6 +389,54 @@
         }
       ]
     },
+    "AMPLIFY_function_emailListener_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailListener"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailListener_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailListener"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailScraper_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailScraper"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailScraper_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailScraper"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailSender_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailSender"
+        }
+      ]
+    },
+    "AMPLIFY_function_emailSender_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "emailSender"
+        }
+      ]
+    },
     "AMPLIFY_function_getCase_deploymentBucketName": {
       "usedBy": [
         {
@@ -326,6 +466,22 @@
         {
           "category": "function",
           "resourceName": "getECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_handler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handler"
+        }
+      ]
+    },
+    "AMPLIFY_function_handler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handler"
         }
       ]
     },
@@ -374,6 +530,38 @@
         {
           "category": "function",
           "resourceName": "postECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_postPDF_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postPDF"
+        }
+      ]
+    },
+    "AMPLIFY_function_postPDF_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "postPDF"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateCase_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateCase_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateCase"
         }
       ]
     }
