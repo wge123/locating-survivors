@@ -24,7 +24,7 @@
 
 #ecrb-second-row {
     display: grid;
-    grid-template-columns: 20% 54% 20%;
+    grid-template-columns: 32% 65%;
     column-gap: 3%;
 }
 
