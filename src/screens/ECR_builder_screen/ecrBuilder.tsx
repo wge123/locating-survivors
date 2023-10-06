@@ -5,13 +5,12 @@ import PropTypes from 'prop-types'
 import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import ClipLoader from 'react-spinners/ClipLoader'
 import {fetchPdf} from '../../utils/fetchPdf.tsx'
-import { v4 as uuidv4 } from 'uuid'
 
 export default function ECRBuilderScreen(props) {
     const location = useLocation()
     const [checkedStates, setCheckedStates] = useState({})
     const phoneNumber = location.state?.phone_number || '4158586273'
-    const case_id = location.state?.case_id || 'NOTREAL'+uuidv4()
+    const case_id = location.state?.itemId
     const [selectedDuration, setSelectedDuration] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -95,6 +94,10 @@ export default function ECRBuilderScreen(props) {
         setSelectedDuration(event.target.value)
     }
 
+    function getCaseNumber(): string {
+        return case_id
+    }
+
     // Object { subInfo: false, locUpdates: false, historicalLocInfo: false, callDetail: false, precisionLoc: false }
     const [pdfUrl, setPdfUrl] = useState('')
     const [pdfBlob, setPdfBlob] = useState<Blob | null>(null)
@@ -142,7 +145,7 @@ export default function ECRBuilderScreen(props) {
                         'name': user.attributes.name,
                         'phone_number': phoneNumber,
                         'phone_provider': 'Sprint',
-                        'case_id': 'tempvariableuntilakeenfix:)',
+                        'case_id': case_id,
                         'email': user.attributes.email,
                         'subscriber_information': checkedStates['subInfo'],
                         'periodic_location_updates': checkedStates['locUpdates'],
@@ -248,9 +251,3 @@ function getRadioButtonWithText(text: string, groupName: string, checked: boolea
     )
 }
 */
-
-
-function getCaseNumber(): string {
-    // TODO: We need to get this value from the backend
-    return 'CF-123456789'
-}

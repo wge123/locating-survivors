@@ -42,8 +42,11 @@ export default function NewCaseScreen(props) {
             })
 
             const result = await response.json()
+            const parsedBody = JSON.parse(result.body)
+            const itemId = parsedBody.item.id
+
             if ( result.statusCode === 200) {
-                navigate('/ecr_builder', {state: {phone_number: phone_number}})
+                navigate('/ecr_builder', {state: {phone_number: phone_number, itemId: itemId}})
             } else {
                 // we should have some componenet that we can reuse
                 // here we'd set the flash error to true
