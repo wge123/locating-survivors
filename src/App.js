@@ -16,11 +16,10 @@ Amplify.configure(awsExports)
 // tbqh we should use React context to grab the user info but this is ok for now
 export default function App() {
     const [currentUser, setCurrentUser] = useState(null)
-
     useEffect(() => {
         Hub.listen('auth', (event) => {
             console.log('auth event', event)
-            const cognitoUser = event.payload.data
+            const cognitoUser = event.payload.event
             setCurrentUser(cognitoUser)
         })
     })

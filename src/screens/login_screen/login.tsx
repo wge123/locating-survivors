@@ -1,4 +1,4 @@
-import { Auth } from 'aws-amplify'
+import { Auth, Hub } from 'aws-amplify'
 import React, { useState } from 'react'
 import './login.css'
 
@@ -10,6 +10,7 @@ export default function LoginScreen() {
         try {
             const response = await Auth.signIn(username, password)
             console.log('User authentication response: ', response)
+            Hub.dispatch('auth', { event: response })
         } catch (error) {
             console.log('User authentication attempt failed. ' + error)
         }
