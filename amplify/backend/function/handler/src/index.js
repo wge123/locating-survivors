@@ -14,7 +14,9 @@ Amplify Params - DO NOT EDIT */
  */
 
 // Load in Lambda Client
+
 const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
+
 const lambda = new LambdaClient({ region: process.env.AWS_REGION })
 
 exports.handler = async (event) => {
