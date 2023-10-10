@@ -9,6 +9,7 @@ import ClipLoader from 'react-spinners/ClipLoader'
 // This is simply the information we need for displaying the case on the frontend. 
 // We should fill these parameters with data that we GET from the backend.
 interface CaseForDisplay {
+    id: string,
     lastUpdate: string,
     status: string,
     duration: string
@@ -45,7 +46,9 @@ export default function CaseListScreen(props): JSX.Element {
         const milliseconds = currentTime.getTime() - createdAt.getTime()
         const days = Math.floor(milliseconds / (24 * 60 * 60 * 1000))
         const hours = Math.floor((milliseconds % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
-        return `${days}:${hours}`
+        const minutes = Math.floor((milliseconds % (60 * 60 * 1000)) / (60 * 1000))
+
+        return `${days}:${hours}:${minutes}`
     }
 
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
@@ -62,6 +65,7 @@ export default function CaseListScreen(props): JSX.Element {
                 initialCaseTimes[user_case.id] = createdAt
                 const formattedDifference = formattedDuration(createdAt)
                 const display_case: CaseForDisplay = {
+                    id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
                     // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status? user_case.status : 'Open',
@@ -82,11 +86,13 @@ export default function CaseListScreen(props): JSX.Element {
         return user.attributes.name
     }
 
-    function navigateToViewCaseScreen() {
+    function navigateToViewCaseScreen(id) {
+        const caseData = case_data_arr.find(caseItem => caseItem.id === id)
+        console.log(caseData)
         navigate('/case_detail')
     }
 
-    function getCaseItem(key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
+    function getCaseItem(id: string, key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
         return (
             <div id='cl-ci-container' key={key}>
                 <div id='cl-ci-left-pane'>
@@ -97,8 +103,8 @@ export default function CaseListScreen(props): JSX.Element {
                     <p id='cl-cit-center-align' className='cl-ci-text'>{`Duration: ${duration}`}</p>
                 </div>
                 <div id='cl-ci-right-pane'>
-                    <button id='cl-ci-top-button' onClick={() => exportCase(key)}>Export...</button>
-                    <button id='cl-ci-bottom-button' onClick={() => navigateToViewCaseScreen(key)}>View...</button>
+                    <button id='cl-ci-top-button' onClick={() => exportCase(id)}>Export...</button>
+                    <button id='cl-ci-bottom-button' onClick={() => navigateToViewCaseScreen(id)}>View...</button>
                 </div>
             </div>
         )
@@ -108,13 +114,14 @@ export default function CaseListScreen(props): JSX.Element {
         navigate('/new_case')
     }
 
-    function exportCase(index) {
-        // Generate CSV header
-        const header = Object.keys(case_data_arr[index]).join(',')
+    function exportCase(id) {
+        const caseData = case_data_arr.find(caseItem => caseItem.id === id)
+        const header = Object.keys(caseData).join(',')
 
-        const row = Object.values(case_data_arr[index]).join(',')
+        const row = Object.values(caseData).join(',')
 
-        const caseId = case_data_arr[index].id
+        const caseId = id
+
 
         // Combine header and row
         const csvContent = header + '\n' + row
@@ -192,7 +199,7 @@ export default function CaseListScreen(props): JSX.Element {
                     })
                     .map((caseForDisplay, index) => (
                         <>
-                            {getCaseItem(index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
+                            {getCaseItem(caseForDisplay.id, index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
                         </>
                     ))
                 }
