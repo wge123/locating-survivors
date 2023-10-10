@@ -19,6 +19,8 @@ export default function CaseListScreen(props): JSX.Element {
     const [case_data_arr, set_case_data] = useState([])
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
+    const [showActiveOnly, setShowActiveOnly] = useState(true)
+
     CaseListScreen.propTypes = {
         user: PropTypes.object.isRequired
     }
@@ -36,8 +38,7 @@ export default function CaseListScreen(props): JSX.Element {
         fetchData()
     }, [])
 
-    // TODO: We need to modify this function to retrieve cases from the backend, and then fit that data to our "CaseForDisplay" UI model so that we may display those cases on the frontend.
-    // NOTE: The UI has already been tested with mock data using the "CaseForDisplay" model.
+
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
         setIsLoading(true)
         const userID = user.attributes.sub
@@ -50,6 +51,7 @@ export default function CaseListScreen(props): JSX.Element {
             data.data.forEach(function(user_case: any) {
                 const display_case: CaseForDisplay = {
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
+                    // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status? user_case.status : 'Open',
                     duration: user_case.duration
                 }
@@ -67,8 +69,8 @@ export default function CaseListScreen(props): JSX.Element {
         return user.attributes.name
     }
 
-    function navigateToViewCaseScreen(key) {
-        navigate('/case_detail  ')
+    function navigateToViewCaseScreen() {
+        navigate('/case_detail')
     }
 
     function getCaseItem(key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
@@ -118,11 +120,39 @@ export default function CaseListScreen(props): JSX.Element {
         document.body.removeChild(link)
     }
 
+    function getCheckboxForActiveOnly(): JSX.Element {
+        return (
+            <div id='cl-radio-button-with-text'>
+                <input
+                    id='cl-radio-button'
+                    name='clCheckbox'
+                    type="checkbox"
+                    checked={showActiveOnly}
+                    onClick={() => setShowActiveOnly(!showActiveOnly)}
+                />
+                <p id='cl-radio-button-text'>Show Active Only</p>
+            </div>
+        )
+    }
+
+    function getRadioButtonWithText(text: string): JSX.Element {
+        return (
+            <div id='cl-radio-button-with-text'>
+                <input
+                    id='cl-radio-button'
+                    name='clRadioButton'
+                    type="radio"
+                />
+                <p id='cl-radio-button-text'>{text}</p>
+            </div>
+        )
+    }
+
     return (
         <div id='cl-container'>
             <div id='cl-left-pane'>
                 <p id='cl-lp-header-text'>Sort By...</p>
-                {getRadioButtonWithText('Show Active Only')}
+                {getCheckboxForActiveOnly()}
                 {getRadioButtonWithText('Duration (d)')}
                 {getRadioButtonWithText('Duration (a)')}
                 <div id='cl-user-info-box'>
@@ -131,11 +161,14 @@ export default function CaseListScreen(props): JSX.Element {
                 </div>
             </div>
             <div id='cl-main-content'>
-                {cases.map((caseForDisplay, index) => (
-                    <>
-                        {getCaseItem(index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
-                    </>
-                ))}
+                {cases
+                    .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open')
+                    .map((caseForDisplay, index) => (
+                        <>
+                            {getCaseItem(index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
+                        </>
+                    ))
+                }
                 <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
             {isLoading && (
@@ -143,15 +176,6 @@ export default function CaseListScreen(props): JSX.Element {
                     <ClipLoader />
                 </div>
             )}
-        </div>
-    )
-}
-
-function getRadioButtonWithText(text: string): JSX.Element {
-    return (
-        <div id='cl-radio-button-with-text'>
-            <input id='cl-radio-button' name='clRadioButton' type="radio" />
-            <p id='cl-radio-button-text'>{text}</p>
         </div>
     )
 }
