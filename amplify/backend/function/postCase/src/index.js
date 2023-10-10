@@ -73,7 +73,7 @@ exports.handler = async (event) => {
 
         // Insert item in DynamoDB
         const data = await insertItem(item)
-        return apiResponse(200, { message: 'success', item: item, data: data })
+        return apiResponse(200, { message: 'success', data })
 
 
 

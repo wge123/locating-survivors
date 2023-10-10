@@ -3,6 +3,8 @@ import './caseList.css'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import {useLocation, useNavigate} from 'react-router-dom'
+import ClipLoader from 'react-spinners/ClipLoader'
+
 // This is NOT a model for an actual case from the backend. 
 // This is simply the information we need for displaying the case on the frontend. 
 // We should fill these parameters with data that we GET from the backend.
@@ -16,6 +18,7 @@ export default function CaseListScreen(props): JSX.Element {
     const [cases, setCases] = useState([])
     const [case_data_arr, set_case_data] = useState([])
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
     CaseListScreen.propTypes = {
         user: PropTypes.object.isRequired
     }
@@ -36,6 +39,7 @@ export default function CaseListScreen(props): JSX.Element {
     // TODO: We need to modify this function to retrieve cases from the backend, and then fit that data to our "CaseForDisplay" UI model so that we may display those cases on the frontend.
     // NOTE: The UI has already been tested with mock data using the "CaseForDisplay" model.
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
+        setIsLoading(true)
         const userID = user.attributes.sub
         const url = `https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/case?user_id=${userID}`
         const case_arr: CaseForDisplay[] = []
@@ -55,7 +59,7 @@ export default function CaseListScreen(props): JSX.Element {
         }catch (error) {
             console.log('Error: ',error)
         }
-
+        setIsLoading(false)
         return [case_arr ,case_data_arr]
     }
 
@@ -134,6 +138,11 @@ export default function CaseListScreen(props): JSX.Element {
                 ))}
                 <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
+            {isLoading && (
+                <div className="loading-overlay">
+                    <ClipLoader />
+                </div>
+            )}
         </div>
     )
 }
