@@ -20,6 +20,8 @@ export default function CaseListScreen(props): JSX.Element {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [showActiveOnly, setShowActiveOnly] = useState(true)
+    const [sortOrder, setSortOrder] = useState('none') // none, lowToHigh, highToLow
+    const [initialCaseTimes, setInitialCaseTimes] = useState({})
 
     CaseListScreen.propTypes = {
         user: PropTypes.object.isRequired
@@ -28,7 +30,6 @@ export default function CaseListScreen(props): JSX.Element {
     const {user} = props
 
     useEffect(() => {
-        // Assuming getCases is the function you defined to fetch data
         const fetchData = async () => {
             const fetchedCases = await getCases()
             setCases(fetchedCases[0])
@@ -38,6 +39,14 @@ export default function CaseListScreen(props): JSX.Element {
         fetchData()
     }, [])
 
+
+    function formattedDuration(createdAt) {
+        const currentTime = new Date() // Current time
+        const milliseconds = currentTime.getTime() - createdAt.getTime()
+        const days = Math.floor(milliseconds / (24 * 60 * 60 * 1000))
+        const hours = Math.floor((milliseconds % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
+        return `${days}:${hours}`
+    }
 
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
         setIsLoading(true)
@@ -49,15 +58,19 @@ export default function CaseListScreen(props): JSX.Element {
             const response = await fetch(url)
             const data = await response.json()
             data.data.forEach(function(user_case: any) {
+                const createdAt = new Date(user_case._createdAt)
+                initialCaseTimes[user_case.id] = createdAt
+                const formattedDifference = formattedDuration(createdAt)
                 const display_case: CaseForDisplay = {
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
                     // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status? user_case.status : 'Open',
-                    duration: user_case.duration
+                    duration: formattedDifference
                 }
                 case_arr.push(display_case)
                 case_data_arr.push(user_case)
             })
+            setInitialCaseTimes(initialCaseTimes)
         }catch (error) {
             console.log('Error: ',error)
         }
@@ -135,6 +148,10 @@ export default function CaseListScreen(props): JSX.Element {
         )
     }
 
+    function handleSortOrderChange(order: string) {
+        setSortOrder(order)
+    }
+
     function getRadioButtonWithText(text: string): JSX.Element {
         return (
             <div id='cl-radio-button-with-text'>
@@ -142,6 +159,7 @@ export default function CaseListScreen(props): JSX.Element {
                     id='cl-radio-button'
                     name='clRadioButton'
                     type="radio"
+                    onClick={() => handleSortOrderChange(text)}
                 />
                 <p id='cl-radio-button-text'>{text}</p>
             </div>
@@ -153,8 +171,8 @@ export default function CaseListScreen(props): JSX.Element {
             <div id='cl-left-pane'>
                 <p id='cl-lp-header-text'>Sort By...</p>
                 {getCheckboxForActiveOnly()}
-                {getRadioButtonWithText('Duration (d)')}
-                {getRadioButtonWithText('Duration (a)')}
+                {getRadioButtonWithText('Duration: Low to High')}
+                {getRadioButtonWithText('Duration: High to Low')}
                 <div id='cl-user-info-box'>
                     <p className='cl-uib-text'>{getUserFullName()}</p>
                     <p className='cl-uib-text'>Operator</p>
@@ -163,6 +181,15 @@ export default function CaseListScreen(props): JSX.Element {
             <div id='cl-main-content'>
                 {cases
                     .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open')
+                    .sort((a, b) => {
+                        if (sortOrder === 'Duration: Low to High') {
+                            return parseInt(a.duration) - parseInt(b.duration)
+                        } else if (sortOrder === 'Duration: High to Low') {
+                            return parseInt(b.duration) - parseInt(a.duration)
+                        } else {
+                            return 0
+                        }
+                    })
                     .map((caseForDisplay, index) => (
                         <>
                             {getCaseItem(index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
