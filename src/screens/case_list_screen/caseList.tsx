@@ -88,8 +88,8 @@ export default function CaseListScreen(props): JSX.Element {
 
     function navigateToViewCaseScreen(id) {
         const caseData = case_data_arr.find(caseItem => caseItem.id === id)
-        console.log(caseData)
-        navigate('/case_detail')
+
+        navigate('/case_detail', {state: {caseData: caseData}})
     }
 
     function getCaseItem(id: string, key: number, lastUpdate: string, status: string, duration: string): JSX.Element {

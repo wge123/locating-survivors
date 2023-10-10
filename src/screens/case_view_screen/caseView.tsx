@@ -1,11 +1,45 @@
-import React, { useLayoutEffect } from 'react'
+import React, {useLayoutEffect} from 'react'
 import './caseView.css'
-import { ReactComponent as ChevronIcon } from '../../assets/chevron.svg'
+import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
+import {useLocation} from 'react-router-dom'
+import moment from 'moment-timezone'
 
 export default function CaseViewScreen() {
+    const location = useLocation()
+
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1FBF'
     })
+
+    console.log(location.state?.caseData)
+    const caseData = location.state?.caseData
+    function getCaseLatitude(): string {
+        return caseData.latitude[0] ? caseData.latitude[0] : 'Not Filled'
+    }
+
+    function getCaseLongitude(): string {
+        return caseData.longitude[0] ? caseData.longitude[0] : 'Not Filled'
+    }
+
+    function getCaseUncertainty(): string {
+        return caseData.uncertainty[0] ? caseData.uncertainty[0] : 'Not Filled'
+    }
+
+    function getCaseLastUpdate(): string {
+        const lastUpdated = caseData.time_updated
+        let lastUpdatedFormatted = ' Not Filled '
+        if (lastUpdated){
+            lastUpdatedFormatted = moment(lastUpdated).tz('America/New_York').format('M/D/YYYY h:mm:ss A')
+        }
+        return  lastUpdatedFormatted
+    }
+
+    function getCaseTimeUntilNextUpdate(): string {
+        const nextUpdate = new Date(caseData.next_update)
+        const currentTime = new Date()
+        const milliseconds = currentTime.getTime() - nextUpdate.getTime()
+        return Math.round(milliseconds / (1000 * 60)) + ' minutes'
+    }
 
     return (
         <div id='cv-container'>
@@ -45,33 +79,8 @@ export default function CaseViewScreen() {
 }
 
 function getCaseCarrier(): string {
-    // TODO: We need to get this value from the backend.
-    return 'Verizon'
-}
-
-function getCaseLatitude(): string {
-    // TODO: We need to get this value from the backend.
-    return '40.032839'
-}
-
-function getCaseLongitude(): string {
-    // TODO: We need to get this value from the backend.
-    return '-75.117860'
-}
-
-function getCaseUncertainty(): string {
-    // TODO: We need to get this value from the backend.
-    return '3339m'
-}
-
-function getCaseLastUpdate(): string {
-    // TODO: We need to get this value from the backend.
-    return '9/17/2021 5:19:05 AM Pacific'
-}
-
-function getCaseTimeUntilNextUpdate(): string {
-    // TODO: We need to get this value from the backend.
-    return '10 Minutes'
+    // Currently only spring
+    return 'Sprint'
 }
 
 function onBackButtonClick() {
