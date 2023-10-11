@@ -17,6 +17,11 @@ Amplify Params - DO NOT EDIT */
 const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
 const lambda = new LambdaClient({ region: process.env.AWS_REGION })
 
+const CORS_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
+    'Access-Control-Allow-Headers': '*'
+}
 exports.handler = async (event) => {
 
     const case_id = event.case_id
@@ -68,12 +73,25 @@ exports.handler = async (event) => {
             lambda.send(send_command),
         ])
 
-
+        return apiResponse(200, 'Success')
 
 
     } catch (err) {
         console.error(err)
-    }
+        return apiResponse(400, { message: err.message })
 
+
+
+    }
 }
 
+
+
+
+function apiResponse(statusCode, body) {
+    return {
+        statusCode,
+        headers: CORS_HEADERS,
+        body: JSON.stringify(body)
+    }
+}
