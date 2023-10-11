@@ -53,6 +53,7 @@ exports.handler = async (event) => {
     const sender = {
         FunctionName: process.env.FUNCTION_EMAILSENDER_NAME,
         Payload: JSON.stringify(senderPayload),
+        InvocationType: 'Event'
 
     }
 
@@ -60,6 +61,7 @@ exports.handler = async (event) => {
     const listener = {
         FunctionName: process.env.FUNCTION_EMAILLISTENER_NAME,
         Payload: JSON.stringify(listenerPayload),
+        InvocationType: 'Event'
 
     }
 
@@ -70,10 +72,10 @@ exports.handler = async (event) => {
 
     try {
 
-        await Promise.all([
-            lambda.send(listen_command),
-            lambda.send(send_command),
-        ])
+        const listener = await lambda.send(listen_command)
+        const sender = await lambda.send(send_command)
+
+        Promise.all([listener, sender])
 
         return apiResponse(200, 'Success')
 
