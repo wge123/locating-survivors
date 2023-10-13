@@ -5,6 +5,7 @@ import moment from 'moment-timezone'
 import {useLocation, useNavigate} from 'react-router-dom'
 import ClipLoader from 'react-spinners/ClipLoader'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
+import {exportCase} from '../../utils/exportCase.tsx'
 
 // This is NOT a model for an actual case from the backend. 
 // This is simply the information we need for displaying the case on the frontend. 
@@ -97,6 +98,7 @@ export default function CaseListScreen(props): JSX.Element {
     }
 
     function getCaseItem(id: string, key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
+        const caseData = case_data_arr.find(caseItem => caseItem.id === id)
         return (
             <div id='cl-ci-container' key={key}>
                 <div id='cl-ci-left-pane'>
@@ -107,7 +109,7 @@ export default function CaseListScreen(props): JSX.Element {
                     <p id='cl-cit-center-align' className='cl-ci-text'>{`Duration: ${duration}`}</p>
                 </div>
                 <div id='cl-ci-right-pane'>
-                    <button id='cl-ci-top-button' onClick={() => exportCase(id)}>Export...</button>
+                    <button id='cl-ci-top-button' onClick={() => exportCase(caseData)}>Export...</button>
                     <button id='cl-ci-bottom-button' onClick={() => navigateToViewCaseScreen(id)}>View...</button>
                 </div>
             </div>
@@ -116,32 +118,6 @@ export default function CaseListScreen(props): JSX.Element {
 
     function navigateToNewCaseScreen() {
         navigate('/new_case')
-    }
-
-    function exportCase(id) {
-        const caseData = case_data_arr.find(caseItem => caseItem.id === id)
-        const header = Object.keys(caseData).join(',')
-
-        const row = Object.values(caseData).join(',')
-
-        const caseId = id
-
-
-        // Combine header and row
-        const csvContent = header + '\n' + row
-
-        // Create a Blob with the CSV content
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-
-        // Create and click a hidden link to trigger the download
-        const link = document.createElement('a')
-        const url = URL.createObjectURL(blob)
-        link.setAttribute('href', url)
-        link.setAttribute('download', `case_${caseId}.csv`)
-        link.style.visibility = 'hidden'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
     }
 
     function getCheckboxForActiveOnly(): JSX.Element {

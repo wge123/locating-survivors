@@ -4,6 +4,7 @@ import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
 import {useLocation, useNavigate} from 'react-router-dom'
 import moment from 'moment-timezone'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
+import {exportCase} from '../../utils/exportCase.tsx'
 
 export default function CaseViewScreen() {
     const navigate = useNavigate()
@@ -99,7 +100,7 @@ export default function CaseViewScreen() {
                     {/* TODO: WE NEED TO REPLACE THIS MAP IMAGE WITH AN ACTUAL MAP OF THE SURVIVOR */}
                     <img src={require('../../assets/tempSurvivorMap.png')} height={'80%'}/>
                     <div id='cv-bottom-buttons'>
-                        <button className='cv-bottom-button' onClick={() => onExportButtonClick()}>
+                        <button className='cv-bottom-button' onClick={() => exportCase(caseData)}>
                             Export to SAROPS
                         </button>
                     </div>
@@ -107,9 +108,4 @@ export default function CaseViewScreen() {
             </div>
         </div>
     )
-}
-
-function onExportButtonClick() {
-    // TODO: Not yet implemented.
-    return
 }
