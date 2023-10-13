@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './caseList.css'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
 import {useLocation, useNavigate} from 'react-router-dom'
 import ClipLoader from 'react-spinners/ClipLoader'
+import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 
 // This is NOT a model for an actual case from the backend. 
 // This is simply the information we need for displaying the case on the frontend. 
@@ -23,6 +24,7 @@ export default function CaseListScreen(props): JSX.Element {
     const [showActiveOnly, setShowActiveOnly] = useState(true)
     const [sortOrder, setSortOrder] = useState('none') // none, lowToHigh, highToLow
     const [initialCaseTimes, setInitialCaseTimes] = useState({})
+    const { setAccessToCaseView } = useContext(AccessCaseViewContext)
 
     CaseListScreen.propTypes = {
         user: PropTypes.object.isRequired
@@ -86,7 +88,9 @@ export default function CaseListScreen(props): JSX.Element {
         return user.attributes.name
     }
 
+
     function navigateToViewCaseScreen(id) {
+        setAccessToCaseView(true)
         const caseData = case_data_arr.find(caseItem => caseItem.id === id)
 
         navigate('/case_detail', {state: {caseData: caseData}})

@@ -1,50 +1,88 @@
-import React, {useLayoutEffect} from 'react'
+import React, {useContext, useEffect, useLayoutEffect} from 'react'
 import './caseView.css'
 import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import moment from 'moment-timezone'
+import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 
 export default function CaseViewScreen() {
-    const location = useLocation()
+    const navigate = useNavigate()
+    const { accessToCaseView } = useContext(AccessCaseViewContext)
+    console.log('HERE')
+    console.log(accessToCaseView)
+
+    useEffect(() => {
+        console.log('Effect triggered:', accessToCaseView)
+        if (!accessToCaseView) {
+            console.log('hit')
+            navigate('/case_list')
+        }
+    }, [accessToCaseView, navigate])
 
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1FBF'
     })
 
-    console.log(location.state?.caseData)
-    const caseData = location.state?.caseData
+    const location = useLocation()
+    function getCaseCarrier(): string {
+        // Currently only spring
+        return 'Sprint'
+    }
+
+    function onBackButtonClick() {
+        return navigate('/case_list')
+    }
+    let state = null
+    if(location){
+        state = location.state
+    }
+    let caseData = null
+    if(state){
+        caseData = state.caseData
+    }
+
+
     function getCaseLatitude(): string {
-        return caseData.latitude[0] ? caseData.latitude[0] : 'Not Filled'
+        return caseData ? caseData.latitude[0] : 'Not Filled'
     }
 
     function getCaseLongitude(): string {
-        return caseData.longitude[0] ? caseData.longitude[0] : 'Not Filled'
+        return caseData ? caseData.longitude[0] : 'Not Filled'
     }
 
     function getCaseUncertainty(): string {
-        return caseData.uncertainty[0] ? caseData.uncertainty[0] : 'Not Filled'
+        return caseData ? caseData.uncertainty[0] : 'Not Filled'
     }
 
     function getCaseLastUpdate(): string {
-        const lastUpdated = caseData.time_updated
+        let lastUpdated = null
+        if(caseData){
+            lastUpdated = caseData.time_Updated
+        }
         let lastUpdatedFormatted = ' Not Filled '
-        if (lastUpdated){
+        if (lastUpdated) {
             lastUpdatedFormatted = moment(lastUpdated).tz('America/New_York').format('M/D/YYYY h:mm:ss A')
         }
-        return  lastUpdatedFormatted
+        return lastUpdatedFormatted
     }
 
     function getCaseTimeUntilNextUpdate(): string {
-        const nextUpdate = new Date(caseData.next_update)
+        let nextUpdate = null
+        if(caseData){
+            nextUpdate = new Date(caseData.next_update)
+        }
         const currentTime = new Date()
-        const milliseconds = currentTime.getTime() - nextUpdate.getTime()
+        let milliseconds = 0
+        if(nextUpdate) {
+            milliseconds = currentTime.getTime() - nextUpdate.getTime()
+        }
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
 
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
-                <ChevronIcon />
+                <ChevronIcon/>
                 {'Cases'}
             </button>
             <div id='cv-main-content'>
@@ -65,9 +103,6 @@ export default function CaseViewScreen() {
                     {/* TODO: WE NEED TO REPLACE THIS MAP IMAGE WITH AN ACTUAL MAP OF THE SURVIVOR */}
                     <img src={require('../../assets/tempSurvivorMap.png')} height={'80%'}/>
                     <div id='cv-bottom-buttons'>
-                        <button className='cv-bottom-button' onClick={() => onPingButtonClick()}>
-                            Ping
-                        </button>
                         <button className='cv-bottom-button' onClick={() => onExportButtonClick()}>
                             Export to SAROPS
                         </button>
@@ -76,21 +111,6 @@ export default function CaseViewScreen() {
             </div>
         </div>
     )
-}
-
-function getCaseCarrier(): string {
-    // Currently only spring
-    return 'Sprint'
-}
-
-function onBackButtonClick() {
-    // TODO: Not yet implemented.
-    return
-}
-
-function onPingButtonClick() {
-    // TODO: Not yet implemented.
-    return
 }
 
 function onExportButtonClick() {
