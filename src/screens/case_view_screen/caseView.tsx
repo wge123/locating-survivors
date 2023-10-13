@@ -8,13 +8,9 @@ import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 export default function CaseViewScreen() {
     const navigate = useNavigate()
     const { accessToCaseView } = useContext(AccessCaseViewContext)
-    console.log('HERE')
-    console.log(accessToCaseView)
 
     useEffect(() => {
-        console.log('Effect triggered:', accessToCaseView)
         if (!accessToCaseView) {
-            console.log('hit')
             navigate('/case_list')
         }
     }, [accessToCaseView, navigate])
@@ -57,7 +53,7 @@ export default function CaseViewScreen() {
     function getCaseLastUpdate(): string {
         let lastUpdated = null
         if(caseData){
-            lastUpdated = caseData.time_Updated
+            lastUpdated = caseData.time_updated
         }
         let lastUpdatedFormatted = ' Not Filled '
         if (lastUpdated) {
