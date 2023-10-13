@@ -5,6 +5,8 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import moment from 'moment-timezone'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 import {exportCase} from '../../utils/exportCase.tsx'
+import Map from '../../utils/map.tsx'
+
 
 export default function CaseViewScreen() {
     const navigate = useNavigate()
@@ -38,13 +40,14 @@ export default function CaseViewScreen() {
         caseData = state.caseData
     }
 
-
+    const lat = caseData ? caseData.latitude[0] : 'Not Filled'
     function getCaseLatitude(): string {
-        return caseData ? caseData.latitude[0] : 'Not Filled'
+        return lat
     }
 
+    const lng = caseData ? caseData.longitude[0] : 'Not Filled'
     function getCaseLongitude(): string {
-        return caseData ? caseData.longitude[0] : 'Not Filled'
+        return lng
     }
 
     function getCaseUncertainty(): string {
@@ -76,6 +79,13 @@ export default function CaseViewScreen() {
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
 
+    function convertCoordinate(coord) {
+        const number = parseFloat(coord.split(' ')[0])
+        const direction = coord.split(' ')[1]
+
+        return direction === 'S' || direction === 'W' ? -number : number
+    }
+
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
@@ -97,8 +107,7 @@ export default function CaseViewScreen() {
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
-                    {/* TODO: WE NEED TO REPLACE THIS MAP IMAGE WITH AN ACTUAL MAP OF THE SURVIVOR */}
-                    <img src={require('../../assets/tempSurvivorMap.png')} height={'80%'}/>
+                    <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
                     <div id='cv-bottom-buttons'>
                         <button className='cv-bottom-button' onClick={() => exportCase(caseData)}>
                             Export to SAROPS
