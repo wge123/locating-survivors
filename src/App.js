@@ -18,19 +18,22 @@ Amplify.configure(awsExports)
 // ecrbuilder route might need to be private and only receive user context from componenets through navigation but idk yet
 // tbqh we should use React context to grab the user info but this is ok for now
 export default function App() {
+    const persistedUser = JSON.parse(sessionStorage.getItem('user'))
     const [accessAllowed, setAccessAllowed] = useState(false)
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(persistedUser)
+
     useEffect(() => {
         Hub.listen('auth', (event) => {
             console.log('auth event', event)
             const data = event.payload.event
             if (data instanceof CognitoUser) {
                 setUser(data)
+                // Save the user to session storage so that the user is still logged-in if they refresh the page.
+                sessionStorage.setItem('user', JSON.stringify(data))
             }
         })
     })
 
-    console.log(user)
     return (
         user != null ?
             <AccessPDFContext.Provider value={{ accessAllowed, setAccessAllowed }}>
