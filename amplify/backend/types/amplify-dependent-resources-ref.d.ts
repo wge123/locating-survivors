@@ -39,33 +39,33 @@ export type AmplifyDependentResourcesAttributes = {
       'Name': 'string',
       'Region': 'string'
     },
-    "emailListener": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'emailListener': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "emailScraper": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'emailScraper': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "emailSender": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'emailSender': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "getCase": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'getCase': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
     'getECR': {
       'Arn': 'string',
@@ -74,19 +74,19 @@ export type AmplifyDependentResourcesAttributes = {
       'Name': 'string',
       'Region': 'string'
     },
-    "handler": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'handler': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "listCases": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'listCases': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
     'postCase': {
       'Arn': 'string',
@@ -95,26 +95,26 @@ export type AmplifyDependentResourcesAttributes = {
       'Name': 'string',
       'Region': 'string'
     },
-    "postECR": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'postECR': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "postPDF": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'postPDF': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     },
-    "updateCase": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
+    'updateCase': {
+      'Arn': 'string',
+      'LambdaExecutionRole': 'string',
+      'LambdaExecutionRoleArn': 'string',
+      'Name': 'string',
+      'Region': 'string'
     }
   },
   'storage': {

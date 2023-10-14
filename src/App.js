@@ -10,6 +10,7 @@ import CaseListScreen from './screens/case_list_screen/caseList'
 import CaseViewScreen from './screens/case_view_screen/caseView'
 import LoginScreen from './screens/login_screen/login'
 import NewCaseScreen from './screens/new_case_screen/newCase'
+import { CognitoUser } from 'amazon-cognito-identity-js'
 
 Amplify.configure(awsExports)
 
@@ -22,11 +23,14 @@ export default function App() {
     useEffect(() => {
         Hub.listen('auth', (event) => {
             console.log('auth event', event)
-            const cognitoUser = event.payload.event
-            setUser(cognitoUser)
+            const data = event.payload.event
+            if (data instanceof CognitoUser) {
+                setUser(data)
+            }
         })
     })
 
+    console.log(user)
     return (
         user != null ?
             <AccessPDFContext.Provider value={{ accessAllowed, setAccessAllowed }}>
