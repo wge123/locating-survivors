@@ -14,11 +14,11 @@ lambda_client = boto3.client('lambda')
 def listen_and_scrape_email(case_id):
         minutes = 5 * 60
         sleep_seconds = 2
-        email_handle = "locatingsurvivorsemailtest"
+        email_handle = "locatingsurvivorsemailtest" # wills email
         
         # Log in to your Gmail account and navigate to the inbox
         mail = imaplib.IMAP4_SSL('imap.gmail.com')
-        mail.login('locatingsurvivorsemailtest@gmail.com', 'vgfz ecvi epll kzzw')
+        mail.login('locatingsurvivorsemailtest@gmail.com', 'vgfz ecvi epll kzzw') # wills email
 
 
         start_time = time.time()
@@ -71,5 +71,31 @@ def listen_and_scrape_email(case_id):
 
 def handler(event, context):
     case_id = event.get("case_id")
-    listen_and_scrape_email(case_id)
+    
+    try: 
+        listen_and_scrape_email(case_id)
+
+        print("Process has completed")
+        return {
+      'statusCode': 200,
+      'headers': {
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+      },
+      'body': json.dumps('SUCCESS')
+  }
+   
+    except:
+        print("An Error Occured")
+        return {
+      'statusCode': 400,
+      'headers': {
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+      },
+      'body': json.dumps("An Error Occured")
+  }
+
     

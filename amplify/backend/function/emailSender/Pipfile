@@ -6,7 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+pytz = "*"
 src = {editable = true, path = "./src"}
+
 
 [requires]
 python_version = "3.8"

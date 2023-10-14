@@ -41,7 +41,6 @@ def parse_email_content(email_content):
 
     print("PRINTING FROM SCRAPER: ", info)
     lambda_payload = json.dumps(info)
-    print(os.environ.keys())
     lambda_client.invoke(FunctionName=os.environ['FUNCTION_UPDATECASE_NAME'], 
                      InvocationType='Event',
                      Payload=lambda_payload)
@@ -55,6 +54,7 @@ def parse_email_content(email_content):
 def handler(event, context):
     try: 
         parse_email_content(event)
+        print("Parse from emailScraper has completed")
         return {
       'statusCode': 200,
       'headers': {
@@ -66,6 +66,7 @@ def handler(event, context):
   }
    
     except:
+        print("An Error Occured")
         return {
       'statusCode': 400,
       'headers': {
