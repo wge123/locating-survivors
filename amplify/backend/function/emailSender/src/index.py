@@ -12,7 +12,7 @@ import random
 # from decimal import Decimal 
 import smtplib
 
-TIME_LIMIT = 60 * 60 * 1 # seconds, minutes, hours
+TIME_LIMIT = 60 * 5 * 1 # seconds, minutes, hours
 
 
 #Generates a random latitude, longitude, and uncertainty

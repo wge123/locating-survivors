@@ -24,6 +24,16 @@ const CORS_HEADERS = {
     'Access-Control-Allow-Credentials': true,
     'Access-Control-Allow-Headers': '*'
 }
+
+
+const timeout = (ms, promise) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error('Timeout'))
+        }, ms)
+        promise.then(resolve, reject)
+    })
+}
 exports.handler = async (event) => {
 
     const case_id = event.case_id
@@ -72,12 +82,15 @@ exports.handler = async (event) => {
 
     try {
 
-        const listener = await lambda.send(listen_command)
-        const sender = await lambda.send(send_command)
 
-        Promise.all([listener, sender])
+        const results = await timeout(9000,
+            Promise.all([
+                lambda.send(listen_command),
+                lambda.send(send_command)
+            ])
+        )
 
-        return apiResponse(200, 'Success')
+        return apiResponse(200, results)
 
 
     } catch (err) {
