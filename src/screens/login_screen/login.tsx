@@ -1,10 +1,12 @@
 import { Auth, Hub } from 'aws-amplify'
 import React, { useState } from 'react'
 import './login.css'
+import ErrorSnackbar from '../../components/errorSnackbar'
 
 export default function LoginScreen() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
 
     const handleLoginAttempt = async () => {
         try {
@@ -13,6 +15,7 @@ export default function LoginScreen() {
             Hub.dispatch('auth', { event: response })
         } catch (error) {
             console.log('User authentication attempt failed. ' + error)
+            setOpenErrorSnackbar(true)
         }
     }
 
@@ -32,6 +35,7 @@ export default function LoginScreen() {
                     Login
                 </button>
             </div>
+            <ErrorSnackbar errorMessage='Incorrect username and/or password.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
         </div>
     )
 }
