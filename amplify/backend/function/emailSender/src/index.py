@@ -2,6 +2,7 @@ import json
 
 import os
 from email.message import EmailMessage
+import pytz
 # from email.mime.text import MIMEText
 # from email.mime.multipart import MIMEMultipart
 # import ssl
@@ -11,7 +12,7 @@ import random
 # from decimal import Decimal 
 import smtplib
 
-TIME_LIMIT = 60 * 60 * 1 # seconds, minutes, hours
+TIME_LIMIT = 60 * 5 * 1 # seconds, minutes, hours
 
 
 #Generates a random latitude, longitude, and uncertainty
@@ -55,20 +56,15 @@ def send_email (case_id, phone_number, name, updated_time):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 465
 
-    # Number of times to send the email (for an hour with 2-minute intervals)
-    num_emails_to_send = 1
-
-    # Loop to send the email every two minutes for an hour
-    for i in range(num_emails_to_send):
     # Generate new latitude, longitude, and uncertainty
-        latitude, longitude, uncertainty = generate_random_location()
+    latitude, longitude, uncertainty = generate_random_location()
     
     # Update the email body with new data
-    subject = f"{name} ECR Data Update {i}"
+    subject = f"{id} ECR Data Update "
     body = f"""ID: {id}
 NAME: {name}
 PHONE NUMBER: {phone_number}
-TIME: {new_time}
+TIME: {updated_time}
 LATITUDE: {latitude} N
 LONGITUDE: {longitude} W
 UNCERTAINTY: {uncertainty}
@@ -103,23 +99,25 @@ def handler(event, context):
   if name == None:
       name = "DEFAULT"
   
-  new_time = datetime.now()
+  new_time = datetime.now(pytz.timezone('US/Eastern'))
   start_time = time.time()
 
-  
+  ## if duration is 0 send one email, other wise send emails every duration minutes for up to time limit
   if duration_in_minutes > 0:
     while True:
         if time.time() - start_time > (TIME_LIMIT):
             break 
         print("Sending email...")
+        new_time = datetime.now(pytz.timezone('US/Eastern'))
         send_email(case_id, phone_number, name, new_time)
-
         time.sleep(duration_in_minutes)
 
-  else: send_email(case_id, phone_number, name, new_time)
+  else: 
+     send_email(case_id, phone_number, name, new_time)
+     print("One email sent")
 
   
-  
+  print("Process has completed")
   return {
       'statusCode': 200,
       'headers': {
@@ -128,4 +126,5 @@ def handler(event, context):
           'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
       },
       'body': json.dumps('SUCCESS')
+      
   }
