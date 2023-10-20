@@ -1,7 +1,28 @@
-import React from 'react'
+import { Auth, Hub } from 'aws-amplify'
+import React, { useState } from 'react'
 import './2FA.css'
+import ErrorSnackbar from '../../components/errorSnackbar'
 
-export default function TwoFactorAuthenticationScreen() {
+interface twoFactorAuthenticationProps {
+    authResponse: object
+}
+
+export default function TwoFactorAuthenticationScreen(props: twoFactorAuthenticationProps) {
+    const [mfaCode, setMfaCode] = useState('')
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
+
+    const onVerifyButtonClick = async () => {
+        try {
+            // Confirm the 2FA code that the user typed in.
+            const mfaResponse = await Auth.confirmSignIn(props.authResponse, mfaCode, 'SOFTWARE_TOKEN_MFA')
+            console.log('User authentication response with 2FA: ', mfaResponse)
+            Hub.dispatch('auth', { event: mfaResponse })
+        } catch (error) {
+            console.log('User authentication attempt WITH 2FA failed. ' + error)
+            setOpenErrorSnackbar(true)
+        }
+    }
+    
     return (
         <div id='container-2FA'>
             <div id='center-pane-2FA'>
@@ -11,18 +32,14 @@ export default function TwoFactorAuthenticationScreen() {
                 <p id='sub-text-2FA'>
                     A code has been sent to ###ple@uscg.sarcfs.gov for verification
                 </p>
-                <input id='text-input-2FA' placeholder='2FA Code...' type='text'/>
+                <input id='text-input-2FA' placeholder='2FA Code...' type='text' onChange={event => setMfaCode(event.target.value)}/>
                 <div id='verify-button-container-2FA'>
                     <button id='verify-button-2FA' onClick={() => onVerifyButtonClick()}>
                         Verify
                     </button>
                 </div>
             </div>
+            <ErrorSnackbar errorMessage='Incorrect 2FA code.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
         </div>
     )
-}
-
-function onVerifyButtonClick() {
-    // TODO: Not yet implemented.
-    return
 }
