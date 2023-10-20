@@ -39,12 +39,12 @@ export default function App() {
             <AccessPDFContext.Provider value={{ accessAllowed, setAccessAllowed }}>
                 <Router>
                     <Routes>
-                        <Route path="*" element={<CaseListScreen user={user}/>} />
-                        <Route path="/new_case" element={<NewCaseScreen user={user} />}/>
-                        <Route path="/case_detail" element={<CaseViewScreen user={user}/>}/>
-                        <Route path="/ecr_builder" element={<ECRBuilderScreen user={user}/>}/>
+                        <Route path="*" element={<CaseListScreen user={user} />} />
+                        <Route path="/new_case" element={<NewCaseScreen user={user} />} />
+                        <Route path="/case_detail" element={<CaseViewScreen user={user} />} />
+                        <Route path="/ecr_builder" element={<ECRBuilderScreen user={user} />} />
                         <Route path="/ecr_builder/ecr_preview" element={<EcrPreview />} />
-                        <Route path="/case_list" element={<CaseListScreen user={user}/>} />
+                        <Route path="/case_list" element={<CaseListScreen user={user} />} />
                     </Routes>
                 </Router>
             </AccessPDFContext.Provider> :

@@ -1,16 +1,95 @@
-import React, { useLayoutEffect } from 'react'
+import React, {useContext, useEffect, useLayoutEffect} from 'react'
 import './caseView.css'
-import { ReactComponent as ChevronIcon } from '../../assets/chevron.svg'
+import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
+import {useLocation, useNavigate} from 'react-router-dom'
+import moment from 'moment-timezone'
+import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
+import {exportCase} from '../../utils/exportCase.tsx'
+import Map from '../../utils/map.tsx'
+
 
 export default function CaseViewScreen() {
+    const navigate = useNavigate()
+    const { accessToCaseView } = useContext(AccessCaseViewContext)
+
+    useEffect(() => {
+        if (!accessToCaseView) {
+            navigate('/case_list')
+        }
+    }, [accessToCaseView, navigate])
+
     useLayoutEffect(() => {
         document.body.style.backgroundColor = '#1C1B1FBF'
     })
 
+    const location = useLocation()
+    function getCaseCarrier(): string {
+        // Currently only spring
+        return 'Sprint'
+    }
+
+    function onBackButtonClick() {
+        return navigate('/case_list')
+    }
+    let state = null
+    if(location){
+        state = location.state
+    }
+    let caseData = null
+    if(state){
+        caseData = state.caseData
+    }
+
+    const lat = caseData ? caseData.latitude[0] : 'Not Filled'
+    function getCaseLatitude(): string {
+        return lat
+    }
+
+    const lng = caseData ? caseData.longitude[0] : 'Not Filled'
+    function getCaseLongitude(): string {
+        return lng
+    }
+
+    function getCaseUncertainty(): string {
+        return caseData ? caseData.uncertainty[0] : 'Not Filled'
+    }
+
+    function getCaseLastUpdate(): string {
+        let lastUpdated = null
+        if(caseData){
+            lastUpdated = caseData.time_updated
+        }
+        let lastUpdatedFormatted = ' Not Filled '
+        if (lastUpdated) {
+            lastUpdatedFormatted = moment(lastUpdated).tz('America/New_York').format('M/D/YYYY h:mm:ss A')
+        }
+        return lastUpdatedFormatted
+    }
+
+    function getCaseTimeUntilNextUpdate(): string {
+        let nextUpdate = null
+        if(caseData){
+            nextUpdate = new Date(caseData.next_update)
+        }
+        const currentTime = new Date()
+        let milliseconds = 0
+        if(nextUpdate) {
+            milliseconds = currentTime.getTime() - nextUpdate.getTime()
+        }
+        return Math.round(milliseconds / (1000 * 60)) + ' minutes'
+    }
+
+    function convertCoordinate(coord) {
+        const number = parseFloat(coord.split(' ')[0])
+        const direction = coord.split(' ')[1]
+
+        return direction === 'S' || direction === 'W' ? -number : number
+    }
+
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
-                <ChevronIcon />
+                <ChevronIcon/>
                 {'Cases'}
             </button>
             <div id='cv-main-content'>
@@ -28,13 +107,9 @@ export default function CaseViewScreen() {
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
-                    {/* TODO: WE NEED TO REPLACE THIS MAP IMAGE WITH AN ACTUAL MAP OF THE SURVIVOR */}
-                    <img src={require('../../assets/tempSurvivorMap.png')} height={'80%'}/>
+                    <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
                     <div id='cv-bottom-buttons'>
-                        <button className='cv-bottom-button' onClick={() => onPingButtonClick()}>
-                            Ping
-                        </button>
-                        <button className='cv-bottom-button' onClick={() => onExportButtonClick()}>
+                        <button className='cv-bottom-button' onClick={() => exportCase(caseData)}>
                             Export to SAROPS
                         </button>
                     </div>
@@ -42,49 +117,4 @@ export default function CaseViewScreen() {
             </div>
         </div>
     )
-}
-
-function getCaseCarrier(): string {
-    // TODO: We need to get this value from the backend.
-    return 'Verizon'
-}
-
-function getCaseLatitude(): string {
-    // TODO: We need to get this value from the backend.
-    return '40.032839'
-}
-
-function getCaseLongitude(): string {
-    // TODO: We need to get this value from the backend.
-    return '-75.117860'
-}
-
-function getCaseUncertainty(): string {
-    // TODO: We need to get this value from the backend.
-    return '3339m'
-}
-
-function getCaseLastUpdate(): string {
-    // TODO: We need to get this value from the backend.
-    return '9/17/2021 5:19:05 AM Pacific'
-}
-
-function getCaseTimeUntilNextUpdate(): string {
-    // TODO: We need to get this value from the backend.
-    return '10 Minutes'
-}
-
-function onBackButtonClick() {
-    // TODO: Not yet implemented.
-    return
-}
-
-function onPingButtonClick() {
-    // TODO: Not yet implemented.
-    return
-}
-
-function onExportButtonClick() {
-    // TODO: Not yet implemented.
-    return
 }

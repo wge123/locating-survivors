@@ -159,9 +159,9 @@ export default function ECRBuilderScreen(props) {
                 if ( ecr_post_result.statusCode === 200) {
                     navigate('/case_list')
                 } else {
-                    // we should have some componenet that we can reuse
+                    // we should have some component that we can reuse
                     // here we'd set the flash error to true
-                    // pass some props to it the componenet int he rendered html and add it to the top for x seconds
+                    // pass some props to it the component int he rendered html and add it to the top for x seconds
                     console.error(ecr_post_result)
                 }
             } else {
