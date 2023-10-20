@@ -16,7 +16,15 @@ export default function TwoFactorAuthenticationScreen(props: twoFactorAuthentica
             // Confirm the 2FA code that the user typed in.
             const mfaResponse = await Auth.confirmSignIn(props.authResponse, mfaCode, 'SOFTWARE_TOKEN_MFA')
             console.log('User authentication response with 2FA: ', mfaResponse)
-            Hub.dispatch('auth', { event: mfaResponse })
+            if (mfaResponse) {
+                Auth.currentAuthenticatedUser()
+                    .then(user => {
+                        const attributes = user.attributes
+                        console.log(attributes)
+                        Hub.dispatch('auth', { event: mfaResponse , attributes })
+                    })
+                    .catch(err => console.log(err))
+            }
         } catch (error) {
             console.log('User authentication attempt WITH 2FA failed. ' + error)
             setOpenErrorSnackbar(true)

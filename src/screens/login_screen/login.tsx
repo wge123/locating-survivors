@@ -3,14 +3,17 @@ import React, { useState } from 'react'
 import './login.css'
 import ErrorSnackbar from '../../components/errorSnackbar'
 import TwoFactorAuthenticationScreen from '../2FA_screen/2FA'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function LoginScreen() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
     const [authResponse, setAuthresponse] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleLoginAttempt = async () => {
+        setIsLoading(true)
         try {
             const response = await Auth.signIn(username, password)
             console.log('User authentication response: ', response)
@@ -19,6 +22,7 @@ export default function LoginScreen() {
             console.log('User authentication attempt failed. ' + error)
             setOpenErrorSnackbar(true)
         }
+        setIsLoading(false)
     }
 
     return (
@@ -39,6 +43,11 @@ export default function LoginScreen() {
                     </button>
                 </div>
                 <ErrorSnackbar errorMessage='Incorrect username and/or password.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
+                {isLoading && (
+                    <div className="loading-overlay">
+                        <ClipLoader />
+                    </div>
+                )}
             </div> :
             <TwoFactorAuthenticationScreen authResponse={authResponse} />
     )
