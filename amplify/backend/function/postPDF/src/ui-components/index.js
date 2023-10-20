@@ -3,7 +3,7 @@
  * Please refrain from making any modifications to this file.              *
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
-
-export { default as MiddlePane } from "./MiddlePane";
-export { default as LoginButton } from "./LoginButton";
-export { default as studioTheme } from "./studioTheme";
+/* eslint-disable */
+export { default as MiddlePane } from './MiddlePane'
+export { default as LoginButton } from './LoginButton'
+export { default as studioTheme } from './studioTheme'
