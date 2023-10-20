@@ -26,7 +26,7 @@ export default function App() {
 
     useEffect(() => {
         Hub.listen('auth', (event) => {
-            //console.log('auth event', event)
+            console.log('auth event', event)
             const userAttributes = event.payload
             const userData = event.payload.event
             if (userData instanceof CognitoUser) {
