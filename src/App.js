@@ -32,7 +32,7 @@ export default function App() {
             if (userData instanceof CognitoUser) {
                 setUser(userAttributes)
                 // Save the user to session storage so that the user is still logged-in if they refresh the page.
-                sessionStorage.setItem('user', JSON.stringify(userData))
+                sessionStorage.setItem('user', JSON.stringify(userAttributes))
             }
         })
     })
