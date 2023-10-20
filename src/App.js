@@ -4,6 +4,7 @@ import { default as React, useEffect, useState } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import awsExports from './aws-exports'
 import AccessPDFContext from './context/accessPDFContext'
+import AccessCaseViewContext from './context/accessCaseViewContext'
 import ECRBuilderScreen from './screens/ECR_builder_screen/ecrBuilder'
 import EcrPreview from './screens/ECR_builder_screen/ecrPreview'
 import CaseListScreen from './screens/case_list_screen/caseList'
@@ -20,6 +21,7 @@ Amplify.configure(awsExports)
 export default function App() {
     const persistedUser = JSON.parse(sessionStorage.getItem('user'))
     const [accessAllowed, setAccessAllowed] = useState(false)
+    const [accessToCaseView, setAccessToCaseView] = useState(false)
     const [user, setUser] = useState(persistedUser)
 
     useEffect(() => {
@@ -36,18 +38,20 @@ export default function App() {
 
     return (
         user != null ?
-            <AccessPDFContext.Provider value={{ accessAllowed, setAccessAllowed }}>
-                <Router>
-                    <Routes>
-                        <Route path="*" element={<CaseListScreen user={user} />} />
-                        <Route path="/new_case" element={<NewCaseScreen user={user} />} />
-                        <Route path="/case_detail" element={<CaseViewScreen user={user} />} />
-                        <Route path="/ecr_builder" element={<ECRBuilderScreen user={user} />} />
-                        <Route path="/ecr_builder/ecr_preview" element={<EcrPreview />} />
-                        <Route path="/case_list" element={<CaseListScreen user={user} />} />
-                    </Routes>
-                </Router>
-            </AccessPDFContext.Provider> :
+            <AccessCaseViewContext.Provider value={{ accessToCaseView, setAccessToCaseView }}>
+                <AccessPDFContext.Provider value={{ accessAllowed, setAccessAllowed }}>
+                    <Router>
+                        <Routes>
+                            <Route path="*" element={<CaseListScreen user={user} />} />
+                            <Route path="/new_case" element={<NewCaseScreen user={user} />} />
+                            <Route path="/case_detail" element={<CaseViewScreen user={user} />} />
+                            <Route path="/ecr_builder" element={<ECRBuilderScreen user={user} />} />
+                            <Route path="/ecr_builder/ecr_preview" element={<EcrPreview />} />
+                            <Route path="/case_list" element={<CaseListScreen user={user} />} />
+                        </Routes>
+                    </Router>
+                </AccessPDFContext.Provider>
+            </AccessCaseViewContext.Provider> :
             <LoginScreen />
     )
 }
