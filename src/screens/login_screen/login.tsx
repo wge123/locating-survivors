@@ -2,21 +2,32 @@ import { Auth, Hub } from 'aws-amplify'
 import React, { useState } from 'react'
 import './login.css'
 import ErrorSnackbar from '../../components/errorSnackbar'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 export default function LoginScreen() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleLoginAttempt = async () => {
+        setIsLoading(true)
         try {
             const response = await Auth.signIn(username, password)
-            console.log('User authentication response: ', response)
-            Hub.dispatch('auth', { event: response })
+            if (response) {
+                Auth.currentAuthenticatedUser()
+                    .then(user => {
+                        const attributes = user.attributes
+                        console.log(attributes)
+                        Hub.dispatch('auth', { event: response ,attributes })
+                    })
+                    .catch(err => console.log(err))
+            }
         } catch (error) {
             console.log('User authentication attempt failed. ' + error)
             setOpenErrorSnackbar(true)
         }
+        setIsLoading(false)
     }
 
     return (
@@ -36,6 +47,11 @@ export default function LoginScreen() {
                 </button>
             </div>
             <ErrorSnackbar errorMessage='Incorrect username and/or password.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
+            {isLoading && (
+                <div className="loading-overlay">
+                    <ClipLoader />
+                </div>
+            )}
         </div>
     )
 }

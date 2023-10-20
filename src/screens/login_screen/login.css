@@ -79,6 +79,11 @@
     border: none;
 }
 
+#l-login-button:hover {
+    cursor: pointer;
+    background: rgba(48, 147, 199, 0.45);
+}
+
 ::-webkit-input-placeholder {
     color: #9C9C9C;
     font-family: Inter;

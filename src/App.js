@@ -26,12 +26,13 @@ export default function App() {
 
     useEffect(() => {
         Hub.listen('auth', (event) => {
-            console.log('auth event', event)
-            const data = event.payload.event
-            if (data instanceof CognitoUser) {
-                setUser(data)
+            //console.log('auth event', event)
+            const userAttributes = event.payload
+            const userData = event.payload.event
+            if (userData instanceof CognitoUser) {
+                setUser(userAttributes)
                 // Save the user to session storage so that the user is still logged-in if they refresh the page.
-                sessionStorage.setItem('user', JSON.stringify(data))
+                sessionStorage.setItem('user', JSON.stringify(userData))
             }
         })
     })
