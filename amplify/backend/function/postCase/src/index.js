@@ -128,6 +128,7 @@ function moldItem(item, caseId, userId, phoneNumber, email, name) {
         next_update: addMinutes(new Date(), 15).toISOString(), // maybe in update we can get interval from ecr table
         longitude: [],
         latitude: [],
+        uncertainty: [],
         status: '',
         _version: 1,
         _typename: 'Case',

@@ -10,7 +10,7 @@ import Map from '../../utils/map.tsx'
 
 export default function CaseViewScreen() {
     const navigate = useNavigate()
-    const { accessToCaseView } = useContext(AccessCaseViewContext)
+    const accessToCaseView  = useContext(AccessCaseViewContext)
 
     useEffect(() => {
         if (!accessToCaseView) {
@@ -51,7 +51,11 @@ export default function CaseViewScreen() {
     }
 
     function getCaseUncertainty(): string {
-        return caseData ? caseData.uncertainty[0] : 'Not Filled'
+        if (caseData && caseData.uncertainty) {
+            return caseData.uncertainty[0]
+        } else {
+            return 'Not Filled'
+        }
     }
 
     function getCaseLastUpdate(): string {
@@ -79,9 +83,9 @@ export default function CaseViewScreen() {
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
 
-    function convertCoordinate(coord) {
-        const number = parseFloat(coord.split(' ')[0])
-        const direction = coord.split(' ')[1]
+    function convertCoordinate(coord: string) {
+        const number = parseFloat(coord?.split(' ')[0])
+        const direction = coord?.split(' ')[1]
 
         return direction === 'S' || direction === 'W' ? -number : number
     }
