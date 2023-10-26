@@ -78,11 +78,10 @@ export default function CaseViewScreen() {
         const currentTime = new Date()
         let milliseconds = 0
         if(nextUpdate) {
-            milliseconds = currentTime.getTime() - nextUpdate.getTime()
+            milliseconds = nextUpdate.getTime() - currentTime.getTime()
         }
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
-
     function convertCoordinate(coord: string) {
         const number = parseFloat(coord?.split(' ')[0])
         const direction = coord?.split(' ')[1]
