@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useLayoutEffect} from 'react'
 import './caseView.css'
-import {ReactComponent as ChevronIcon} from 'src/assets/chevron.svg'src/assets/chevron.svg
+import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
 import {useLocation, useNavigate} from 'react-router-dom'
 import moment from 'moment-timezone'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
