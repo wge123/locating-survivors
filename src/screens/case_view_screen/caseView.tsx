@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 import {exportCase} from '../../utils/exportCase.tsx'
 import Map from '../../utils/map.tsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons'
 
 
 export default function CaseViewScreen() {
@@ -41,12 +43,12 @@ export default function CaseViewScreen() {
         caseData = state.caseData
     }
 
-    const lat = caseData ? caseData.latitude[0] : 'Not Filled'
+    const lat = caseData && caseData.latitude && caseData.latitude[0] ? caseData.latitude[0] : 'N/A'
     function getCaseLatitude(): string {
         return lat
     }
 
-    const lng = caseData ? caseData.longitude[0] : 'Not Filled'
+    const lng = caseData && caseData.longitude && caseData.longitude[0] ? caseData.longitude[0] : 'N/A'
     function getCaseLongitude(): string {
         return lng
     }
@@ -55,7 +57,7 @@ export default function CaseViewScreen() {
         if (caseData && caseData.uncertainty) {
             return caseData.uncertainty[0]
         } else {
-            return 'Not Filled'
+            return 'N/A'
         }
     }
 
@@ -79,17 +81,17 @@ export default function CaseViewScreen() {
         const currentTime = new Date()
         let milliseconds = 0
         if(nextUpdate) {
-            milliseconds = currentTime.getTime() - nextUpdate.getTime()
+            milliseconds = nextUpdate.getTime() - currentTime.getTime()
         }
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
-
     function convertCoordinate(coord: string) {
         const number = parseFloat(coord?.split(' ')[0])
         const direction = coord?.split(' ')[1]
 
         return direction === 'S' || direction === 'W' ? -number : number
     }
+    const coordsContainNil: boolean = lat === 'N/A' || lng === 'N/A'
 
     return (
         <div id='cv-container'>
@@ -126,9 +128,19 @@ export default function CaseViewScreen() {
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
-                    <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
+                    {lat != 'N/A' || lng != 'N/A' ?
+                        (
+                            <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
+                        ) :
+                        <div id='cv-empty-map'>
+                            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle"/>
+                            <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
+                            <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
+                        </div>
+                    }
+
                     <div id='cv-bottom-buttons'>
-                        <button className='cv-bottom-button' onClick={() => exportCase(caseData)}>
+                        <button className='cv-bottom-button' onClick={() => exportCase(caseData)} disabled={coordsContainNil}>
                             Export to SAROPS
                         </button>
                     </div>

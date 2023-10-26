@@ -71,7 +71,7 @@ export default function CaseListScreen(props): JSX.Element {
                     id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
                     // TODO: AKEEN - once we figure out how status works fix this
-                    status: user_case.status? user_case.status : 'Open',
+                    status: user_case.status,
                     duration: formattedDifference
                 }
                 case_arr.push(display_case)
@@ -88,7 +88,6 @@ export default function CaseListScreen(props): JSX.Element {
     function getUserFullName(): string {
         return user.attributes.name
     }
-
 
     function navigateToViewCaseScreen(id) {
         setAccessToCaseView(true)

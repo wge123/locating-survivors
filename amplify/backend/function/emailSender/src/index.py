@@ -32,6 +32,8 @@ def generate_random_location():
 def format_phone_number(phone_number):
     if len(phone_number) == 10:
         phone_number =  phone_number[:3] + '-' + phone_number[3:6] + '-' + phone_number[6:]
+    if len(phone_number) == 11:
+        phone_number = phone_number[:4] + '-' + phone_number[4:7] + '-' + phone_number[7:]
     return phone_number
 
 
@@ -103,18 +105,8 @@ def handler(event, context):
   start_time = time.time()
 
   ## if duration is 0 send one email, other wise send emails every duration minutes for up to time limit
-  if duration_in_minutes > 0:
-    while True:
-        if time.time() - start_time > (TIME_LIMIT):
-            break 
-        print("Sending email...")
-        new_time = datetime.now(pytz.timezone('US/Eastern'))
-        send_email(case_id, phone_number, name, new_time)
-        time.sleep(duration_in_minutes)
-
-  else: 
-     send_email(case_id, phone_number, name, new_time)
-     print("One email sent")
+  send_email(case_id, phone_number, name, new_time)
+  print("One email sent")
 
   
   print("Process has completed")
