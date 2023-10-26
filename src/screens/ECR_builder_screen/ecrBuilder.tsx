@@ -157,7 +157,24 @@ export default function ECRBuilderScreen(props) {
                 })
                 const ecr_post_result = await ecr_post_response.json()
                 if ( ecr_post_result.statusCode === 200) {
-                    navigate('/case_list')
+                    const email_handler_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            'name': user.attributes.name,
+                            'phone_number': phoneNumber,
+                            'case_id': case_id,
+                            'duration': selectedDuration
+                        })
+                    })
+                    const email_handler_result = await email_handler_response.json()
+                    if ( email_handler_result.statusCode === 200) {
+                        navigate('/case_list')
+                    } else {
+                        console.error(email_handler_result)
+                    }
                 } else {
                     // we should have some component that we can reuse
                     // here we'd set the flash error to true
@@ -171,6 +188,8 @@ export default function ECRBuilderScreen(props) {
 
         } catch (error) {
             console.log(error)
+            setIsLoading(false)
+            navigate('/case_list')
         }
     } 
     
