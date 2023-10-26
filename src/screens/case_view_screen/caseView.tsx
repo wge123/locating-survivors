@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useLayoutEffect} from 'react'
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
 import './caseView.css'
 import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
 import {useLocation, useNavigate} from 'react-router-dom'
@@ -11,6 +11,7 @@ import Map from '../../utils/map.tsx'
 export default function CaseViewScreen() {
     const navigate = useNavigate()
     const accessToCaseView  = useContext(AccessCaseViewContext)
+    const [selectedTimezone, setSelectedTimezone] = useState('America/New_York')
 
     useEffect(() => {
         if (!accessToCaseView) {
@@ -60,12 +61,12 @@ export default function CaseViewScreen() {
 
     function getCaseLastUpdate(): string {
         let lastUpdated = null
-        if(caseData){
+        if (caseData) {
             lastUpdated = caseData.time_updated
         }
-        let lastUpdatedFormatted = ' Not Filled '
+        let lastUpdatedFormatted = 'Not Filled'
         if (lastUpdated) {
-            lastUpdatedFormatted = moment(lastUpdated).tz('America/New_York').format('M/D/YYYY h:mm:ss A')
+            lastUpdatedFormatted = moment(lastUpdated).tz(selectedTimezone).format('M/D/YYYY h:mm:ss A')
         }
         return lastUpdatedFormatted
     }
@@ -107,6 +108,20 @@ export default function CaseViewScreen() {
                 <div id='cv-pane-small' className='cv-pane'>
                     <p className='cv-text'>Last update on:</p>
                     <p className='cv-text'>{getCaseLastUpdate()}</p>
+                    <div id='cv-text-div'>
+                        <select
+                            className='select-timezone'
+                            defaultValue='America/New_York'
+                            onChange={(e) => setSelectedTimezone(e.target.value)}
+                        >
+                            {moment.tz.names().filter(zone => zone.includes('America')).map((zone) => (
+                                <option key={zone} value={zone}>
+                                    {zone}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className='cv-text-gap'/>
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
