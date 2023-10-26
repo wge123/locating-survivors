@@ -213,6 +213,35 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "handlerWrapper": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "lsApi"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "lsAuth"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "handler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "listCases": {
       "build": true,
       "dependsOn": [
@@ -466,6 +495,22 @@
         {
           "category": "function",
           "resourceName": "getECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_handlerWrapper_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handlerWrapper"
+        }
+      ]
+    },
+    "AMPLIFY_function_handlerWrapper_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "handlerWrapper"
         }
       ]
     },

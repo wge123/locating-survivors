@@ -12,7 +12,7 @@ lambda_client = boto3.client('lambda')
 
 
 def listen_and_scrape_email(case_id):
-        minutes = 5 * 60
+        minutes = 1 * 60
         sleep_seconds = 2
         email_handle = "locatingsurvivorsemailtest" # wills email
         
