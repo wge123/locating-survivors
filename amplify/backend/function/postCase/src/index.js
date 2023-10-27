@@ -58,7 +58,6 @@ exports.handler = async (event) => {
         const phoneNumber = item.phone_number
         const caseId = uuidv4()
 
-        // Check if the phone number already exists in the DynamoDB table
         const phoneNumberExists = await checkPhoneNumberExists(phoneNumber);
 
         if (phoneNumberExists) {
@@ -104,6 +103,7 @@ async function checkPhoneNumberExists(phoneNumber) {
   
     return data.Count > 0;
 }
+
 
 // Get user function
 async function getUser(userId) {
