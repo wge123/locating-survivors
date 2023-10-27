@@ -57,6 +57,7 @@ exports.handler = async (event) => {
         const userId = item.user_id
         const phoneNumber = item.phone_number
         const caseId = uuidv4()
+
         // Get user from Cognito
         const user = await getUser(userId)
 
@@ -82,6 +83,7 @@ exports.handler = async (event) => {
     }
 
 }
+
 
 // Get user function
 async function getUser(userId) {

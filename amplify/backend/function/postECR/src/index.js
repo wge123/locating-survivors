@@ -50,7 +50,6 @@ const requiredFields = [
     'duration',
     'call_detail_no_sites',
     'call_detail_with_sites',
-    'sms_detail'
 ]
 
 
