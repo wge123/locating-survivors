@@ -1,33 +1,77 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import PropTypes from 'prop-types'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons'
+import '../screens/case_view_screen/caseView.css'
 
-// Mapbox token
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWtlZW5sIiwiYSI6ImNsbm94eWFuZDBoMzYyanFtNm5teDBnYW0ifQ.UQ5J0KuMiExOXBYS_m-AEQ'
+export default function Map({ lat, lng }) {
+    const [mapboxToken, setMapboxToken] = useState<string>('')
+    const [hasError, setHasError] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const url = 'https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/keys/mapbox'
+                const response = await fetch(url)
+                const data = await response.json()
+                const token = JSON.parse(data.body).token
+                if (token) {
+                    setMapboxToken(token)
+                } else {
+                    setHasError(true)
+                }
+            } catch (error) {
+                setHasError(true)
+                console.error('Error fetching token:', error)
+            }
+            setIsLoading(false)
+        }
+        fetchToken()
+    }, [])
+
+    useEffect(() => {
+
+        if (isLoading) return
+
+        if (!mapboxToken || !lat || !lng ) {
+            setHasError(true)
+            return
+        }
+
+        mapboxgl.accessToken = mapboxToken
+        try {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [lng, lat],
+                zoom: 9,
+            })
+
+            new mapboxgl.Marker()
+                .setLngLat([lng, lat])
+                .addTo(map)
+        } catch (e) {
+            console.log(e)
+            setHasError(true)
+        }
+
+    }, [lat, lng, mapboxToken, hasError, isLoading])
+
+    return hasError ? (
+        <div id='cv-empty-map'>
+            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle"/>
+            <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
+            <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
+        </div>
+    ) : (
+        <div id='map' style={{ height: '400px', width: '100%' }}></div>
+    )
+}
 
 Map.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
-}
-export default function Map({ lat, lng }) {
-    if(!lat || !lng){
-        return <div></div>
-    }
-    useEffect(() => {
-        const map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [lng, lat], // starting position [lng, lat]
-            zoom: 9, // starting zoom
-        })
-
-        // Add marker
-        new mapboxgl.Marker()
-            .setLngLat([lng, lat])
-            .addTo(map)
-    }, [lat, lng])
-
-    return <div id='map' style={{ height: '400px', width: '100%'}}></div>
-
 }
