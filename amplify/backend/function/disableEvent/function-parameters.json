@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "function": {
+      "handler": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "handlerWrapper": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
