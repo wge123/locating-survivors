@@ -8,7 +8,6 @@ import '../screens/case_view_screen/caseView.css'
 
 // Mapbox token
 // add api call here
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWtlZW5sIiwiYSI6ImNsbm94eWFuZDBoMzYyanFtNm5teDBnYW0ifQ.UQ5J0KuMiExOXBYS_m-AEQ'
 
 export default function Map({ lat, lng }) {
     const [mapboxToken, setMapboxToken] = useState<string>('');
