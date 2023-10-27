@@ -81,7 +81,7 @@
 
 #l-login-button:hover {
     cursor: pointer;
-    background: rgba(48, 147, 199, 0.45);
+    background: #3cb7fb;
 }
 
 ::-webkit-input-placeholder {
