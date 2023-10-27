@@ -185,6 +185,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "getMapboxKey": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "handler": {
       "build": true,
       "dependsOn": [
