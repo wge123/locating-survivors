@@ -6,9 +6,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons'
 import '../screens/case_view_screen/caseView.css'
 
-// Mapbox token
-// add api call here
-
 export default function Map({ lat, lng }) {
     const [mapboxToken, setMapboxToken] = useState<string>('')
     const [hasError, setHasError] = useState<boolean>(false)
