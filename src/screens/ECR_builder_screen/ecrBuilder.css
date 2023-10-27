@@ -213,6 +213,11 @@
     margin-top: 10px;
 }
 
+.ecrb-solid-gray-button:hover {
+    cursor: pointer;
+    background: #524f53;
+}
+
 #ecrb-solid-blue-button {
     border-radius: 10px;
     border: none;
@@ -228,4 +233,9 @@
     font-weight: 600;
     line-height: normal;
     margin-top: 10px;
+}
+
+#ecrb-solid-blue-button:hover{
+    cursor: pointer;
+    background: #3cb7fb;
 }

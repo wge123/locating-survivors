@@ -11,6 +11,7 @@ export default function LoginScreen() {
     const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
     const [authResponse, setAuthresponse] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('\'Incorrect username and/or password.\'')
 
     const handleLoginAttempt = async () => {
         setIsLoading(true)
@@ -21,6 +22,15 @@ export default function LoginScreen() {
         } catch (error) {
             console.log('User authentication attempt failed. ' + error)
             setOpenErrorSnackbar(true)
+            if (username.length == 0) {
+                if (password.length == 0) {
+                    setErrorMessage('\'Both username and password required\'')
+                } else {
+                    setErrorMessage('\'Username required\'')
+                }
+            } else if (password.length == 0) {
+                setErrorMessage('\'Password required\'')
+            }
         }
         setIsLoading(false)
     }
@@ -42,7 +52,7 @@ export default function LoginScreen() {
                         Login
                     </button>
                 </div>
-                <ErrorSnackbar errorMessage='Incorrect username and/or password.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
+                <ErrorSnackbar errorMessage={errorMessage} open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
                 {isLoading && (
                     <div className="loading-overlay">
                         <ClipLoader />

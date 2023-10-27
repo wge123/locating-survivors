@@ -76,6 +76,11 @@
     border: none;
 }
 
+#verify-button-2FA:hover {
+    background: #3cb7fb;
+    cursor: pointer;
+}
+
 ::-webkit-input-placeholder {
     color: #9C9C9C;
     font-family: Inter;
