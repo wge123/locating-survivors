@@ -95,6 +95,9 @@ exports.handler = async (event) => {
     const configuredFunctionDelete = `arn:aws:lambda:${region}:${accountId}:function:${functionNameDelete}`
 
 
+
+
+
     if (interval == 'true') {
 
         try {
@@ -111,33 +114,55 @@ exports.handler = async (event) => {
             // Duration logic for CRON expressions
 
             const dateObject = new Date()
-            let month = dateObject.getUTCMonth() + 1 //UTC is a month behind ig
-            let minutes, allotedHour, day, deleteCron
+            let day = dateObject.getDate()
+            let month = dateObject.getMonth() + 1  //month is zero indexed
+            let year = dateObject.getFullYear()
+            let minutes, allotedHour, deleteCron, mod
 
+            let newMonth = month, newDay, descriptionString
             switch (duration) {
                 case '1':
                 case '3':
                 case '6':
                 case '12':
+
                     allotedHour = (dateObject.getHours() + parseInt(duration)) % 24
                     minutes = dateObject.getMinutes() % 60
                     deleteCron = `cron(${minutes} ${allotedHour} ? * * *)`
+                    descriptionString = `Deletes at ${allotedHour}:${minutes} on ${day}/${month} `
                     break
 
                 case '24':
+                case '48':
+                    // checks # of days in month, accounts for leap years too!
+                    mod = daysInMonth(month, year)
+
                     allotedHour = (dateObject.getHours()) % 24
                     minutes = dateObject.getMinutes() % 60
-                    day = dateObject.getDate() + 1
-                    deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
+                    if (duration == '24') {
+                        if (dateObject.getDate() == mod) {
+                            newDay = (dateObject.getDate() + 1) % mod
+                            newMonth += 1
+                        }
+                        else newDay = (dateObject.getDate() + 1)
+
+                    } else if (duration == '48') {
+                        if (dateObject.getDate() == mod) {
+                            newDay = (dateObject.getDate() + 2) % mod
+                            newMonth += 1
+                        }
+                        else if (dateObject.getDate() == mod - 1) {
+                            newDay = (dateObject.getDate() + 2) % mod
+                            newMonth += 1
+                        }
+                        else newDay = (dateObject.getDate() + 2)
+                    }
+                    // if new year
+                    if (newMonth == 13) newMonth = 1
+                    deleteCron = `cron(${minutes} ${allotedHour} ${newDay} ${newMonth} ? *)`
+                    descriptionString = `Deletes at ${allotedHour}:${minutes} on ${newDay}/${newMonth} `
                     break
 
-                case '48':
-                    allotedHour = (dateObject.getHours()) % 24
-                    minutes = dateObject.getMinutes() % 60
-                    seconds = dateObject.getSeconds() % 60
-                    day = dateObject.getDate() + 2
-                    deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
-                    break
 
                 default:
 
@@ -145,14 +170,15 @@ exports.handler = async (event) => {
             }
 
 
-            // put rule, add target, add permission, create event bus, enable rule
+
 
             // Invoke Email Events Params
             // Put Rule
             const createPutRuleParams = {
                 Name: createRuleName,
-                ScheduleExpression: 'rate(15 minutes)', // rate(15 minutes)
+                ScheduleExpression: 'rate(15 minutes)',
                 State: 'DISABLED',
+                Description: descriptionString,
                 EventBusName: 'default'
             }
             const ruleCommand = new PutRuleCommand(createPutRuleParams)
@@ -226,8 +252,9 @@ exports.handler = async (event) => {
             // Create Rule
             const deletePutRuleParams = {
                 Name: deleteRuleName,
-                ScheduleExpression: deleteCron, //'cron(0/5 * ? * * *)', 
+                ScheduleExpression: deleteCron,
                 State: 'DISABLED',
+                Description: descriptionString,
                 EventBusName: 'default'
             }
             const deleteRuleCommand = new PutRuleCommand(deletePutRuleParams)
@@ -293,9 +320,6 @@ exports.handler = async (event) => {
             return apiResponse(400, { message: error.message })
         }
 
-
-
-
     } else {
 
         return apiResponse(400, { message: 'Success, but no email sent' })
@@ -308,4 +332,7 @@ function apiResponse(statusCode, body) {
         headers: CORS_HEADERS,
         body: JSON.stringify(body)
     }
+}
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate()
 }
