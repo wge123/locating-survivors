@@ -1,22 +1,124 @@
 /* Amplify Params - DO NOT EDIT
     ENV
+    FUNCTION_HANDLER_NAME
+    REGION
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+    ENV
     FUNCTION_HANDLERWRAPPER_NAME
     FUNCTION_HANDLER_NAME
     REGION
 Amplify Params - DO NOT EDIT */
+// import remove lambda target
+
+// import disable rule
+// import delete rule
+// remove target
+
+// import remove permissionCommand, not sure if we need it
+const { CloudWatchEventsClient, DisableRuleCommand, DeleteRuleCommand, RemoveTargetsCommand } = require('@aws-sdk/client-cloudwatch-events')
+const { LambdaClient, RemovePermissionCommand } = require('@aws-sdk/client-lambda')
+
+const cloudwatchClient = new CloudWatchEventsClient({ region: process.env.AWS_REGION })
+const lambda = new LambdaClient({ region: process.env.AWS_REGION })
+
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
-    console.log(`EVENT: ${JSON.stringify(event)}`)
-    return {
-        statusCode: 200,
-        //  Uncomment below to enable CORS requests
-        //  headers: {
-        //      "Access-Control-Allow-Origin": "*",
-        //      "Access-Control-Allow-Headers": "*"
-        //  },
-        body: JSON.stringify('Hello from Lambda!'),
+    try {
+
+        const invokeHandlerRuleName = event.invokeHandlerRuleName
+        const deleteHandlerRuleName = event.deleteHandlerRuleName
+        const enableStatementId = event.enableStatementId
+        const deleteStatementId = event.deleteStatementId
+        const InvokeTargetId = event.invokeTargetId
+        const DeleteTargetId = event.deleteTargetId
+
+
+        // disable the rule
+        const disableEmailParams = {
+            Name: invokeHandlerRuleName
+        }
+
+        const disableInvokeCommand = new DisableRuleCommand(disableEmailParams)
+        await cloudwatchClient.send(disableInvokeCommand)
+
+        // remove the target
+        const removeEmailTarget = {
+            Rule: invokeHandlerRuleName,
+            Ids: [InvokeTargetId],
+        }
+
+        const removeInvokeTargetCommand = new RemoveTargetsCommand(removeEmailTarget)
+        await cloudwatchClient.send(removeInvokeTargetCommand)
+
+        // remove permissions
+        const removeEmailPermissionParams = {
+            FunctionName: process.env.FUNCTION_HANDLER_NAME,
+            StatementId: enableStatementId
+        }
+
+        const removeInvokePermissionCommand = new RemovePermissionCommand(removeEmailPermissionParams)
+        await lambda.send(removeInvokePermissionCommand)
+
+        // delete the rule
+        const deleteEmailParams = {
+            Name: invokeHandlerRuleName,
+            EventBusName: 'default',
+            Force: true
+        }
+
+        const deleteInvokeCommand = new DeleteRuleCommand(deleteEmailParams)
+        await cloudwatchClient.send(deleteInvokeCommand)
+
+
+
+        // disable delete command
+        const disableDeleteParams = {
+            Name: deleteHandlerRuleName
+        }
+
+        const disableDeleteCommand = new DisableRuleCommand(disableDeleteParams)
+        await cloudwatchClient.send(disableDeleteCommand)
+
+        // remove the target
+        const removeDeleteTarget = {
+            Rule: deleteHandlerRuleName,
+            Ids: [DeleteTargetId],
+        }
+
+        const removeDeleteTargetCommand = new RemoveTargetsCommand(removeDeleteTarget)
+        await cloudwatchClient.send(removeDeleteTargetCommand)
+
+
+        // remove permissions
+        const removeDeletePermissionParams = {
+            FunctionName: 'disableEvent-will',
+            StatementId: deleteStatementId
+        }
+
+        // const removeDeletePermissionCommand = new RemovePermissionCommand(removeDeletePermissionParams)
+        // await lambda.send(removeDeletePermissionCommand)
+
+        // delete the rule
+        const deleteDeleteParams = {
+            Name: invokeHandlerRuleName,
+            EventBusName: 'default',
+            Force: true
+        }
+
+        const deleteDeleteCommand = new DeleteRuleCommand(deleteDeleteParams)
+        await cloudwatchClient.send(deleteDeleteCommand)
+
+        console.log('SUCCESS')
+        return 'SUCCESS'
+
+
+    } catch (error) {
+        console.log(error)
+        throw error
     }
+
+
 }

@@ -19,10 +19,6 @@
     "functionhandlerName": {
       "Type": "String",
       "Default": "functionhandlerName"
-    },
-    "functionhandlerWrapperName": {
-      "Type": "String",
-      "Default": "functionhandlerWrapperName"
     }
   },
   "Conditions": {
@@ -80,9 +76,6 @@
             },
             "FUNCTION_HANDLER_NAME": {
               "Ref": "functionhandlerName"
-            },
-            "FUNCTION_HANDLERWRAPPER_NAME": {
-              "Ref": "functionhandlerWrapperName"
             }
           }
         },
@@ -223,41 +216,6 @@
                       ":function:",
                       {
                         "Ref": "functionhandlerName"
-                      }
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "lambda:Create*",
-                "lambda:Put*",
-                "lambda:Add*",
-                "lambda:Get*",
-                "lambda:List*",
-                "lambda:Invoke*",
-                "lambda:Update*",
-                "lambda:Delete*",
-                "lambda:Remove*"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:lambda:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":function:",
-                      {
-                        "Ref": "functionhandlerWrapperName"
                       }
                     ]
                   ]

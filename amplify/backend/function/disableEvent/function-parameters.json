@@ -6,12 +6,6 @@
         "read",
         "update",
         "delete"
-      ],
-      "handlerWrapper": [
-        "create",
-        "read",
-        "update",
-        "delete"
       ]
     }
   },
