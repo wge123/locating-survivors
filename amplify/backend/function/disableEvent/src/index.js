@@ -98,12 +98,12 @@ exports.handler = async (event) => {
             StatementId: deleteStatementId
         }
 
-        // const removeDeletePermissionCommand = new RemovePermissionCommand(removeDeletePermissionParams)
-        // await lambda.send(removeDeletePermissionCommand)
+        const removeDeletePermissionCommand = new RemovePermissionCommand(removeDeletePermissionParams)
+        await lambda.send(removeDeletePermissionCommand)
 
         // delete the rule
         const deleteDeleteParams = {
-            Name: invokeHandlerRuleName,
+            Name: deleteHandlerRuleName,
             EventBusName: 'default',
             Force: true
         }

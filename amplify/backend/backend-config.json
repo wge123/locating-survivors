@@ -86,6 +86,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "disableEvent": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "handler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "emailListener": {
       "build": true,
       "dependsOn": [
@@ -237,6 +251,13 @@
           ],
           "category": "function",
           "resourceName": "handler"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "disableEvent"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -415,6 +436,22 @@
         {
           "category": "function",
           "resourceName": "deleteECR"
+        }
+      ]
+    },
+    "AMPLIFY_function_disableEvent_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "disableEvent"
+        }
+      ]
+    },
+    "AMPLIFY_function_disableEvent_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "disableEvent"
         }
       ]
     },
