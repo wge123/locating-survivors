@@ -95,205 +95,213 @@ exports.handler = async (event) => {
     const configuredFunctionDelete = `arn:aws:lambda:${region}:${accountId}:function:${functionNameDelete}`
 
 
+    if (interval == 'true') {
 
-    try {
+        try {
 
 
-        // Payloads
-        const handlerPayload = {
-            case_id: case_id,
-            phone_number: phone_number,
-            name: name
+            // Payloads
+            const handlerPayload = {
+                case_id: case_id,
+                phone_number: phone_number,
+                name: name
+            }
+
+
+            // Duration logic for CRON expressions
+
+            const dateObject = new Date()
+            let month = dateObject.getUTCMonth() + 1 //UTC is a month behind ig
+            let minutes, allotedHour, day, deleteCron
+
+            switch (duration) {
+                case '1':
+                case '3':
+                case '6':
+                case '12':
+                    allotedHour = (dateObject.getHours() + parseInt(duration)) % 24
+                    minutes = dateObject.getMinutes() % 60
+                    deleteCron = `cron(${minutes} ${allotedHour} ? * * *)`
+                    break
+
+                case '24':
+                    allotedHour = (dateObject.getHours()) % 24
+                    minutes = dateObject.getMinutes() % 60
+                    day = dateObject.getDate() + 1
+                    deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
+                    break
+
+                case '48':
+                    allotedHour = (dateObject.getHours()) % 24
+                    minutes = dateObject.getMinutes() % 60
+                    seconds = dateObject.getSeconds() % 60
+                    day = dateObject.getDate() + 2
+                    deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
+                    break
+
+                default:
+
+                    return apiResponse(400, 'Invalid duration')
+            }
+
+
+            // put rule, add target, add permission, create event bus, enable rule
+
+            // Invoke Email Events Params
+            // Put Rule
+            const createPutRuleParams = {
+                Name: createRuleName,
+                ScheduleExpression: 'rate(15 minutes)', // rate(15 minutes)
+                State: 'DISABLED',
+                EventBusName: 'default'
+            }
+            const ruleCommand = new PutRuleCommand(createPutRuleParams)
+            const rule = await cloudwatchClient.send(ruleCommand)
+            const eventARN = rule.RuleArn
+
+
+            // Create Target
+            const targetParams = {
+                Rule: createRuleName,
+                Targets: [{
+                    Id: createRuleName,
+                    Arn: configuredFunctionInvoke,
+                    Input: JSON.stringify(handlerPayload),
+                }]
+            }
+            const targetCommand = new PutTargetsCommand(targetParams)
+            await cloudwatchClient.send(targetCommand)
+
+
+            // add permissions
+            const statementId = 'EventBridgeInvokeTrigger' + case_id
+            const triggerParams = {
+                FunctionName: process.env.FUNCTION_HANDLER_NAME,
+                StatementId: statementId,
+                Action: 'lambda:InvokeFunction',
+                Principal: 'events.amazonaws.com',
+                SourceArn: eventARN,
+            }
+            const permissionCommand = new AddPermissionCommand(triggerParams)
+            await lambda.send(permissionCommand)
+
+
+
+            // Create the event bus
+            const putEventsParams = {
+                Entries: [
+                    {
+                        Resources: [configuredFunctionInvoke],
+                        DetailType: 'AppEvent',
+                        Detail: JSON.stringify(handlerPayload),
+                        EventBusName: 'default',
+                    }
+                ]
+            }
+            const putEventsCommand = new PutEventsCommand(putEventsParams)
+            await cloudwatchClient.send(putEventsCommand)
+
+
+            // Enable Rule
+            const enableParams = {
+                Name: createRuleName
+            }
+
+            const enableCommand = new EnableRuleCommand(enableParams)
+            await cloudwatchClient.send(enableCommand)
+
+
+
+            // Delete Events Params
+            const deleteStatementId = 'EventBridgeDeleteTrigger' + case_id
+            const disableEventPayload = {
+                invokeHandlerRuleName: createRuleName,
+                deleteHandlerRuleName: deleteRuleName,
+                enableStatementId: statementId,
+                deleteStatementId: deleteStatementId,
+                invokeTargetId: createRuleName,
+                deleteTargetId: deleteRuleName
+
+            }
+            // Create Rule
+            const deletePutRuleParams = {
+                Name: deleteRuleName,
+                ScheduleExpression: deleteCron, //'cron(0/5 * ? * * *)', 
+                State: 'DISABLED',
+                EventBusName: 'default'
+            }
+            const deleteRuleCommand = new PutRuleCommand(deletePutRuleParams)
+            const deleteRule = await cloudwatchClient.send(deleteRuleCommand)
+            const deleteEventARN = deleteRule.RuleArn
+
+
+            // Create Target
+            const deleteTargetParams = {
+                Rule: deleteRuleName,
+                Targets: [{
+                    Id: deleteRuleName,
+                    Arn: configuredFunctionDelete,
+                    Input: JSON.stringify(disableEventPayload),
+                }]
+            }
+
+            const deleteTargetCommand = new PutTargetsCommand(deleteTargetParams)
+            await cloudwatchClient.send(deleteTargetCommand)
+
+
+            // add permissions
+
+            const triggerDeleteParams = {
+                FunctionName: process.env.FUNCTION_DISABLEEVENT_NAME,
+                StatementId: deleteStatementId,
+                Action: 'lambda:InvokeFunction',
+                Principal: 'events.amazonaws.com',
+                SourceArn: deleteEventARN,
+            }
+
+            const permissionDeleteCommand = new AddPermissionCommand(triggerDeleteParams)
+            await lambda.send(permissionDeleteCommand)
+
+            // create Event Params
+            const DeleteEventsParams = {
+                Entries: [
+                    {
+                        Resources: [configuredFunctionDelete],
+                        DetailType: 'AppEvent',
+                        Detail: JSON.stringify(disableEventPayload),
+                        EventBusName: 'default',
+                    }
+                ]
+            }
+            const DeleteEventsCommand = new PutEventsCommand(DeleteEventsParams)
+            await cloudwatchClient.send(DeleteEventsCommand)
+
+            // Enable Rule
+            const enableDeleteParms = {
+                Name: deleteRuleName
+            }
+
+            const enableDeleteCommand = new EnableRuleCommand(enableDeleteParms)
+            await cloudwatchClient.send(enableDeleteCommand)
+
+
+
+            return apiResponse(200, { message: 'SUCCESS' })
+
+        } catch (error) {
+            console.error(error)
+            return apiResponse(400, { message: error.message })
         }
 
 
-        // Duration logic for CRON expressions
-
-        const dateObject = new Date()
-        let month = dateObject.getUTCMonth() + 1 //UTC is a month behind ig
-        let minutes, allotedHour, day, deleteCron
-
-        switch (duration) {
-            case '1':
-            case '3':
-            case '6':
-            case '12':
-                allotedHour = (dateObject.getHours() + parseInt(duration)) % 24
-                minutes = dateObject.getMinutes() % 60
-                deleteCron = `cron(${minutes} ${allotedHour} ? * * *)`
-                break
-
-            case '24':
-                allotedHour = (dateObject.getHours()) % 24
-                minutes = dateObject.getMinutes() % 60
-                day = dateObject.getDate() + 1
-                deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
-                break
-
-            case '48':
-                allotedHour = (dateObject.getHours()) % 24
-                minutes = dateObject.getMinutes() % 60
-                seconds = dateObject.getSeconds() % 60
-                day = dateObject.getDate() + 2
-                deleteCron = `cron(${minutes} ${allotedHour} ${day} ${month} ? *)`
-                break
-
-            default:
-
-                return apiResponse(400, 'Invalid duration')
-        }
 
 
-        // put rule, add target, add permission, create event bus, enable rule
+    } else {
 
-        // Invoke Email Events Params
-        // Put Rule
-        const createPutRuleParams = {
-            Name: createRuleName,
-            ScheduleExpression: 'rate(15 minutes)', // rate(15 minutes)
-            State: 'DISABLED',
-            EventBusName: 'default'
-        }
-        const ruleCommand = new PutRuleCommand(createPutRuleParams)
-        const rule = await cloudwatchClient.send(ruleCommand)
-        const eventARN = rule.RuleArn
+        return apiResponse(400, { message: 'Success, but no email sent' })
 
-
-        // Create Target
-        const targetParams = {
-            Rule: createRuleName,
-            Targets: [{
-                Id: createRuleName,
-                Arn: configuredFunctionInvoke,
-                Input: JSON.stringify(handlerPayload),
-            }]
-        }
-        const targetCommand = new PutTargetsCommand(targetParams)
-        await cloudwatchClient.send(targetCommand)
-
-
-        // add permissions
-        const statementId = 'EventBridgeInvokeTrigger' + case_id
-        const triggerParams = {
-            FunctionName: process.env.FUNCTION_HANDLER_NAME,
-            StatementId: statementId,
-            Action: 'lambda:InvokeFunction',
-            Principal: 'events.amazonaws.com',
-            SourceArn: eventARN,
-        }
-        const permissionCommand = new AddPermissionCommand(triggerParams)
-        await lambda.send(permissionCommand)
-
-
-
-        // Create the event bus
-        const putEventsParams = {
-            Entries: [
-                {
-                    Resources: [configuredFunctionInvoke],
-                    DetailType: 'AppEvent',
-                    Detail: JSON.stringify(handlerPayload),
-                    EventBusName: 'default',
-                }
-            ]
-        }
-        const putEventsCommand = new PutEventsCommand(putEventsParams)
-        await cloudwatchClient.send(putEventsCommand)
-
-
-        // Enable Rule
-        const enableParams = {
-            Name: createRuleName
-        }
-
-        const enableCommand = new EnableRuleCommand(enableParams)
-        await cloudwatchClient.send(enableCommand)
-
-
-
-        // Delete Events Params
-        const deleteStatementId = 'EventBridgeDeleteTrigger' + case_id
-        const disableEventPayload = {
-            invokeHandlerRuleName: createRuleName,
-            deleteHandlerRuleName: deleteRuleName,
-            enableStatementId: statementId,
-            deleteStatementId: deleteStatementId,
-            invokeTargetId: createRuleName,
-            deleteTargetId: deleteRuleName
-
-        }
-        // Create Rule
-        const deletePutRuleParams = {
-            Name: deleteRuleName,
-            ScheduleExpression: deleteCron, //'cron(0/5 * ? * * *)', 
-            State: 'DISABLED',
-            EventBusName: 'default'
-        }
-        const deleteRuleCommand = new PutRuleCommand(deletePutRuleParams)
-        const deleteRule = await cloudwatchClient.send(deleteRuleCommand)
-        const deleteEventARN = deleteRule.RuleArn
-
-
-        // Create Target
-        const deleteTargetParams = {
-            Rule: deleteRuleName,
-            Targets: [{
-                Id: deleteRuleName,
-                Arn: configuredFunctionDelete,
-                Input: JSON.stringify(disableEventPayload),
-            }]
-        }
-
-        const deleteTargetCommand = new PutTargetsCommand(deleteTargetParams)
-        await cloudwatchClient.send(deleteTargetCommand)
-
-
-        // add permissions
-
-        const triggerDeleteParams = {
-            FunctionName: process.env.FUNCTION_DISABLEEVENT_NAME,
-            StatementId: deleteStatementId,
-            Action: 'lambda:InvokeFunction',
-            Principal: 'events.amazonaws.com',
-            SourceArn: deleteEventARN,
-        }
-
-        const permissionDeleteCommand = new AddPermissionCommand(triggerDeleteParams)
-        await lambda.send(permissionDeleteCommand)
-
-        // create Event Params
-        const DeleteEventsParams = {
-            Entries: [
-                {
-                    Resources: [configuredFunctionDelete],
-                    DetailType: 'AppEvent',
-                    Detail: JSON.stringify(disableEventPayload),
-                    EventBusName: 'default',
-                }
-            ]
-        }
-        const DeleteEventsCommand = new PutEventsCommand(DeleteEventsParams)
-        await cloudwatchClient.send(DeleteEventsCommand)
-
-        // Enable Rule
-        const enableDeleteParms = {
-            Name: deleteRuleName
-        }
-
-        const enableDeleteCommand = new EnableRuleCommand(enableDeleteParms)
-        await cloudwatchClient.send(enableDeleteCommand)
-
-
-
-        return apiResponse(200, { message: 'SUCCESS' })
-
-    } catch (error) {
-        console.error(error)
-        return apiResponse(400, { message: error.message })
     }
-
 }
-
 function apiResponse(statusCode, body) {
     return {
         statusCode,
