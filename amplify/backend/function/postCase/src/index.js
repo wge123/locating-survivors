@@ -151,7 +151,7 @@ function moldItem(item, caseId, userId, phoneNumber, email, name) {
         longitude: [],
         latitude: [],
         uncertainty: [],
-        status: '',
+        status: 'Open',
         _version: 1,
         _typename: 'Case',
         _lastChangedAt: new Date().toISOString(),
