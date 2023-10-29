@@ -61,15 +61,15 @@ exports.handler = async (event) => {
         const phoneNumberExists = await checkPhoneNumberExists(phoneNumber)
 
         if (phoneNumberExists) {
-             return apiResponse(400, { message: 'Phone number already exists in a case.' })
-         }
+            return apiResponse(400, { message: 'Phone number already exists in a case.' })
+        }
 
         // Get user from Cognito
         const user = await getUser(userId)
 
         if (!user) {
-             return apiResponse(400, { message: 'User does not exist in cognito pool' })
-         }
+            return apiResponse(400, { message: 'User does not exist in cognito pool' })
+        }
 
         // Extract user attributes
         const email = user.Attributes.find(attr => attr.Name === 'email').Value
