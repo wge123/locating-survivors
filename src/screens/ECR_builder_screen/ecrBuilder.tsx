@@ -166,7 +166,8 @@ export default function ECRBuilderScreen(props) {
                             'name': user.attributes.name,
                             'phone_number': phoneNumber,
                             'case_id': case_id,
-                            'duration': selectedDuration
+                            'duration': selectedDuration.toString(),
+                            'interval': (checkedStates['locUpdates']).toString()
                         })
                     })
                     const email_handler_result = await email_handler_response.json()
