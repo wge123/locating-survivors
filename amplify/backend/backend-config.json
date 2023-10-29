@@ -439,22 +439,6 @@
         }
       ]
     },
-    "AMPLIFY_function_disableEvent_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "disableEvent"
-        }
-      ]
-    },
-    "AMPLIFY_function_disableEvent_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "disableEvent"
-        }
-      ]
-    },
     "AMPLIFY_function_emailListener_deploymentBucketName": {
       "usedBy": [
         {
@@ -596,22 +580,6 @@
         {
           "category": "function",
           "resourceName": "postCase"
-        }
-      ]
-    },
-    "AMPLIFY_function_postECR_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "postECR"
-        }
-      ]
-    },
-    "AMPLIFY_function_postECR_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "postECR"
         }
       ]
     },

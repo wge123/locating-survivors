@@ -48,7 +48,6 @@ const requiredFields = [
     'periodic_location_updates',
     'last_known_information',
     'duration',
-    'call_detail_no_sites',
     'call_detail_with_sites',
 ]
 
@@ -125,6 +124,3 @@ function apiResponse(statusCode, body) {
 
 
 }
-
-
-

@@ -94,7 +94,7 @@ exports.handler = async (event) => {
 
         // remove permissions
         const removeDeletePermissionParams = {
-            FunctionName: 'disableEvent-will',
+            FunctionName: process.env.FUNCTION_DISABLEEVENT_NAME, //'disableEvent-will',
             StatementId: deleteStatementId
         }
 
