@@ -169,9 +169,9 @@ export default function CaseListScreen(props): JSX.Element {
                     .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open')
                     .sort((a, b) => {
                         if (sortOrder === 'Duration: Low to High') {
-                            return parseInt(a.duration) - parseInt(b.duration)
+                            return a.duration.localeCompare(b.duration)
                         } else if (sortOrder === 'Duration: High to Low') {
-                            return parseInt(b.duration) - parseInt(a.duration)
+                            return b.duration.localeCompare(a.duration)
                         } else {
                             return 0
                         }
