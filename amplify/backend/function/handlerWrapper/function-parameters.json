@@ -22,6 +22,12 @@
         "read",
         "update",
         "delete"
+      ],
+      "disableEvent": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   },
