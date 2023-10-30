@@ -43,19 +43,20 @@ export default function CaseViewScreen() {
         caseData = state.caseData
     }
 
-    const lat = caseData && caseData.latitude && caseData.latitude[0] ? caseData.latitude[0] : 'N/A'
+
+    const lat = caseData && caseData.latitude && caseData.latitude[(caseData.latitude).length - 1] ? caseData.latitude[(caseData.latitude).length - 1] : 'N/A'
     function getCaseLatitude(): string {
         return lat
     }
 
-    const lng = caseData && caseData.longitude && caseData.longitude[0] ? caseData.longitude[0] : 'N/A'
+    const lng = caseData && caseData.longitude && caseData.longitude[(caseData.longitude).length - 1] ? caseData.longitude[(caseData.longitude).length - 1] : 'N/A'
     function getCaseLongitude(): string {
         return lng
     }
 
     function getCaseUncertainty(): string {
         if (caseData && caseData.uncertainty) {
-            return caseData.uncertainty[0]
+            return caseData.uncertainty[(caseData.uncertainty.length) - 1]
         } else {
             return 'N/A'
         }
