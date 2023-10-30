@@ -9,6 +9,13 @@ Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
     ENV
     FUNCTION_HANDLER_NAME
     REGION
+    STORAGE_CASE_ARN
+    STORAGE_CASE_NAME
+    STORAGE_CASE_STREAMARN
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+    ENV
+    FUNCTION_HANDLER_NAME
+    REGION
 Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
     ENV
     FUNCTION_HANDLERWRAPPER_NAME
@@ -78,7 +85,6 @@ exports.handler = async (event) => {
         // delete the rule
         const deleteEmailParams = {
             Name: invokeHandlerRuleName,
-            EventBusName: 'default',
             Force: true
         }
 
@@ -108,7 +114,7 @@ exports.handler = async (event) => {
 
         // remove permissions
         const removeDeletePermissionParams = {
-            FunctionName: process.env.FUNCTION_DISABLEEVENT_NAME, //'disableEvent-will',
+            FunctionName: 'disableEvent-prod', //'disableEvent-will',
             StatementId: deleteStatementId
         }
 
@@ -118,7 +124,6 @@ exports.handler = async (event) => {
         // delete the rule
         const deleteDeleteParams = {
             Name: deleteHandlerRuleName,
-            EventBusName: 'default',
             Force: true
         }
 
@@ -129,7 +134,7 @@ exports.handler = async (event) => {
         const updateParams = {
             TableName: process.env.STORAGE_CASE_NAME,
             Key: {
-                id: case_id
+                id: id
             },
             UpdateExpression: 'SET #status = :status',
             ExpressionAttributeNames: {
