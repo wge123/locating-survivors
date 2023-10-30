@@ -1,18 +1,18 @@
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import './caseView.css'
-import {ReactComponent as ChevronIcon} from '../../assets/chevron.svg'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { ReactComponent as ChevronIcon } from '../../assets/chevron.svg'
+import { useLocation, useNavigate } from 'react-router-dom'
 import moment from 'moment-timezone'
 import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
-import {exportCase} from '../../utils/exportCase.tsx'
+import { exportCase } from '../../utils/exportCase.tsx'
 import Map from '../../utils/map.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
 
 export default function CaseViewScreen() {
     const navigate = useNavigate()
-    const accessToCaseView  = useContext(AccessCaseViewContext)
+    const accessToCaseView = useContext(AccessCaseViewContext)
     const [selectedTimezone, setSelectedTimezone] = useState('America/New_York')
 
     useEffect(() => {
@@ -35,11 +35,11 @@ export default function CaseViewScreen() {
         return navigate('/case_list')
     }
     let state = null
-    if(location){
+    if (location) {
         state = location.state
     }
     let caseData = null
-    if(state){
+    if (state) {
         caseData = state.caseData
     }
 
@@ -76,34 +76,39 @@ export default function CaseViewScreen() {
 
     function getCaseTimeUntilNextUpdate(): string {
         let nextUpdate = null
-        if(caseData){
+        if (caseData) {
             nextUpdate = new Date(caseData.next_update)
         }
         const currentTime = new Date()
         let milliseconds = 0
-        if(nextUpdate) {
+        if (nextUpdate) {
             milliseconds = nextUpdate.getTime() - currentTime.getTime()
+        }
+        if (milliseconds < 0) {
+            milliseconds = 0
         }
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
+
     function convertCoordinate(coord: string) {
         const number = parseFloat(coord?.split(' ')[0])
         const direction = coord?.split(' ')[1]
 
         return direction === 'S' || direction === 'W' ? -number : number
     }
+
     const coordsContainNil: boolean = lat === 'N/A' || lng === 'N/A'
 
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
-                <ChevronIcon/>
+                <ChevronIcon />
                 {'Cases'}
             </button>
             <div id='cv-main-content'>
                 <div id='cv-pane-small' className='cv-pane'>
                     <p className='cv-text'>{`Carrier: ${getCaseCarrier()}`}</p>
-                    <div className='cv-text-gap'/>
+                    <div className='cv-text-gap' />
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
                     <p className='cv-text'>{`Uncertainty: ${getCaseUncertainty()}`}</p>
@@ -125,7 +130,7 @@ export default function CaseViewScreen() {
                         </select>
                     </div>
 
-                    <div className='cv-text-gap'/>
+                    <div className='cv-text-gap' />
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
@@ -134,7 +139,7 @@ export default function CaseViewScreen() {
                             <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
                         ) :
                         <div id='cv-empty-map'>
-                            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle"/>
+                            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle" />
                             <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
                             <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
                         </div>
