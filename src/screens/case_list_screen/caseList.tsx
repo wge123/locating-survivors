@@ -23,7 +23,7 @@ export default function CaseListScreen(props): JSX.Element {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [showActiveOnly, setShowActiveOnly] = useState(true)
-    const [sortOrder, setSortOrder] = useState('none') // none, lowToHigh, highToLow
+    const [sortOrder, setSortOrder] = useState('Duration: Low to High') // none, lowToHigh, highToLow
     const [initialCaseTimes, setInitialCaseTimes] = useState({})
     const { setAccessToCaseView } = useContext(AccessCaseViewContext)
 
@@ -146,6 +146,7 @@ export default function CaseListScreen(props): JSX.Element {
                     name='clRadioButton'
                     type="radio"
                     onClick={() => handleSortOrderChange(text)}
+                    defaultChecked={sortOrder === text}
                 />
                 <p id='cl-radio-button-text'>{text}</p>
             </div>
