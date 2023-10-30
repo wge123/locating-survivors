@@ -87,6 +87,7 @@ exports.handler = async (event) => {
 
 
 
+
         // disable delete command
         const disableDeleteParams = {
             Name: deleteHandlerRuleName

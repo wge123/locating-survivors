@@ -10,8 +10,10 @@
     },
     "storage": {
       "Case": [
+        "create",
         "read",
-        "update"
+        "update",
+        "delete"
       ]
     }
   },
