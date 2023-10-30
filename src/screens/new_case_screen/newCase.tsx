@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import './newCase.css'
 import PhoneInput from 'react-phone-input-2'
+import ErrorSnackbar from '../../components/errorSnackbar'
 import 'react-phone-input-2/lib/style.css'
 import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -16,6 +17,8 @@ export default function NewCaseScreen(props) {
     const {user} = props
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('\'The inputted phone number already exists in an open case.\'')
 
     function handlePhoneInput(phone_number) {
         setPhone(phone_number)
@@ -54,7 +57,8 @@ export default function NewCaseScreen(props) {
                 console.error(result)
             }
         } catch (error) {
-            console.error('Error posting data: ', error)
+            setOpenErrorSnackbar(true)
+            setErrorMessage('\'The inputted phone number already exists in an open case.\'')
         }
         setIsLoading(false)
     }
@@ -75,6 +79,7 @@ export default function NewCaseScreen(props) {
                         Build ECR...
                     </button>
                 </div>
+                <ErrorSnackbar errorMessage={errorMessage} open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
             </div>
 
             {isLoading && (
