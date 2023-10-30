@@ -154,7 +154,7 @@ function moldItem(item, caseId, userId, phoneNumber, email, name) {
         status: 'Open',
         _version: 1,
         _typename: 'Case',
-        _lastChangedAt: new Date().toISOString(),
+        _lastChangedAt: new Date().getTime,
         _createdAt: new Date().toISOString()
     }
 

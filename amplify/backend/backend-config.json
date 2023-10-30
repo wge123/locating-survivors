@@ -95,6 +95,15 @@
           ],
           "category": "function",
           "resourceName": "handler"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
         }
       ],
       "providerPlugin": "awscloudformation",
