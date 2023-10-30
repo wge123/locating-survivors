@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "api": {
+      "lsApi": [
+        "read",
+        "update"
+      ]
+    },
+    "auth": {
+      "lsAuth": [
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
