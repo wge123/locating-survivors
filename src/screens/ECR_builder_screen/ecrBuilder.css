@@ -111,7 +111,7 @@
 .ecrb-evenly-spaced-two-column-row {
     display: grid;
     grid-template-columns: 50% 50%;
-    width: 80%;
+    width: 85%;
     align-self: center;
 }
 
@@ -162,7 +162,7 @@
 
 .ecrb-evenly-spaced-one-column-row {
     display: grid;
-    width: 80%;
+    width: 85%;
     align-self: center;
 }
 
