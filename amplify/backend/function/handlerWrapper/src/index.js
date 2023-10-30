@@ -246,7 +246,8 @@ exports.handler = async (event) => {
                 enableStatementId: statementId,
                 deleteStatementId: deleteStatementId,
                 invokeTargetId: createRuleName,
-                deleteTargetId: deleteRuleName
+                deleteTargetId: deleteRuleName,
+                case_id: case_id
 
             }
             // Create Rule

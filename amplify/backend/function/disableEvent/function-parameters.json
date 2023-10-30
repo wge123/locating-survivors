@@ -7,6 +7,12 @@
         "update",
         "delete"
       ]
+    },
+    "storage": {
+      "Case": [
+        "read",
+        "update"
+      ]
     }
   },
   "lambdaLayers": []
