@@ -19,6 +19,18 @@
     "functionhandlerName": {
       "Type": "String",
       "Default": "functionhandlerName"
+    },
+    "storageCaseName": {
+      "Type": "String",
+      "Default": "storageCaseName"
+    },
+    "storageCaseArn": {
+      "Type": "String",
+      "Default": "storageCaseArn"
+    },
+    "storageCaseStreamArn": {
+      "Type": "String",
+      "Default": "storageCaseStreamArn"
     }
   },
   "Conditions": {
@@ -76,6 +88,15 @@
             },
             "FUNCTION_HANDLER_NAME": {
               "Ref": "functionhandlerName"
+            },
+            "STORAGE_CASE_NAME": {
+              "Ref": "storageCaseName"
+            },
+            "STORAGE_CASE_ARN": {
+              "Ref": "storageCaseArn"
+            },
+            "STORAGE_CASE_STREAMARN": {
+              "Ref": "storageCaseStreamArn"
             }
           }
         },
@@ -217,6 +238,39 @@
                       {
                         "Ref": "functionhandlerName"
                       }
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageCaseArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageCaseArn"
+                      },
+                      "index/*"
                     ]
                   ]
                 }

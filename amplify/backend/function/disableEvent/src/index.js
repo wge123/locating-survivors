@@ -2,6 +2,20 @@
     ENV
     FUNCTION_HANDLER_NAME
     REGION
+    STORAGE_CASE_ARN
+    STORAGE_CASE_NAME
+    STORAGE_CASE_STREAMARN
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+    ENV
+    FUNCTION_HANDLER_NAME
+    REGION
+    STORAGE_CASE_ARN
+    STORAGE_CASE_NAME
+    STORAGE_CASE_STREAMARN
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+    ENV
+    FUNCTION_HANDLER_NAME
+    REGION
 Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
     ENV
     FUNCTION_HANDLERWRAPPER_NAME
@@ -20,7 +34,12 @@ const { LambdaClient, RemovePermissionCommand } = require('@aws-sdk/client-lambd
 
 const cloudwatchClient = new CloudWatchEventsClient({ region: process.env.AWS_REGION })
 const lambda = new LambdaClient({ region: process.env.AWS_REGION })
-
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
+const { DynamoDBDocument } = require('@aws-sdk/lib-dynamodb')
+const dBClient = new DynamoDBClient({
+    region: process.env.AWS_REGION
+})
+const documentClient = DynamoDBDocument.from(dBClient)
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
@@ -34,6 +53,7 @@ exports.handler = async (event) => {
         const deleteStatementId = event.deleteStatementId
         const InvokeTargetId = event.invokeTargetId
         const DeleteTargetId = event.deleteTargetId
+        const id = event.case_id
 
 
         // disable the rule
@@ -65,12 +85,12 @@ exports.handler = async (event) => {
         // delete the rule
         const deleteEmailParams = {
             Name: invokeHandlerRuleName,
-            EventBusName: 'default',
             Force: true
         }
 
         const deleteInvokeCommand = new DeleteRuleCommand(deleteEmailParams)
         await cloudwatchClient.send(deleteInvokeCommand)
+
 
 
 
@@ -94,7 +114,7 @@ exports.handler = async (event) => {
 
         // remove permissions
         const removeDeletePermissionParams = {
-            FunctionName: 'disableEvent-will',
+            FunctionName: 'disableEvent-prod', //'disableEvent-will',
             StatementId: deleteStatementId
         }
 
@@ -104,12 +124,31 @@ exports.handler = async (event) => {
         // delete the rule
         const deleteDeleteParams = {
             Name: deleteHandlerRuleName,
-            EventBusName: 'default',
             Force: true
         }
 
         const deleteDeleteCommand = new DeleteRuleCommand(deleteDeleteParams)
         await cloudwatchClient.send(deleteDeleteCommand)
+
+        // set status of the the case to closed
+        const updateParams = {
+            TableName: process.env.STORAGE_CASE_NAME,
+            Key: {
+                id: id
+            },
+            UpdateExpression: 'SET #status = :status',
+            ExpressionAttributeNames: {
+                '#status': 'status'
+            },
+            ExpressionAttributeValues: {
+                ':status': 'Closed'
+            }
+
+        }
+
+
+
+        await documentClient.update(updateParams)
 
         console.log('SUCCESS')
         return 'SUCCESS'

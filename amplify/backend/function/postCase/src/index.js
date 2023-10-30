@@ -58,6 +58,12 @@ exports.handler = async (event) => {
         const phoneNumber = item.phone_number
         const caseId = uuidv4()
 
+        const phoneNumberExists = await checkPhoneNumberExists(phoneNumber)
+
+        if (phoneNumberExists) {
+            return apiResponse(400, { message: 'Phone number already exists in a case.' })
+        }
+
         // Get user from Cognito
         const user = await getUser(userId)
 
@@ -82,6 +88,20 @@ exports.handler = async (event) => {
         return apiResponse(400, { message: error.message })
     }
 
+}
+
+async function checkPhoneNumberExists(phoneNumber) {
+    const params = {
+        TableName: process.env.STORAGE_CASE_NAME,
+        FilterExpression: 'phone_number = :phone',
+        ExpressionAttributeValues: {
+            ':phone': phoneNumber,
+        },
+    }
+
+    const data = await documentClient.scan(params)
+
+    return data.Count > 0
 }
 
 
@@ -134,7 +154,7 @@ function moldItem(item, caseId, userId, phoneNumber, email, name) {
         status: 'Open',
         _version: 1,
         _typename: 'Case',
-        _lastChangedAt: new Date().toISOString(),
+        _lastChangedAt: new Date().getTime,
         _createdAt: new Date().toISOString()
     }
 
