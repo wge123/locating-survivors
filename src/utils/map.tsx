@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import PropTypes from 'prop-types'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect, useState } from 'react'
 import '../screens/case_view_screen/caseView.css'
 
 export default function Map({ lat, lng }) {
@@ -36,7 +36,7 @@ export default function Map({ lat, lng }) {
 
         if (isLoading) return
 
-        if (!mapboxToken || !lat || !lng ) {
+        if (!mapboxToken || !lat || !lng) {
             setHasError(true)
             return
         }
@@ -62,12 +62,12 @@ export default function Map({ lat, lng }) {
 
     return hasError ? (
         <div id='cv-empty-map'>
-            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle"/>
+            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle" />
             <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
             <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
         </div>
     ) : (
-        <div id='map' style={{ height: '400px', width: '100%' }}></div>
+        <div id='map' style={{ height: '400px', width: '70%', marginBottom: '20px', marginTop: '10px', border: '1px solid #000', borderRadius: '10px' }} />
     )
 }
 
