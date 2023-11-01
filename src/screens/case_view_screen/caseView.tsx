@@ -111,7 +111,7 @@ export default function CaseViewScreen() {
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
-                    <p className='cv-text'>{`Uncertainty: ${getCaseUncertainty()}`}</p>
+                    <p className='cv-text'>{`Uncertainty: ${getCaseUncertainty()}m`}</p>
                 </div>
                 <div id='cv-pane-small' className='cv-pane'>
                     <p className='cv-text'>Last update on:</p>
