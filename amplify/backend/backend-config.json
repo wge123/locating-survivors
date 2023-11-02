@@ -288,28 +288,6 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "loginQR": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ],
-          "category": "api",
-          "resourceName": "lsApi"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "lsAuth"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "postCase": {
       "build": true,
       "dependsOn": [

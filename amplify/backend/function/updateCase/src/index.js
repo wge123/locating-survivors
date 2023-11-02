@@ -43,16 +43,20 @@ exports.handler = async (event) => {
             }
         }
 
+
+
+
         const getData = await documentClient.get(getCaseParams)
-        let getDuration = getData.Item.duration
-        const getTimePosted = getData.Item.time_posted
+        const getTimePosted = new Date(getData.Item.time_posted)
+        const currentTime = new Date()
+        const timeDifferenceMs = currentTime - getTimePosted
+        const totalMinutes = Math.round(timeDifferenceMs / (1000 * 60))
+        const hours = Math.floor(totalMinutes / 60)
+        const minutes = totalMinutes % 60
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+
+
         const getVersion = getData.Item._version
-        getDuration = (Date.now() - new Date(getTimePosted))
-        getDuration = getDuration / (1000 * 60)
-        getDuration = Math.floor(getDuration / 60)
-
-
-
 
 
 
@@ -65,7 +69,7 @@ exports.handler = async (event) => {
             #longitudes = list_append(if_not_exists(#longitudes, :empty_list), :longitude),
             #uncertainties = list_append(if_not_exists(#uncertainties, :empty_list), :uncertainty), 
             #times = list_append(if_not_exists(#times, :empty_list), :time), 
-            #duration = :duration, 
+            #duration = list_append(if_not_exists(#duration, :empty_list), :duration), 
             #time_updated = :time_updated, 
             #next_update = :next_update, 
             #version = :version, 
@@ -87,7 +91,7 @@ exports.handler = async (event) => {
                 ':uncertainty': [uncertainty],
                 ':time': [time],
                 ':empty_list': [],
-                ':duration': getDuration,
+                ':duration': [formattedTime],
                 ':time_updated': new Date().toISOString(),
                 ':next_update': addMinutes(new Date(), 15).toISOString(),
                 ':version': getVersion + 1,
