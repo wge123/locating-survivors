@@ -1,19 +1,5 @@
 {
   "api": {
-    "apiWillCognito": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "basicFunction"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
     "lsApi": {
       "dependsOn": [
         {

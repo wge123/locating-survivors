@@ -58,10 +58,13 @@ export default function CaseListScreen(props): JSX.Element {
         setIsLoading(true)
         const userID = user.attributes.sub
         const url = `https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/case?user_id=${userID}`
+        const headers = {
+            Authorization: `Bearer ${sessionStorage.getItem('idToken')}`
+        }
         const case_arr: CaseForDisplay[] = []
         const case_data_arr = []
         try{
-            const response = await fetch(url)
+            const response = await fetch(url,{headers})
             const data = await response.json()
             data.data.forEach(function(user_case: any) {
                 const createdAt = new Date(user_case._createdAt)

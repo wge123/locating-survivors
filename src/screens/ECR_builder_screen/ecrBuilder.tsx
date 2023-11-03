@@ -13,6 +13,10 @@ export default function ECRBuilderScreen(props) {
     const case_id = location.state?.itemId
     const [selectedDuration, setSelectedDuration] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
+    const headers = {
+        Authorization: `Bearer ${sessionStorage.getItem('idToken')}`,
+        'Content-Type': 'application/json'
+    }
 
     ECRBuilderScreen.propTypes = {
         user: PropTypes.object.isRequired
@@ -126,9 +130,7 @@ export default function ECRBuilderScreen(props) {
 
             const pdf_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/s3/files', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers,
                 body: JSON.stringify({
                     'blob': base64data,
                     'fileName': case_id
@@ -138,9 +140,7 @@ export default function ECRBuilderScreen(props) {
             if (pdf_response.status === 200) {
                 const ecr_post_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/ecr', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers,
                     body: JSON.stringify({
                         'name': user.attributes.name,
                         'phone_number': phoneNumber,
@@ -159,9 +159,7 @@ export default function ECRBuilderScreen(props) {
                 if ( ecr_post_result.statusCode === 200) {
                     const email_handler_response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/email', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers,
                         body: JSON.stringify({
                             'name': user.attributes.name,
                             'phone_number': phoneNumber,

@@ -19,6 +19,10 @@ export default function NewCaseScreen(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false)
     const [errorMessage, setErrorMessage] = useState('\'The inputted phone number already exists in an open case.\'')
+    const headers = {
+        Authorization: `Bearer ${sessionStorage.getItem('idToken')}`,
+        'Content-Type': 'application/json'
+    }
 
     function handlePhoneInput(phone_number) {
         setPhone(phone_number)
@@ -34,9 +38,7 @@ export default function NewCaseScreen(props) {
         try {
             const response = await fetch('https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/case', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers,
                 body: JSON.stringify({
                     name: user.attributes.name,
                     phone_number: phone_number,
