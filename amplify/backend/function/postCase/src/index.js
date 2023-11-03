@@ -145,7 +145,7 @@ function moldItem(item, caseId, userId, phoneNumber, email, name) {
         name: name,
         date: new Date().toISOString(),
         time_posted: new Date().toISOString(),
-        duration: 0,
+        duration: [],
         time_updated: new Date().toISOString(),
         next_update: addMinutes(new Date(), 15).toISOString(), // maybe in update we can get interval from ecr table
         longitude: [],
