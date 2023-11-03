@@ -29,24 +29,29 @@ export default function ECRBuilderScreen(props) {
         )
     }
 
-    function getCheckBoxWithText(text: string, id: string): JSX.Element {
+    function getCheckBoxWithText(text: string, id: string, canDeselect: boolean): JSX.Element {
+        const defaultCheckboxValue: boolean = canDeselect ? false : true
+        const checkboxDisabled: boolean = canDeselect ? false : true
+        const checkboxTextStyle: string = canDeselect ? 'ecrb-check-box-text' : 'ecrb-check-box-text-disabled'
+
         useEffect(() => {
-            setCheckedStates((prev) => ({ ...prev, [id]: false }))
+            setCheckedStates((prev) => ({ ...prev, [id]: defaultCheckboxValue }))
         }, [id])
 
         return (
             <div className='ecrb-check-box-with-text'>
                 <input className='ecrb-check-box'
                     type="checkbox"
-                    checked={checkedStates[id] || false}
+                    checked={checkedStates[id] || defaultCheckboxValue}
                     onChange={() => {
                         setCheckedStates((prev)=> ({
                             ...prev,
                             [id]: !prev[id]
                         }))
                     }}
+                    disabled={checkboxDisabled}
                 />
-                <p className='ecrb-check-box-text'>{text}</p>
+                <p className={checkboxTextStyle}>{text}</p>
             </div>
         )
     }
@@ -219,11 +224,11 @@ export default function ECRBuilderScreen(props) {
                 Type of Records Being Requested
             </p>
             <div className='ecrb-evenly-spaced-two-column-row'>
-                { getCheckBoxWithText('Subscriber Information', 'subInfo') }
-                { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)', 'locUpdates') }
+                { getCheckBoxWithText('Subscriber Information', 'subInfo', true) }
+                { getCheckBoxWithText('Periodic Location Updates (15 Minute Intervals)', 'locUpdates', false) }
             </div>
             <div className='ecrb-evenly-spaced-two-column-row'>
-                { getCheckBoxWithText('Historical Location Information', 'historicalLocInfo') }
+                { getCheckBoxWithText('Historical Location Information', 'historicalLocInfo', true) }
                 <div id='ecrb-dropdown-with-text'>
                     <select id='ecrb-dropdown' onChange={handleDurationSelect}>
                         <option>1</option>
@@ -237,10 +242,10 @@ export default function ECRBuilderScreen(props) {
                 </div>
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('Call Detail Records with cell site information. Includes time/date.', 'callDetail') }
+                { getCheckBoxWithText('Call Detail Records with cell site information. Includes time/date.', 'callDetail', true) }
             </div>
             <div className='ecrb-evenly-spaced-one-column-row'>
-                { getCheckBoxWithText('Precision Location of mobile device', 'precisionLoc') }
+                { getCheckBoxWithText('Precision Location of mobile device', 'precisionLoc', false) }
             </div>
             <div className='ecrb-row'>
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
