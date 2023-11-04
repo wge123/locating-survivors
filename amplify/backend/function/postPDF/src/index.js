@@ -14,23 +14,11 @@ exports.handler = async (event) => {
         } catch (e) {
             console.error('JSON parsing failed:', e)
             console.error(event.body)
-            return {
-                statusCode: 400,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({ message: 'Invalid JSON' })
-            }
+            return apiResponse(400, { message: 'Invalid JSON' })
         }
     } else {
         console.error('event.body is undefined or null')
-        return {
-            statusCode: 400,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ message: event })
-        }
+        return apiResponse(400, { message: event })
     }
 
     const { blob, fileName } = body
@@ -46,18 +34,18 @@ exports.handler = async (event) => {
 
     try {
         await s3.putObject(params)
-        return {
-            statusCode: 200,
-            headers: CORS_HEADERS,
-            body: JSON.stringify({ message: 'Successfully uploaded' })
-        }
+        return apiResponse(200, { message: 'Successfully uploaded' })
     } catch (e) {
-        return {
-            statusCode: 500,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ message: e.message })
-        }
+        return apiResponse(500, { message: e.message })
+
     }
+}
+function apiResponse(statusCode, body) {
+    return {
+        statusCode,
+        headers: CORS_HEADERS,
+        body: JSON.stringify(body)
+    }
+
+
 }

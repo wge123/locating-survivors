@@ -13,6 +13,7 @@ import LoginScreen from './screens/login_screen/login'
 import NewCaseScreen from './screens/new_case_screen/newCase'
 import { CognitoUser } from 'amazon-cognito-identity-js'
 
+
 Amplify.configure(awsExports)
 
 // If we add admin panel we need more routes here, probably sub routes
@@ -30,12 +31,18 @@ export default function App() {
             const userAttributes = event.payload
             const userData = event.payload.event
             if (userData instanceof CognitoUser) {
+                // retrieve the user token
+                const idToken = userData.getSignInUserSession().getIdToken().getJwtToken()
                 setUser(userAttributes)
                 // Save the user to session storage so that the user is still logged-in if they refresh the page.
                 sessionStorage.setItem('user', JSON.stringify(userAttributes))
+                sessionStorage.setItem('idToken', idToken)
+
             }
+
         })
     })
+
 
     return (
         user != null ?
