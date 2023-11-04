@@ -321,10 +321,6 @@ exports.handler = async (event) => {
             return apiResponse(400, { message: error.message })
         }
 
-    } else {
-
-        return apiResponse(400, { message: 'Success, but no email sent' })
-
     }
 }
 function apiResponse(statusCode, body) {

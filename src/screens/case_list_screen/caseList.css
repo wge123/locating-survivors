@@ -5,6 +5,7 @@
     background: #1C1B1FBF;
     display: grid;
     grid-template-columns: 400px auto;
+    position: relative;
 }
 
 #cl-left-pane {
@@ -81,6 +82,15 @@
     padding-left: 15px;
     padding-right: 15px;
     overflow-y: scroll;
+    max-height: calc(100vh - 120px);
+}
+#new-case-button-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1100px;
+    height: 120px;
+    background: #555457;
 }
 
 #cl-mc-bottom-button {

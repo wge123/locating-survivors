@@ -183,7 +183,9 @@ export default function CaseListScreen(props): JSX.Element {
                         </>
                     ))
                 }
-                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
+                <div id='new-case-button-container'>
+                    <button id='cl-mc-bottom-button' onClick={navigateToNewCaseScreen}>New Case...</button>
+                </div>
             </div>
             {isLoading && (
                 <div className="loading-overlay">
