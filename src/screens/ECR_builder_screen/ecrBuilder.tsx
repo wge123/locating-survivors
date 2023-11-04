@@ -183,13 +183,14 @@ export default function ECRBuilderScreen(props) {
             } else {
                 console.error(pdf_response)
             }
-            setIsLoading(false)
+            
 
         } catch (error) {
             console.log(error)
             setIsLoading(false)
             navigate('/case_list')
         }
+        setIsLoading(false)
     } 
     
     useLayoutEffect(() => {
