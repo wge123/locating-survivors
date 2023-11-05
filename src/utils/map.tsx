@@ -10,12 +10,15 @@ export default function Map({ lat, lng }) {
     const [mapboxToken, setMapboxToken] = useState<string>('')
     const [hasError, setHasError] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(true)
-
+    const headers = {
+        Authorization: `Bearer ${sessionStorage.getItem('idToken')}`,
+        'Content-Type': 'application/json'
+    }
     useEffect(() => {
         const fetchToken = async () => {
             try {
                 const url = 'https://6u7yn5reri.execute-api.us-east-1.amazonaws.com/prod/keys/mapbox'
-                const response = await fetch(url)
+                const response = await fetch(url,{headers})
                 const data = await response.json()
                 const token = JSON.parse(data.body).token
                 if (token) {
