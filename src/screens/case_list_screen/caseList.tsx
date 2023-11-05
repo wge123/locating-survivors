@@ -169,7 +169,7 @@ export default function CaseListScreen(props): JSX.Element {
             </div>
             <div id='cl-main-content'>
                 {cases
-                    .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open')
+                    .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open' || caseForDisplay.status === 'Pending Initial Update')
                     .sort((a, b) => {
                         if (sortOrder === 'Duration: Low to High') {
                             return a.duration.localeCompare(b.duration)
