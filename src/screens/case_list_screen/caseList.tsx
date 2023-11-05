@@ -14,7 +14,8 @@ interface CaseForDisplay {
     id: string,
     lastUpdate: string,
     status: string,
-    duration: string
+    duration: string,
+    phoneNumber: string
 }
 
 export default function CaseListScreen(props): JSX.Element {
@@ -70,12 +71,14 @@ export default function CaseListScreen(props): JSX.Element {
                 const createdAt = new Date(user_case._createdAt)
                 initialCaseTimes[user_case.id] = createdAt
                 const formattedDifference = formattedDuration(createdAt)
+                const formattedPhoneNumber = user_case.phone_number.replace( /(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4')
                 const display_case: CaseForDisplay = {
                     id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
                     // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status,
-                    duration: formattedDifference
+                    duration: formattedDifference,
+                    phoneNumber: formattedPhoneNumber
                 }
                 case_arr.push(display_case)
                 case_data_arr.push(user_case)
@@ -99,16 +102,25 @@ export default function CaseListScreen(props): JSX.Element {
         navigate('/case_detail', {state: {caseData: caseData}})
     }
 
-    function getCaseItem(id: string, key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
+    function getCaseItem(
+        id: string, 
+        key: number, 
+        lastUpdate: string, 
+        status: string, 
+        duration: string, 
+        phoneNumber: string
+    ): JSX.Element {
         const caseData = case_data_arr.find(caseItem => caseItem.id === id)
         return (
             <div id='cl-ci-container' key={key}>
                 <div id='cl-ci-left-pane'>
+                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Case ID: ${id}`}</p>
+                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Phone Number: ${phoneNumber}`}</p>
                     <p id='cl-cit-left-align' className='cl-ci-text'>{`Last Update: ${lastUpdate}`}</p>
-                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Status: ${status}`}</p>
                 </div>
                 <div id='cl-ci-middle-pane'>
                     <p id='cl-cit-center-align' className='cl-ci-text'>{`Duration: ${duration}`}</p>
+                    <p id='cl-cit-center-align' className='cl-ci-text'>{`Status: ${status}`}</p>
                 </div>
                 <div id='cl-ci-right-pane'>
                     <button id='cl-ci-top-button' onClick={() => exportCase(caseData)}>Export...</button>
@@ -182,7 +194,7 @@ export default function CaseListScreen(props): JSX.Element {
                     })
                     .map((caseForDisplay, index) => (
                         <>
-                            {getCaseItem(caseForDisplay.id, index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
+                            {getCaseItem(caseForDisplay.id, index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration, caseForDisplay.phoneNumber)}
                         </>
                     ))
                 }
