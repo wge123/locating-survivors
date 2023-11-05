@@ -43,6 +43,9 @@ export default function CaseListScreen(props): JSX.Element {
         fetchData()
     }, [])
 
+    function convertSingleDigitToDouble(digit: number): string {
+        return digit.toString().length == 1 ? '0' +  digit.toString() : digit.toString()
+    }
 
     function formattedDuration(createdAt) {
         const currentTime = new Date() // Current time
@@ -51,7 +54,11 @@ export default function CaseListScreen(props): JSX.Element {
         const hours = Math.floor((milliseconds % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
         const minutes = Math.floor((milliseconds % (60 * 60 * 1000)) / (60 * 1000))
 
-        return `${days}:${hours}:${minutes}`
+        const formattedDays = convertSingleDigitToDouble(days)
+        const formattedHours = convertSingleDigitToDouble(hours)
+        const formattedMinutes = convertSingleDigitToDouble(minutes)
+
+        return `${formattedDays}:${formattedHours}:${formattedMinutes}`
     }
 
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
