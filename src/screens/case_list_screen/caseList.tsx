@@ -164,6 +164,7 @@ export default function CaseListScreen(props): JSX.Element {
                     <p className='cl-uib-text'>{getUserFullName()}</p>
                     <p className='cl-uib-text'>Operator</p>
                 </div>
+                <button id='cl-mc-bottom-button' onClick={navigateToNewCaseScreen}>New Case...</button>
             </div>
             <div id='cl-main-content'>
                 {cases
@@ -184,7 +185,6 @@ export default function CaseListScreen(props): JSX.Element {
                     ))
                 }
                 <div id='new-case-button-container'>
-                    <button id='cl-mc-bottom-button' onClick={navigateToNewCaseScreen}>New Case...</button>
                 </div>
             </div>
             {isLoading && (
