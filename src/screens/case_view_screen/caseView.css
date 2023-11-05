@@ -135,8 +135,10 @@
     flex-direction: column;
     justify-content: center;
     background: #ccc;
-
-
+    margin-bottom: 20px;
+    margin-top: 10px; 
+    border: 1px solid #000;
+    border-radius: 10px;
     color: #2f2f2f;
     text-align: center;
 }
