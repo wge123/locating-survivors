@@ -14,7 +14,7 @@ interface CaseForDisplay {
     id: string,
     lastUpdate: string,
     status: string,
-    duration: string
+    duration: string,
 }
 
 export default function CaseListScreen(props): JSX.Element {
@@ -73,9 +73,8 @@ export default function CaseListScreen(props): JSX.Element {
                 const display_case: CaseForDisplay = {
                     id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
-                    // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status,
-                    duration: formattedDifference
+                    duration: formattedDifference,
                 }
                 case_arr.push(display_case)
                 case_data_arr.push(user_case)

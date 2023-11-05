@@ -67,7 +67,7 @@ export default function CaseViewScreen() {
         if (caseData) {
             lastUpdated = caseData.time_updated
         }
-        let lastUpdatedFormatted = 'Not Filled'
+        let lastUpdatedFormatted = 'N/A'
         if (lastUpdated) {
             lastUpdatedFormatted = moment(lastUpdated).tz(selectedTimezone).format('M/D/YYYY h:mm:ss A')
         }
