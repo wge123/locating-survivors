@@ -73,7 +73,8 @@ exports.handler = async (event) => {
             #time_updated = :time_updated, 
             #next_update = :next_update, 
             #version = :version, 
-            #lastChangedAt = :lastChangedAt`,
+            #lastChangedAt = :lastChangedAt,
+            #status = :status`,
             ExpressionAttributeNames: {
                 '#latitudes': 'latitude',
                 '#longitudes': 'longitude',
@@ -83,7 +84,8 @@ exports.handler = async (event) => {
                 '#time_updated': 'time_updated',
                 '#next_update': 'next_update',
                 '#version': '_version',
-                '#lastChangedAt': '_lastChangedAt'
+                '#lastChangedAt': '_lastChangedAt',
+                '#status': 'status'
             },
             ExpressionAttributeValues: {
                 ':latitude': [latitude],
@@ -95,7 +97,8 @@ exports.handler = async (event) => {
                 ':time_updated': new Date().toISOString(),
                 ':next_update': addMinutes(new Date(), 15).toISOString(),
                 ':version': getVersion + 1,
-                ':lastChangedAt': new Date().getTime()
+                ':lastChangedAt': new Date().getTime(),
+                ':status': 'Open'
             }
 
         }
