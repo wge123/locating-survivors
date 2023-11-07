@@ -111,7 +111,7 @@ export default function CaseViewScreen() {
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
                     {
-                        (getCaseUncertainty() === 'N/A') ? (
+                        getCaseUncertainty() === 'N/A' ? (
                             <p className='cv-text'>
                                 {`Uncertainty: ${getCaseUncertainty()}`}
                             </p>
