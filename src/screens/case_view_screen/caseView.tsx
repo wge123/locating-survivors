@@ -110,29 +110,33 @@ export default function CaseViewScreen() {
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
-                    {(getCaseUncertainty() === 'N/A') ? (
-                        <p className='cv-text'>
-                            {`Uncertainty: ${getCaseUncertainty()}`}
-                        </p>
-                    ) : (
-                        <p className='cv-text'>
-                            {`Uncertainty: ${getCaseUncertainty()}m`}
-                        </p>
-                    )
+                    {
+                        (getCaseUncertainty() === 'N/A') ? (
+                            <p className='cv-text'>
+                                {`Uncertainty: ${getCaseUncertainty()}`}
+                            </p>
+                        ) : (
+                            <p className='cv-text'>
+                                {`Uncertainty: ${getCaseUncertainty()}m`}
+                            </p>
+                        )
                     }
 
                 </div>
                 <div id='cv-pane-small' className='cv-pane'>
                     <div>
-                        {caseData._version === 1? (
-                            <div>
-                                <p className='cv-text'> Pending Initial Update</p>
-                            </div>) : (
-                            <>
-                                <p className='cv-text'>Last update on:</p>
-                                <p className='cv-text'>{getCaseLastUpdate()}</p>
-                            </>
-                        )}
+                        {
+                            caseData._version === 1 ? (
+                                <div>
+                                    <p className='cv-text'> Pending Initial Update</p>
+                                </div>
+                            ) : (
+                                <>
+                                    <p className='cv-text'>Last update on:</p>
+                                    <p className='cv-text'>{getCaseLastUpdate()}</p>
+                                </>
+                            )
+                        }
                     </div>
                     <div id='cv-text-div'>
                         <select
@@ -171,8 +175,6 @@ export default function CaseViewScreen() {
                             )
                         )
                     }
-
-
 
                     <div id='cv-bottom-buttons'>
                         <button className='cv-bottom-button' onClick={() => exportCase(caseData)} disabled={coordsContainNil}>
