@@ -13,12 +13,9 @@ export default function EcrPreview() {
     const ecrData = ''
     const state = window[ecrData]
     useEffect(() => {
-        console.log(state)
         fetchPdf(state)
             .then(({ pdfUrl }) => {
-                console.log(pdfUrl)
                 setPdfUrl(pdfUrl)
-                console.log(pdfUrl)
             })
             .catch((error: Error) => console.error(error))
     }, [])

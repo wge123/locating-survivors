@@ -250,7 +250,7 @@ export default function ECRBuilderScreen(props) {
             </div>
             <div className='ecrb-row'>
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
-                        Preview ECR...
+                    Preview ECR...
                 </button>
                 <button id='ecrb-solid-blue-button' onClick={handleECRPost}>
                     Send ECR
