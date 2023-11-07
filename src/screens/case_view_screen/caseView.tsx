@@ -43,7 +43,7 @@ export default function CaseViewScreen() {
         caseData = state.caseData
     }
 
-
+    
     const lat = caseData && caseData.latitude && caseData.latitude[(caseData.latitude).length - 1] ? caseData.latitude[(caseData.latitude).length - 1] : 'N/A'
     function getCaseLatitude(): string {
         return lat
@@ -55,7 +55,7 @@ export default function CaseViewScreen() {
     }
 
     function getCaseUncertainty(): string {
-        if (caseData && caseData.uncertainty) {
+        if (caseData && caseData.uncertainty && caseData.uncertainty.length > 0) {
             return caseData.uncertainty[(caseData.uncertainty.length) - 1]
         } else {
             return 'N/A'
@@ -98,7 +98,6 @@ export default function CaseViewScreen() {
     }
 
     const coordsContainNil: boolean = lat === 'N/A' || lng === 'N/A'
-
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
@@ -111,11 +110,30 @@ export default function CaseViewScreen() {
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
-                    <p className='cv-text'>{`Uncertainty: ${getCaseUncertainty()}m`}</p>
+                    {(getCaseUncertainty() === 'N/A') ? (
+                        <p className='cv-text'>
+                            {`Uncertainty: ${getCaseUncertainty()}`}
+                        </p>
+                    ) : (
+                        <p className='cv-text'>
+                            {`Uncertainty: ${getCaseUncertainty()}m`}
+                        </p>
+                    )
+                    }
+
                 </div>
                 <div id='cv-pane-small' className='cv-pane'>
-                    <p className='cv-text'>Last update on:</p>
-                    <p className='cv-text'>{getCaseLastUpdate()}</p>
+                    <div>
+                        {caseData._version === 1? (
+                            <div>
+                                <p className='cv-text'> Pending Initial Update</p>
+                            </div>) : (
+                            <>
+                                <p className='cv-text'>Last update on:</p>
+                                <p className='cv-text'>{getCaseLastUpdate()}</p>
+                            </>
+                        )}
+                    </div>
                     <div id='cv-text-div'>
                         <select
                             className='select-timezone'
