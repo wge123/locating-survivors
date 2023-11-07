@@ -4,10 +4,12 @@ import {PDFDocument, StandardFonts} from 'pdf-lib'
 export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Blob }> => {
     try {
         const response = await fetch(ecrPreview)
+        console.log(stateHash)
         if (!response.ok) {
             throw new Error('Network response was not ok')
         }
 
+        
         const existingPdfBytes = await response.arrayBuffer()
         const pdfDoc = await PDFDocument.load(existingPdfBytes)
         const page = pdfDoc.getPages()[0]
@@ -32,12 +34,12 @@ export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Bl
             size: 10,
         })
         // coast guard user info
-        page.drawText('Coast Guard Recruit '+ stateHash.user.name, {
+        page.drawText('Coast Guard Recruit '+ stateHash.state.user.name, {
             x: 225,
             y: 515.5,
             size: 10,
         })
-        page.drawText(stateHash.user.email, {
+        page.drawText(stateHash.state.user.email, {
             x: 225,
             y: 504.5,
             size: 10,
@@ -45,7 +47,7 @@ export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Bl
         // Supervisor information
         // leaving blank for now ( as of 9/28/23 )
         // Phone number
-        page.drawText(stateHash.phoneNumber, {
+        page.drawText(stateHash.state.phoneNumber, {
             x: 250,
             y: 365,
             size: 12,
@@ -57,7 +59,7 @@ export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Bl
             size: 12,
         })
         // checkboxes here
-        const checkedStates = stateHash.checkedStates
+        const checkedStates = stateHash.state.checkedStates
         if (checkedStates['subInfo']) {
             page.drawText('\u2713', {
                 x: 135,
@@ -91,13 +93,13 @@ export const fetchPdf = async (stateHash): Promise<{ pdfUrl: string; pdfBlob: Bl
             })
         }
         // Signature
-        page.drawText(stateHash.user.name, {
+        page.drawText(stateHash.state.user.name, {
             x: 190,
             y: 150,
             size: 15,
         })
         // date
-        page.drawText(stateHash.date, {
+        page.drawText(stateHash.state.date, {
             x: 375,
             y: 115,
             size: 15,

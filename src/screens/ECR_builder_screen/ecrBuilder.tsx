@@ -96,7 +96,9 @@ export default function ECRBuilderScreen(props) {
     const state= { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates }
     const viewECRPreview = () => {
         setAccessAllowed(true)
-        navigate('/ecr_builder/ecr_preview', { state })
+        const newWindow = window.open('/ecr_builder/ecr_preview')
+        const ecrData= ''
+        newWindow[ecrData] = { state }
     }
 
     const handleDurationSelect = (event) => {
@@ -248,7 +250,7 @@ export default function ECRBuilderScreen(props) {
             </div>
             <div className='ecrb-row'>
                 <button className='ecrb-solid-gray-button' onClick={viewECRPreview}>
-                    Preview ECR...
+                        Preview ECR...
                 </button>
                 <button id='ecrb-solid-blue-button' onClick={handleECRPost}>
                     Send ECR

@@ -8,19 +8,17 @@ export default function EcrPreview() {
     const { accessAllowed } = useContext(AccessPDFContext)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (!accessAllowed) {
-            navigate('/ecr_builder')
-        }
-    }, [accessAllowed, navigate])
-
     const [pdfUrl, setPdfUrl] = useState('')
     const location = useLocation()
-    const state = location.state
+    const ecrData = ''
+    const state = window[ecrData]
     useEffect(() => {
+        console.log(state)
         fetchPdf(state)
             .then(({ pdfUrl }) => {
+                console.log(pdfUrl)
                 setPdfUrl(pdfUrl)
+                console.log(pdfUrl)
             })
             .catch((error: Error) => console.error(error))
     }, [])
