@@ -139,15 +139,12 @@
     color: #FFF;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-family: Inter;
-    font-size: 23px;
+    font-size: 25px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #cl-ci-middle-pane {

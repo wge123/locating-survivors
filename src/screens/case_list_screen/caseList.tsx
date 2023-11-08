@@ -114,7 +114,6 @@ export default function CaseListScreen(props): JSX.Element {
         return (
             <div id='cl-ci-container' key={key}>
                 <div id='cl-ci-left-pane'>
-                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Case ID: ${id}`}</p>
                     <p id='cl-cit-left-align' className='cl-ci-text'>{`Phone Number: ${phoneNumber}`}</p>
                     <p id='cl-cit-left-align' className='cl-ci-text'>{`Last Update: ${lastUpdate}`}</p>
                 </div>
