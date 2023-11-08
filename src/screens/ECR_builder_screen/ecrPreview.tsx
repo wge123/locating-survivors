@@ -1,17 +1,23 @@
 import React, {useContext, useEffect, useState} from 'react'
-import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import {useNavigate} from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import {fetchPdf} from '../../utils/fetchPdf.tsx'
 
 export default function EcrPreview() {
-    const { accessAllowed } = useContext(AccessPDFContext)
     const navigate = useNavigate()
 
     const [pdfUrl, setPdfUrl] = useState('')
     const location = useLocation()
     const ecrData = ''
     const state = window[ecrData]
+
+    useEffect(() => {
+        if (!state.state.accessAllowed) {
+            navigate('/') 
+        }
+    }, )
+
+
     useEffect(() => {
         fetchPdf(state)
             .then(({ pdfUrl }) => {
