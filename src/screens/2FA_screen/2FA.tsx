@@ -38,7 +38,7 @@ export default function TwoFactorAuthenticationScreen(props: twoFactorAuthentica
                     2FA
                 </p>
                 <p id='sub-text-2FA'>
-                    A code has been sent to ###ple@uscg.sarcfs.gov for verification
+                    Please enter the code from your authenticator app for verification
                 </p>
                 <input id='text-input-2FA' placeholder='2FA Code...' type='text' onChange={event => setMfaCode(event.target.value)}/>
                 <div id='verify-button-container-2FA'>
