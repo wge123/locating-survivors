@@ -17,7 +17,7 @@ export default function LoginScreen() {
         setIsLoading(true)
         try {
             const response = await Auth.signIn(username, password)
-            console.log('User authentication response: ', response)
+            console.log('User authenticated with username and password. 2FA has not been verified yet.')
             setAuthresponse(response)
         } catch (error) {
             console.log('User authentication attempt failed. ' + error)
