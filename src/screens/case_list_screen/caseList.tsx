@@ -170,10 +170,12 @@ export default function CaseListScreen(props): JSX.Element {
                 {getCheckboxForActiveOnly()}
                 {getRadioButtonWithText('Duration: Low to High')}
                 {getRadioButtonWithText('Duration: High to Low')}
-                <div id='cl-user-info-box'>
-                    <p className='cl-uib-text'>{getUserFullName()}</p>
-                    <p className='cl-uib-text'>Operator</p>
+                <div id='cl-user-info-container'>
+                    <div id='cl-user-info-box'>
+                        <p className='cl-uib-text'>{getUserFullName()} (Operator)</p>
+                    </div>
                 </div>
+                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
             <div id='cl-main-content'>
                 {cases
@@ -193,7 +195,6 @@ export default function CaseListScreen(props): JSX.Element {
                         </>
                     ))
                 }
-                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
             {isLoading && (
                 <div className="loading-overlay">
