@@ -90,6 +90,10 @@ export default function CaseViewScreen() {
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
 
+    function getCaseID(): string {
+        return caseData.id
+    }
+
     function convertCoordinate(coord: string) {
         const number = parseFloat(coord?.split(' ')[0])
         const direction = coord?.split(' ')[1]
@@ -129,11 +133,11 @@ export default function CaseViewScreen() {
                             ))}
                         </select>
                     </div>
-
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
+                    <p className='cv-text'>{`Case ID: ${getCaseID()}`}</p>
                     {lat != 'N/A' || lng != 'N/A' ?
                         (
                             <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
@@ -144,7 +148,6 @@ export default function CaseViewScreen() {
                             <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
                         </div>
                     }
-
                     <div id='cv-bottom-buttons'>
                         <button className='cv-bottom-button' onClick={() => exportCase(caseData)} disabled={coordsContainNil}>
                             Export to SAROPS
