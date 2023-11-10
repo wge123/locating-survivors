@@ -7,7 +7,6 @@
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { TextProps, ViewProps } from "@aws-amplify/ui-react";
-
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MiddlePaneOverridesProps = {
     MiddlePane?: PrimitiveOverrideProps<ViewProps>;
