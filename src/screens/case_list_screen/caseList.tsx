@@ -15,6 +15,8 @@ interface CaseForDisplay {
     lastUpdate: string,
     status: string,
     duration: string,
+    phoneNumber: string
+
 }
 
 export default function CaseListScreen(props): JSX.Element {
@@ -43,6 +45,9 @@ export default function CaseListScreen(props): JSX.Element {
         fetchData()
     }, [])
 
+    function convertSingleDigitToDouble(digit: number): string {
+        return digit.toString().length == 1 ? '0' +  digit.toString() : digit.toString()
+    }
 
     function formattedDuration(createdAt) {
         const currentTime = new Date() // Current time
@@ -51,7 +56,11 @@ export default function CaseListScreen(props): JSX.Element {
         const hours = Math.floor((milliseconds % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
         const minutes = Math.floor((milliseconds % (60 * 60 * 1000)) / (60 * 1000))
 
-        return `${days}:${hours}:${minutes}`
+        const formattedDays = convertSingleDigitToDouble(days)
+        const formattedHours = convertSingleDigitToDouble(hours)
+        const formattedMinutes = convertSingleDigitToDouble(minutes)
+
+        return `${formattedDays}:${formattedHours}:${formattedMinutes}`
     }
 
     async function getCases(): Promise<(CaseForDisplay[] | any[])[]> {
@@ -70,11 +79,13 @@ export default function CaseListScreen(props): JSX.Element {
                 const createdAt = new Date(user_case._createdAt)
                 initialCaseTimes[user_case.id] = createdAt
                 const formattedDifference = formattedDuration(createdAt)
+                const formattedPhoneNumber = user_case.phone_number.replace( /(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4')
                 const display_case: CaseForDisplay = {
                     id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
                     status: user_case.status,
                     duration: formattedDifference,
+                    phoneNumber: formattedPhoneNumber
                 }
                 case_arr.push(display_case)
                 case_data_arr.push(user_case)
@@ -98,16 +109,24 @@ export default function CaseListScreen(props): JSX.Element {
         navigate('/case_detail', {state: {caseData: caseData}})
     }
 
-    function getCaseItem(id: string, key: number, lastUpdate: string, status: string, duration: string): JSX.Element {
+    function getCaseItem(
+        id: string, 
+        key: number, 
+        lastUpdate: string, 
+        status: string, 
+        duration: string, 
+        phoneNumber: string
+    ): JSX.Element {
         const caseData = case_data_arr.find(caseItem => caseItem.id === id)
         return (
             <div id='cl-ci-container' key={key}>
                 <div id='cl-ci-left-pane'>
+                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Phone Number: ${phoneNumber}`}</p>
                     <p id='cl-cit-left-align' className='cl-ci-text'>{`Last Update: ${lastUpdate}`}</p>
-                    <p id='cl-cit-left-align' className='cl-ci-text'>{`Status: ${status}`}</p>
                 </div>
                 <div id='cl-ci-middle-pane'>
                     <p id='cl-cit-center-align' className='cl-ci-text'>{`Duration: ${duration}`}</p>
+                    <p id='cl-cit-center-align' className='cl-ci-text'>{`Status: ${status}`}</p>
                 </div>
                 <div id='cl-ci-right-pane'>
                     <button id='cl-ci-top-button' onClick={() => exportCase(caseData)}>Export...</button>
@@ -162,10 +181,12 @@ export default function CaseListScreen(props): JSX.Element {
                 {getCheckboxForActiveOnly()}
                 {getRadioButtonWithText('Duration: Low to High')}
                 {getRadioButtonWithText('Duration: High to Low')}
-                <div id='cl-user-info-box'>
-                    <p className='cl-uib-text'>{getUserFullName()}</p>
-                    <p className='cl-uib-text'>Operator</p>
+                <div id='cl-user-info-container'>
+                    <div id='cl-user-info-box'>
+                        <p className='cl-uib-text'>{getUserFullName()} (Operator)</p>
+                    </div>
                 </div>
+                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
             <div id='cl-main-content'>
                 {cases
@@ -181,11 +202,10 @@ export default function CaseListScreen(props): JSX.Element {
                     })
                     .map((caseForDisplay, index) => (
                         <>
-                            {getCaseItem(caseForDisplay.id, index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration)}
+                            {getCaseItem(caseForDisplay.id, index, caseForDisplay.lastUpdate, caseForDisplay.status, caseForDisplay.duration, caseForDisplay.phoneNumber)}
                         </>
                     ))
                 }
-                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
             </div>
             {isLoading && (
                 <div className="loading-overlay">

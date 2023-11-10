@@ -90,6 +90,10 @@ export default function CaseViewScreen() {
         return Math.round(milliseconds / (1000 * 60)) + ' minutes'
     }
 
+    function getCaseID(): string {
+        return caseData.id
+    }
+
     function convertCoordinate(coord: string) {
         const number = parseFloat(coord?.split(' ')[0])
         const direction = coord?.split(' ')[1]
@@ -151,7 +155,6 @@ export default function CaseViewScreen() {
                             ))}
                         </select>
                     </div>
-
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
@@ -175,7 +178,6 @@ export default function CaseViewScreen() {
                             )
                         )
                     }
-
                     <div id='cv-bottom-buttons'>
                         <button className='cv-bottom-button' onClick={() => exportCase(caseData)} disabled={coordsContainNil}>
                             Export to SAROPS

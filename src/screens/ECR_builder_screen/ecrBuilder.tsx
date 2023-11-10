@@ -229,7 +229,7 @@ export default function ECRBuilderScreen(props) {
             <div className='ecrb-evenly-spaced-two-column-row'>
                 { getCheckBoxWithText('Historical Location Information', 'historicalLocInfo', true) }
                 <div id='ecrb-dropdown-with-text'>
-                    <select id='ecrb-dropdown' onChange={handleDurationSelect}>
+                    <select id='ecrb-dropdown' onChange={handleDurationSelect} defaultValue='3'>
                         <option>1</option>
                         <option>3</option>
                         <option>6</option>

@@ -15,12 +15,11 @@ export default function TwoFactorAuthenticationScreen(props: twoFactorAuthentica
         try {
             // Confirm the 2FA code that the user typed in.
             const mfaResponse = await Auth.confirmSignIn(props.authResponse, mfaCode, 'SOFTWARE_TOKEN_MFA')
-            console.log('User authentication response with 2FA: ', mfaResponse)
+            console.log('User authenticated with 2FA.')
             if (mfaResponse) {
                 Auth.currentAuthenticatedUser()
                     .then(user => {
                         const attributes = user.attributes
-                        console.log(attributes)
                         Hub.dispatch('auth', { event: mfaResponse , attributes })
                     })
                     .catch(err => console.log(err))
@@ -38,7 +37,7 @@ export default function TwoFactorAuthenticationScreen(props: twoFactorAuthentica
                     2FA
                 </p>
                 <p id='sub-text-2FA'>
-                    A code has been sent to ###ple@uscg.sarcfs.gov for verification
+                    Please enter the code from your authenticator app for verification
                 </p>
                 <input id='text-input-2FA' placeholder='2FA Code...' type='text' onChange={event => setMfaCode(event.target.value)}/>
                 <div id='verify-button-container-2FA'>
