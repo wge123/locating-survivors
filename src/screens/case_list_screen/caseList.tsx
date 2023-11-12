@@ -16,6 +16,7 @@ interface CaseForDisplay {
     status: string,
     duration: string,
     phoneNumber: string
+
 }
 
 export default function CaseListScreen(props): JSX.Element {
@@ -82,7 +83,6 @@ export default function CaseListScreen(props): JSX.Element {
                 const display_case: CaseForDisplay = {
                     id: user_case.id,
                     lastUpdate: moment(user_case.time_updated).tz('America/New_York').format('lll'),
-                    // TODO: AKEEN - once we figure out how status works fix this
                     status: user_case.status,
                     duration: formattedDifference,
                     phoneNumber: formattedPhoneNumber
@@ -190,7 +190,7 @@ export default function CaseListScreen(props): JSX.Element {
             </div>
             <div id='cl-main-content'>
                 {cases
-                    .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open')
+                    .filter(caseForDisplay => !showActiveOnly || caseForDisplay.status === 'Open' || caseForDisplay.status === 'Pending Initial Update')
                     .sort((a, b) => {
                         if (sortOrder === 'Duration: Low to High') {
                             return a.duration.localeCompare(b.duration)

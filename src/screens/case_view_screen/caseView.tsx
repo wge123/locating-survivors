@@ -7,7 +7,7 @@ import AccessCaseViewContext from '../../context/accessCaseViewContext.tsx'
 import { exportCase } from '../../utils/exportCase.tsx'
 import Map from '../../utils/map.tsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import {faExclamationTriangle, faHourglass} from '@fortawesome/free-solid-svg-icons'
 
 
 export default function CaseViewScreen() {
@@ -43,7 +43,7 @@ export default function CaseViewScreen() {
         caseData = state.caseData
     }
 
-
+    
     const lat = caseData && caseData.latitude && caseData.latitude[(caseData.latitude).length - 1] ? caseData.latitude[(caseData.latitude).length - 1] : 'N/A'
     function getCaseLatitude(): string {
         return lat
@@ -55,7 +55,7 @@ export default function CaseViewScreen() {
     }
 
     function getCaseUncertainty(): string {
-        if (caseData && caseData.uncertainty) {
+        if (caseData && caseData.uncertainty && caseData.uncertainty.length > 0) {
             return caseData.uncertainty[(caseData.uncertainty.length) - 1]
         } else {
             return 'N/A'
@@ -67,7 +67,7 @@ export default function CaseViewScreen() {
         if (caseData) {
             lastUpdated = caseData.time_updated
         }
-        let lastUpdatedFormatted = 'Not Filled'
+        let lastUpdatedFormatted = 'N/A'
         if (lastUpdated) {
             lastUpdatedFormatted = moment(lastUpdated).tz(selectedTimezone).format('M/D/YYYY h:mm:ss A')
         }
@@ -102,7 +102,6 @@ export default function CaseViewScreen() {
     }
 
     const coordsContainNil: boolean = lat === 'N/A' || lng === 'N/A'
-
     return (
         <div id='cv-container'>
             <button id='cv-back-button' onClick={() => onBackButtonClick()}>
@@ -115,11 +114,34 @@ export default function CaseViewScreen() {
                     <div className='cv-text-gap' />
                     <p className='cv-text'>{`Latitude: ${getCaseLatitude()}`}</p>
                     <p className='cv-text'>{`Longitude: ${getCaseLongitude()}`}</p>
-                    <p className='cv-text'>{`Uncertainty: ${getCaseUncertainty()}m`}</p>
+                    {
+                        getCaseUncertainty() === 'N/A' ? (
+                            <p className='cv-text'>
+                                {`Uncertainty: ${getCaseUncertainty()}`}
+                            </p>
+                        ) : (
+                            <p className='cv-text'>
+                                {`Uncertainty: ${getCaseUncertainty()}m`}
+                            </p>
+                        )
+                    }
+
                 </div>
                 <div id='cv-pane-small' className='cv-pane'>
-                    <p className='cv-text'>Last update on:</p>
-                    <p className='cv-text'>{getCaseLastUpdate()}</p>
+                    <div>
+                        {
+                            caseData._version === 1 ? (
+                                <div>
+                                    <p className='cv-text'> Pending Initial Update</p>
+                                </div>
+                            ) : (
+                                <>
+                                    <p className='cv-text'>Last update on:</p>
+                                    <p className='cv-text'>{getCaseLastUpdate()}</p>
+                                </>
+                            )
+                        }
+                    </div>
                     <div id='cv-text-div'>
                         <select
                             className='select-timezone'
@@ -137,16 +159,24 @@ export default function CaseViewScreen() {
                     <p className='cv-text'>{`${getCaseTimeUntilNextUpdate()} until next update`}</p>
                 </div>
                 <div id='cv-pane-big' className='cv-pane'>
-                    <p className='cv-text'>{`Case ID: ${getCaseID()}`}</p>
-                    {lat != 'N/A' || lng != 'N/A' ?
-                        (
-                            <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
-                        ) :
-                        <div id='cv-empty-map'>
-                            <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle" />
-                            <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
-                            <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
-                        </div>
+                    {
+                        caseData._version === 1 ? (
+                            <div id='cv-empty-map'>
+                                <FontAwesomeIcon icon={faHourglass} size="10x" id="faExclamationTriangle" />
+                                <h2 id="errorHeader">Error: Pending Initial Update</h2>
+                                <p>This case has yet to receive an initial update, please return later.</p>
+                            </div>
+                        ) : (
+                            lat !== 'N/A' || lng !== 'N/A' ? (
+                                <Map lat={convertCoordinate(lat)} lng={convertCoordinate(lng)} />
+                            ) : (
+                                <div id='cv-empty-map'>
+                                    <FontAwesomeIcon icon={faExclamationTriangle} size="10x" id="faExclamationTriangle" />
+                                    <h2 id="errorHeader">Oops! Something Went Wrong.</h2>
+                                    <p>MapBox Didn&apos;t Load Correctly. Please Reach Out To Your IT Admin For Details</p>
+                                </div>
+                            )
+                        )
                     }
                     <div id='cv-bottom-buttons'>
                         <button className='cv-bottom-button' onClick={() => exportCase(caseData)} disabled={coordsContainNil}>
