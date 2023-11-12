@@ -27,9 +27,9 @@ const CORS_HEADERS = {
  */
 exports.handler = async (event) => {
     // Get case_id from event
-    const case_id = event.case_id
+    const case_id = event.id
     // const case_data = await getCase(case_id)
-    const filname = `csvtesttt-${case_id}`
+    const filname = `csv-${case_id}`
     const TABLE_NAME = process.env.STORAGE_CASE_NAME
     const bucketName = 'locatingsurvivors-csv-prod'
     let body
