@@ -1,14 +1,19 @@
 #cl-container {
     height: 100vh;
     min-width: 1500px;
-    min-height: 500px;
-    background: #1C1B1FBF;
     display: grid;
     grid-template-columns: 400px auto;
 }
 
 #cl-left-pane {
     background: #757575;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+}
+
+#cl-lp-top-container {
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -54,48 +59,23 @@
     margin-bottom: 15px;
 }
 
-#cl-user-info-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 50px;
-    height: 100%;
-}
-
-#cl-user-info-box {
+#cl-lp-bottom-container {
     display: flex;
     flex-direction: column;
 }
 
-.cl-uib-text {
+.cl-lp-user-info-text {
+    align-self: center;
     color: #FFF;
-    text-align: right;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-family: Inter;
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
-#cl-main-content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
-    overflow-y: scroll;
-}
-
-#cl-mc-bottom-button {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 400px;
+#cl-lp-bottom-button {
     height: 80px;
     background: #3093C7;
     box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25);
@@ -108,14 +88,23 @@
     border: transparent;
 }
 
-#cl-mc-bottom-button:hover {
+#cl-lp-bottom-button:hover {
     cursor: pointer;
     background: #3cb7fb;
 }
 
+#cl-main-content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-y: scroll;
+    background: #595959;
+}
+
 #cl-ci-container {
     height: 120px;
-    width: 100%;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     display: grid;
@@ -164,7 +153,6 @@
 }
 
 #cl-ci-right-pane {
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -173,7 +161,6 @@
 }
 
 #cl-ci-top-button {
-    width: 100%;
     height: 50px;
     border-radius: 10px;
     background: #313033;
@@ -194,7 +181,6 @@
 }
 
 #cl-ci-bottom-button {
-    width: 100%;
     height: 30px;
     border-radius: 10px;
     background: #313033;

@@ -40,11 +40,9 @@ export default function TwoFactorAuthenticationScreen(props: twoFactorAuthentica
                     Please enter the code from your authenticator app for verification
                 </p>
                 <input id='text-input-2FA' placeholder='2FA Code...' type='text' onChange={event => setMfaCode(event.target.value)}/>
-                <div id='verify-button-container-2FA'>
-                    <button id='verify-button-2FA' onClick={() => onVerifyButtonClick()}>
-                        Verify
-                    </button>
-                </div>
+                <button id='verify-button-2FA' onClick={() => onVerifyButtonClick()}>
+                    Verify
+                </button>
             </div>
             <ErrorSnackbar errorMessage='Incorrect 2FA code.' open={openErrorSnackbar} onClose={() => setOpenErrorSnackbar(false)}/>
         </div>

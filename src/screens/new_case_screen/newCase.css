@@ -1,5 +1,6 @@
 #nc-container {
     height: 100vh;
+    min-width: 700px;
     background-image: url("/public/new_case_background.png") ;
     display: grid;
     place-items: center;
@@ -8,7 +9,6 @@
     -o-background-size: cover;
     background-size: cover;
 }
-
 
 #nc-center-pane {
     width: 700px;

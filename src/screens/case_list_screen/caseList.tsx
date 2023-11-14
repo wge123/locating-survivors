@@ -177,16 +177,16 @@ export default function CaseListScreen(props): JSX.Element {
     return (
         <div id='cl-container'>
             <div id='cl-left-pane'>
-                <p id='cl-lp-header-text'>Sort By...</p>
-                {getCheckboxForActiveOnly()}
-                {getRadioButtonWithText('Duration: Low to High')}
-                {getRadioButtonWithText('Duration: High to Low')}
-                <div id='cl-user-info-container'>
-                    <div id='cl-user-info-box'>
-                        <p className='cl-uib-text'>{getUserFullName()} (Operator)</p>
-                    </div>
+                <div id='cl-lp-top-container'>
+                    <p id='cl-lp-header-text'>Sort By...</p>
+                    {getCheckboxForActiveOnly()}
+                    {getRadioButtonWithText('Duration: Low to High')}
+                    {getRadioButtonWithText('Duration: High to Low')}
                 </div>
-                <button id='cl-mc-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
+                <div id='cl-lp-bottom-container'>
+                    <p className='cl-lp-user-info-text'>{getUserFullName()} (Operator)</p>
+                    <button id='cl-lp-bottom-button' onClick={() => navigateToNewCaseScreen()}>New Case...</button>
+                </div>
             </div>
             <div id='cl-main-content'>
                 {cases
