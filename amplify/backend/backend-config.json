@@ -48,6 +48,52 @@
     }
   },
   "function": {
+    "archiveCase": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "archiveDeleteCase": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "deleteCase"
+        },
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "archiveCase"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "Case"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "basicFunction": {
       "build": true,
       "dependsOn": [],
@@ -406,6 +452,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_archiveCase_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "archiveCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_archiveCase_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "archiveCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_archiveDeleteCase_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "archiveDeleteCase"
+        }
+      ]
+    },
+    "AMPLIFY_function_archiveDeleteCase_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "archiveDeleteCase"
+        }
+      ]
+    },
     "AMPLIFY_function_basicFunction_deploymentBucketName": {
       "usedBy": [
         {
