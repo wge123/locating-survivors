@@ -34,11 +34,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "prepare": "husky install",
+    "start": "npm run clear-cache && react-scripts start",
+    "build": "npm run clear-cache && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "clear-cache": "rm -rf node_modules/.cache/"
   },
   "eslintConfig": {
     "extends": [
