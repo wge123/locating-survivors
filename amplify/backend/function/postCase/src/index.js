@@ -23,7 +23,6 @@ const dBClient = new DynamoDBClient({
     region: process.env.AWS_REGION
 })
 const documentClient = DynamoDBDocument.from(dBClient)
-const Blob = require('node:buffer').Blob
 // Cognito SDK
 const { CognitoIdentityProviderClient, ListUsersCommand } = require('@aws-sdk/client-cognito-identity-provider')
 const client = new CognitoIdentityProviderClient({
