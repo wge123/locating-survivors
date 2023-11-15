@@ -113,7 +113,7 @@ export default function ECRBuilderScreen(props) {
     const handleECRPost = async () => {
         setIsLoading(true)
         try {
-            const { pdfUrl, pdfBlob } = await fetchPdf(state)
+            const { pdfUrl, pdfBlob } = await fetchPdf({state})
             setPdfUrl(pdfUrl)
             setPdfBlob(pdfBlob)
 
