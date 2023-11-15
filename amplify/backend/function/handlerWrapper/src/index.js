@@ -176,7 +176,7 @@ exports.handler = async (event) => {
             // Put Rule
             const createPutRuleParams = {
                 Name: createRuleName,
-                ScheduleExpression: 'rate(15 minutes)',
+                ScheduleExpression: 'rate(5 minutes)',
                 State: 'DISABLED',
                 Description: descriptionString,
                 EventBusName: 'default'
