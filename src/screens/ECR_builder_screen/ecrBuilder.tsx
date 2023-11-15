@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useLayoutEffect, useState} from 'react'
 import './ecrBuilder.css'
 import {useLocation, useNavigate} from 'react-router-dom'
 import PropTypes from 'prop-types'
+import AccessPDFContext from '../../context/accessPDFContext.tsx'
 import ClipLoader from 'react-spinners/ClipLoader'
 import {fetchPdf} from '../../utils/fetchPdf.tsx'
 
@@ -85,18 +86,17 @@ export default function ECRBuilderScreen(props) {
         return user.attributes.email
     }
 
+    const { setAccessAllowed } = useContext(AccessPDFContext)
     const navigate = useNavigate()
     const userHash = {
         name: user.attributes.name,
         email: user.attributes.email
     }
     const date = getTodaysDate()
-    const state= { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates, accessAllowed: false }
+    const state= { user: userHash, phoneNumber: getCellPhoneNumber(phoneNumber), date: date, checkedStates: checkedStates }
     const viewECRPreview = () => {
-        state.accessAllowed = true
-        const newWindow = window.open('/ecr_builder/ecr_preview')
-        const ecrData= ''
-        newWindow[ecrData] = { state }
+        setAccessAllowed(true)
+        navigate('/ecr_builder/ecr_preview', { state })
     }
 
     const handleDurationSelect = (event) => {
