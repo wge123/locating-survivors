@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.1.1\",\"stackType\":\"hosting-S3AndCloudFront\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.8.2\",\"stackType\":\"hosting-S3AndCloudFront\",\"metadata\":{}}",
   "Parameters": {
     "env": {
       "Type": "String"
@@ -167,9 +167,9 @@
               "QueryString": "false"
             },
             "ViewerProtocolPolicy": "redirect-to-https",
-            "DefaultTTL": 86400,
-            "MaxTTL": 31536000,
-            "MinTTL": 60,
+            "DefaultTTL": "0",
+            "MaxTTL": "0",
+            "MinTTL": "0",
             "Compress": true
           },
           "DefaultRootObject": "index.html",
