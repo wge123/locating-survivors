@@ -47,13 +47,6 @@ In the case that resources are created through Amplify Studio instead of Amplify
 
 Make sure to run `amplify pull` after the resources are deployed, and create a Pull Request so GitHub has the most updated information.
 
-## Testing
-
-### `npm front:test`
-### `npm back:test` (coming soon)
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 
 ## Troubleshooting
